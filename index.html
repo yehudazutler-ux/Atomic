@@ -1,3 +1,20 @@
+
+Running on this device
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +36,7 @@
     --warn:#ff9500; --bad:#ff3b30; --blue:#007aff;
     --bar:rgba(249,249,249,.80); --bar-border:rgba(60,60,67,.16);
     --warn-bg:#fff4e5; --bad-bg:#ffe9e7; --ok-bg:#e7f8ed; --neutral-bg:#ececed;
-
+ 
     --safe-t:env(safe-area-inset-top,0px);
     --safe-b:env(safe-area-inset-bottom,0px);
     --navh:50px; --tabh:50px;
@@ -37,7 +54,7 @@
       --warn-bg:#3a2c12; --bad-bg:#3a1f1d; --ok-bg:#14331f; --neutral-bg:#2a2a2c;
     }
   }
-
+ 
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;margin:0;}
   body{
@@ -50,10 +67,10 @@
   }
   input{user-select:text;-webkit-user-select:text;}
   button{font-family:inherit;color:inherit;cursor:pointer;}
-
+ 
   /* ---------- App shell ---------- */
   .app{position:fixed;inset:0;display:flex;flex-direction:column;}
-
+ 
   .navbar{
     flex:0 0 auto;
     padding-top:var(--safe-t);
@@ -75,7 +92,7 @@
     border-radius:50%;transition:background .15s;
   }
   .navbar .act:active{background:var(--card-press);}
-
+ 
   .scroll{
     flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
@@ -86,10 +103,10 @@
   }
   .largetitle{font-size:32px;font-weight:800;letter-spacing:-.03em;margin:10px 2px 2px;}
   .subtitle{color:var(--text2);font-size:15px;margin:0 2px 16px;font-weight:500;}
-
+ 
   @keyframes screenIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
   .anim{animation:screenIn .28s var(--ease);}
-
+ 
   /* ---------- Tab bar ---------- */
   .tabbar{
     flex:0 0 auto;
@@ -111,7 +128,7 @@
   .tab svg{width:26px;height:26px;}
   .tab.on{color:var(--accent);}
   .tab:active{opacity:.6;}
-
+ 
   /* ---------- Cards / lists ---------- */
   .sectlabel{
     font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
@@ -135,7 +152,7 @@
   .item .hint{font-size:13px;color:var(--text2);margin-top:2px;display:flex;align-items:center;gap:6px;}
   .item .hint.warn{color:var(--warn);} .item .hint.bad{color:var(--bad);}
   .chev{color:var(--text3);flex:0 0 auto;}
-
+ 
   /* check circle */
   .check{
     flex:0 0 auto;width:30px;height:30px;border-radius:50%;
@@ -148,7 +165,7 @@
   .check.done svg{opacity:1;transform:scale(1);}
   @keyframes pop{0%{transform:scale(.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
   .check.pop{animation:pop .26s var(--ease);}
-
+ 
   /* today progress ring strip */
   .todaybar{
     background:var(--card);border-radius:var(--radius);padding:16px;
@@ -159,7 +176,7 @@
   .miniring .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;letter-spacing:-.02em;}
   .todaybar .tt{font-size:16px;font-weight:600;}
   .todaybar .ts{font-size:14px;color:var(--text2);margin-top:2px;}
-
+ 
   /* ---------- Progress page ---------- */
   .segmented{
     display:flex;background:var(--neutral-bg);border-radius:9px;padding:2px;margin:4px 2px 18px;
@@ -170,7 +187,7 @@
     transition:background .2s var(--ease),box-shadow .2s;
   }
   .seg.on{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.12);}
-
+ 
   .hero{
     background:var(--card);border-radius:18px;padding:20px;box-shadow:0 0 0 .5px var(--sep);
     display:flex;align-items:center;gap:20px;
@@ -185,7 +202,7 @@
   .chip{font-size:13px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--neutral-bg);color:var(--text2);}
   .chip.ok{background:var(--ok-bg);color:var(--accent-deep);}
   .chip.bad{background:var(--bad-bg);color:var(--bad);}
-
+ 
   .banner{
     margin-top:14px;border-radius:var(--radius);padding:13px 15px;font-size:14px;font-weight:500;
     display:flex;gap:10px;align-items:flex-start;
@@ -193,7 +210,7 @@
   .banner.bad{background:var(--bad-bg);color:var(--bad);}
   .banner.ok{background:var(--ok-bg);color:var(--accent-deep);}
   .banner b{font-weight:700;}
-
+ 
   .heat{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
   .heat.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
   .hd{aspect-ratio:1;border-radius:6px;background:var(--neutral-bg);position:relative;}
@@ -204,7 +221,7 @@
   .heat.week{display:grid;grid-template-columns:repeat(7,1fr);}
   .heat.week .col{display:flex;flex-direction:column;align-items:center;gap:5px;}
   .heat.week .col .dn{font-size:11px;color:var(--text2);font-weight:600;}
-
+ 
   .prow{display:flex;align-items:center;gap:12px;padding:12px 16px;}
   .prow .pn{flex:1;font-size:16px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .prow .pp{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;min-width:42px;text-align:right;}
@@ -214,7 +231,7 @@
   .prowwrap + .prowwrap::before{content:"";display:block;height:.5px;background:var(--sep);margin-left:16px;}
   .prowwrap{padding-bottom:11px;}
   .prowwrap .cnt{font-size:12px;color:var(--text2);padding:0 16px;font-variant-numeric:tabular-nums;}
-
+ 
   /* ---------- Shnayim Mikra ---------- */
   .wknav{display:flex;align-items:center;gap:8px;margin:4px 0 14px;}
   .wkb{
@@ -228,7 +245,7 @@
   .wkmid{flex:1;text-align:center;min-width:0;}
   .wkp{font-size:21px;font-weight:800;letter-spacing:-.02em;}
   .wkd{font-size:12.5px;color:var(--text2);margin-top:1px;}
-
+ 
   .aliyah{
     background:var(--card);border-radius:var(--radius);box-shadow:0 0 0 .5px var(--sep);
     padding:13px 14px 14px;margin-bottom:10px;
@@ -245,7 +262,7 @@
   .aref{flex:1;font-size:13.5px;color:var(--text2);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .acount{flex:0 0 auto;font-size:12.5px;font-weight:700;color:var(--text3);font-variant-numeric:tabular-nums;}
   .aliyah.full .acount{color:var(--accent);}
-
+ 
   .smrow{display:flex;gap:5px;}
   .smitem{
     flex:1 1 0;min-width:0;border:none;background:transparent;padding:0;
@@ -263,9 +280,9 @@
   .smlab{font-size:10.5px;font-weight:600;color:var(--text2);line-height:1;text-align:center;}
   .smlab sup{font-size:8px;margin-left:1px;}
   .smitem.on .smlab{color:var(--accent);}
-
+ 
   .credit{text-align:center;color:var(--text3);font-size:11.5px;margin:18px 0 0;}
-
+ 
   /* ---------- Daily Learning ---------- */
   .learnrow{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;position:relative;transition:background .12s;}
   .learnrow:active{background:var(--card-press);}
@@ -275,7 +292,7 @@
   .learnrow .lnm{font-size:13px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;color:var(--text2);}
   .learnrow .ltxt{font-size:16px;margin-top:2px;line-height:1.35;}
   .learnrow.on .ltxt{color:var(--text2);text-decoration:line-through;}
-
+ 
   /* ---------- Settings ---------- */
   .info{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 0 0 .5px var(--sep);font-size:15px;color:var(--text2);line-height:1.5;}
   .info b{color:var(--text);font-weight:600;}
@@ -283,14 +300,14 @@
   .btnrow:active{background:var(--card-press);}
   .btnrow.danger{color:var(--bad);}
   .btnrow .ic{color:var(--text3);}
-
+ 
   /* ---------- Empty ---------- */
   .empty{text-align:center;color:var(--text2);padding:50px 24px;}
   .empty .ico{font-size:42px;margin-bottom:12px;}
   .empty .et{font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px;}
   .empty .seed{margin-top:18px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:600;box-shadow:0 4px 14px rgba(52,199,89,.3);}
   .empty .seed:active{filter:brightness(.94);}
-
+ 
   /* ---------- Bottom sheet ---------- */
   .backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;
@@ -327,7 +344,7 @@
   .ghost{width:100%;border:none;background:transparent;color:var(--blue);padding:14px;font-size:17px;font-weight:500;margin-top:4px;}
   .delbtn{width:100%;border:none;background:var(--card);color:var(--bad);border-radius:14px;padding:15px;font-size:17px;font-weight:600;margin-top:12px;box-shadow:0 0 0 .5px var(--sep);}
   .delbtn:active{background:var(--card-press);}
-
+ 
   /* editable history strip */
   .histstrip{display:flex;gap:7px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:8px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
   .cell{flex:0 0 auto;border:none;background:transparent;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -356,11 +373,11 @@
       </button>
     </div>
   </div>
-
+ 
   <div class="scroll" id="scroll">
     <div class="content" id="content"></div>
   </div>
-
+ 
   <nav class="tabbar">
     <button class="tab on" data-tab="today">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
@@ -384,14 +401,14 @@
     </button>
   </nav>
 </div>
-
+ 
 <div class="backdrop" id="backdrop"></div>
 <div class="sheet" id="sheet"></div>
-
+ 
 <script>
 (function(){
 "use strict";
-
+ 
 /* ===================== storage ===================== */
 var SCHEDULE=[
 ["2026-07-11","Matos-Masei",["Numbers 30:2-31:12","Numbers 31:13-31:54","Numbers 32:1-32:19","Numbers 32:20-33:49","Numbers 33:50-34:15","Numbers 34:16-35:8","Numbers 35:9-36:13"]],
@@ -514,7 +531,7 @@ var SCHEDULE=[
 ["2028-12-23","Vayigash",["Genesis 44:18-44:30","Genesis 44:31-45:7","Genesis 45:8-45:18","Genesis 45:19-45:27","Genesis 45:28-46:27","Genesis 46:28-47:10","Genesis 47:11-47:27"]],
 ["2028-12-30","Vayechi",["Genesis 47:28-48:9","Genesis 48:10-48:16","Genesis 48:17-48:22","Genesis 49:1-49:18","Genesis 49:19-49:26","Genesis 49:27-50:20","Genesis 50:21-50:26"]]
 ];
-
+ 
 /* Shnayim Mikra: 5 items per aliyah x 7 aliyos = 35 per week.
    Parsha schedule generated from the Hebcal Leyning API (Diaspora, full kriyah),
    CC-BY 4.0, hebcal.com — embedded so the screen works fully offline. */
@@ -539,7 +556,7 @@ function smAliyahDone(date,al){
   var n=0; for(var i=0;i<SM_ITEMS.length;i++){ if(smGet(date,al,SM_ITEMS[i][0])) n++; }
   return n;
 }
-
+ 
 var DAILY=[
 ["2026-01-01","Yevamos 15a","","","","",""],
 ["2026-01-02","Chazara","","","","",""],
@@ -907,7 +924,7 @@ var DAILY=[
 ["2026-12-30","Kesubos 22b","MB1: 135","Shaarei Teshuva: 3:219-220","Pesachim: Perek 10: Mishna 8- Shekalim: Perek 1: Mishna 2","Hoshea 9","Tanya: 131"],
 ["2026-12-31","Kesubos 23a","MB1: 136","Shaarei Teshuva: 3:221-222","Shekalim: Perek 1: Mishna 3- Shekalim: Perek 1: Mishna 6","Hoshea 10","Tanya: 132"]
 ];
-
+ 
 /* Daily Learning: one row per day from the user's Torah Calendar spreadsheet
    (columns B-G: Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava/Chassidus).
    2026 embedded so it works offline; re-embed later years as the spreadsheet grows. */
@@ -933,7 +950,7 @@ function dlItemsFor(row){
 function dlDoneCount(date,items){
   var n=0; for(var i=0;i<items.length;i++){ if(dlGet(date,items[i][0])) n++; } return n;
 }
-
+ 
 var KEY='cadence.v1';
 var state={habits:[],log:{},sm:{},dl:{},seedv:0};
 function load(){
@@ -941,7 +958,7 @@ function load(){
   catch(e){ state={habits:[],log:{},sm:{},dl:{},seedv:0}; }
 }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
-
+ 
 /* ===================== dates ===================== */
 function sod(d){var x=new Date(d);x.setHours(0,0,0,0);return x;}
 function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
@@ -955,7 +972,7 @@ function addMonths(d,n){var x=monthStart(d);return new Date(x.getFullYear(),x.ge
 function mKey(d){var x=monthStart(d);return x.getFullYear()+'-'+pad(x.getMonth()+1);}
 function periodKey(cat,d){return cat==='daily'?dKey(d):cat==='weekly'?wKey(d):mKey(d);}
 function periodStart(cat,d){return cat==='daily'?sod(d):cat==='weekly'?weekStart(d):monthStart(d);}
-
+ 
 /* Parse a stored 'YYYY-MM-DD' as a LOCAL date (new Date(str) would read it as
    UTC and shift it a day earlier in western time zones). */
 function parseLocal(s){
@@ -979,16 +996,16 @@ function startPS(h){
   for(var k in log){ if(log[k]){ var s=keyToStart(h.cat,k); if(s<earliest) earliest=s; } }
   return earliest;
 }
-
+ 
 var CATS={
   daily:{label:'Daily',unit:'day',units:'days',window:30,strip:14},
   weekly:{label:'Weekly',unit:'week',units:'weeks',window:12,strip:8},
   monthly:{label:'Monthly',unit:'month',units:'months',window:12,strip:6}
 };
 var GOAL=80;
-
+ 
 function isDone(id,k){return !!(state.log[id]&&state.log[id][k]);}
-
+ 
 function buildPeriods(cat,count){
   var now=new Date(),out=[];
   for(var i=count-1;i>=0;i--){
@@ -997,7 +1014,7 @@ function buildPeriods(cat,count){
   }
   return out;
 }
-
+ 
 /* rolling stats: completion rate + consecutive-miss streak */
 function stats(h){
   var cat=CATS[h.cat];
@@ -1026,7 +1043,7 @@ function stats(h){
   else {status='new';label='New';}
   return {ratePct:ratePct,miss:miss,status:status,label:label,curKey:cur.key,curDone:curDone,denom:denom};
 }
-
+ 
 /* window completion for Progress (week | month) */
 function windowStats(h,mode){
   var cat=h.cat, now=new Date();
@@ -1052,7 +1069,7 @@ function windowStats(h,mode){
     return tally([{key:mKey(now),start:monthStart(now),isCurrent:true}]);
   }
 }
-
+ 
 /* ===================== helpers ===================== */
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function uid(){return 'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
@@ -1069,7 +1086,7 @@ function ringSVG(size,stroke,pct,color){
   '</svg>';
 }
 var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
-
+ 
 /* editable history strip (any past period can be toggled) */
 function cellLabel(cat,start,cur){
   if(cat==='daily') return ['S','M','T','W','T','F','S'][start.getDay()]+'<br>'+start.getDate();
@@ -1095,14 +1112,14 @@ function refreshHist(){
   var el=document.getElementById('histStrip');
   if(h&&el){ el.innerHTML=historyCells(h); el.scrollLeft=el.scrollWidth; }
 }
-
+ 
 /* ===================== router ===================== */
 var screen='today', progMode='week', smIdx=0, learnIdx=0;
 var content=document.getElementById('content');
 var navTitle=document.getElementById('navTitle');
 var navAdd=document.getElementById('navAdd');
 var justTog=null;
-
+ 
 function go(s){
   screen=s;
   document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===s);});
@@ -1121,7 +1138,7 @@ function render(){
   document.querySelectorAll('.bar > i').forEach(function(el){var w=el.getAttribute('data-w');el.style.width='0%';requestAnimationFrame(function(){el.style.width=w;});});
   justTog=null;
 }
-
+ 
 /* ===================== Today ===================== */
 function dateLine(){
   var d=new Date();
@@ -1167,7 +1184,7 @@ function viewToday(){
   return '<div class="largetitle">Today</div><div class="subtitle">'+dateLine()+'</div>'+
     summary + groupFor('daily')+groupFor('weekly')+groupFor('monthly');
 }
-
+ 
 /* ===================== Progress ===================== */
 function dailyHeat(mode){
   var dailies=state.habits.filter(function(h){return h.cat==='daily';});
@@ -1230,25 +1247,25 @@ function viewProgress(){
   var alertList=state.habits.filter(function(h){return stats(h).miss>=2;});
   var color=pct===null?'var(--text3)':(pct>=GOAL?'var(--accent)':'var(--warn)');
   var label=progMode==='week'?'this week':'this month';
-
+ 
   var hero='<div class="hero"><div class="ring">'+ringSVG(84,9,pct,color)+'<div class="v'+(pct===null?' muted':'')+'">'+(pct===null?'—':pct+'%')+'</div></div>'+
     '<div class="meta"><div class="big">'+totDone+' of '+totDue+' completions '+label+'</div>'+
     '<div class="chips"><span class="chip '+(atGoal>0?'ok':'')+'">'+atGoal+' at goal · 80%+</span>'+
     '<span class="chip '+(alertList.length>0?'bad':'')+'">'+alertList.length+' streak alert'+(alertList.length===1?'':'s')+'</span></div></div></div>';
-
+ 
   var banner = alertList.length
     ? '<div class="banner bad"><span>⚠</span><span><b>'+alertList.length+' broke the no-two-in-a-row rule:</b> '+alertList.map(function(h){return esc(h.name);}).join(', ')+'. Complete the current period to recover.</span></div>'
     : '<div class="banner ok"><span>✓</span><span><b>All streaks intact</b> — nothing missed twice in a row.</span></div>';
-
+ 
   var seg='<div class="segmented"><button class="seg'+(progMode==='week'?' on':'')+'" data-mode="week">Week</button><button class="seg'+(progMode==='month'?' on':'')+'" data-mode="month">Month</button></div>';
-
+ 
   var heat=dailyHeat(progMode);
   var heatBlock=heat?'<div class="sectlabel">Daily activity · '+label+'</div><div style="padding:2px">'+heat+'</div>':'';
-
+ 
   return '<div class="largetitle">Progress</div>'+seg+hero+banner+heatBlock+
     progSection('daily',progMode)+progSection('weekly',progMode)+progSection('monthly',progMode);
 }
-
+ 
 /* ===================== Shnayim Mikra ===================== */
 function viewMikra(){
   var wk=SCHEDULE[smIdx];
@@ -1257,13 +1274,13 @@ function viewMikra(){
   var todayIdx=smIndexForToday();
   var done=smWeekDone(date), pct=Math.round(done/SM_TOTAL*100);
   var ends=parseLocal(date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-
+ 
   var nav='<div class="wknav">'+
     '<button class="wkb" data-wk="'+(smIdx-1)+'"'+(smIdx<=0?' disabled':'')+' aria-label="Previous week">‹</button>'+
     '<div class="wkmid"><div class="wkp">'+esc(parsha)+'</div><div class="wkd">Week ending '+ends+
       (smIdx===todayIdx?' · this week':'')+'</div></div>'+
     '<button class="wkb" data-wk="'+(smIdx+1)+'"'+(smIdx>=SCHEDULE.length-1?' disabled':'')+' aria-label="Next week">›</button></div>';
-
+ 
   var hero='<div class="hero" style="margin-bottom:6px"><div class="ring">'+
     ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
     '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
@@ -1272,7 +1289,7 @@ function viewMikra(){
     (done===SM_TOTAL?'Parsha finished 🎉':'7 aliyos × 5')+'</span>'+
     (smIdx!==todayIdx?'<span class="chip" data-wk="'+todayIdx+'" style="color:var(--blue)">Jump to this week</span>':'')+
     '</div></div></div>';
-
+ 
   var cards='';
   for(var a=1;a<=7;a++){
     var n=smAliyahDone(date,a);
@@ -1288,12 +1305,12 @@ function viewMikra(){
         '<div class="acount">'+n+'/5</div></div>'+
       '<div class="smrow">'+chips+'</div></div>';
   }
-
+ 
   return '<div class="largetitle">Shnayim Mikra</div>'+nav+hero+
     '<div class="sectlabel">Aliyos</div>'+cards+
     '<div class="credit">Parsha schedule via Hebcal.com (CC BY 4.0) · Diaspora</div>';
 }
-
+ 
 /* ===================== Daily Learning ===================== */
 function viewLearn(){
   var row=DAILY[learnIdx];
@@ -1304,12 +1321,12 @@ function viewLearn(){
   var done=dlDoneCount(date,items), total=items.length;
   var pct=total?Math.round(done/total*100):0;
   var dstr=parseLocal(date).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-
+ 
   var nav='<div class="wknav">'+
     '<button class="wkb" data-dl="'+(learnIdx-1)+'"'+(learnIdx<=0?' disabled':'')+' aria-label="Previous day">‹</button>'+
     '<div class="wkmid"><div class="wkp">'+dstr+'</div><div class="wkd">'+(learnIdx===todayIdx?'Today':'')+'</div></div>'+
     '<button class="wkb" data-dl="'+(learnIdx+1)+'"'+(learnIdx>=DAILY.length-1?' disabled':'')+' aria-label="Next day">›</button></div>';
-
+ 
   var hero = total ? '<div class="hero" style="margin-bottom:6px"><div class="ring">'+
     ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
     '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
@@ -1317,19 +1334,19 @@ function viewLearn(){
     '<div class="chips"><span class="chip'+(done===total?' ok':'')+'">'+(done===total?'All done 🎉':'Tap to check off')+'</span>'+
     (learnIdx!==todayIdx?'<span class="chip" data-dl="'+todayIdx+'" style="color:var(--blue)">Jump to today</span>':'')+
     '</div></div></div>' : '';
-
+ 
   var rows = items.length ? '<div class="group">'+items.map(function(it){
     var on=dlGet(date,it[0]);
     return '<button class="learnrow'+(on?' on':'')+'" data-dlt="'+date+'" data-dk="'+it[0]+'">'+
       '<span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
       '<span class="body"><div class="lnm">'+esc(it[1])+'</div><div class="ltxt">'+esc(it[2])+'</div></span></button>';
   }).join('')+'</div>' : '<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for this day.</div></div>';
-
+ 
   return '<div class="largetitle">Daily Learning</div>'+nav+hero+
     (items.length?'<div class="sectlabel">Today\'s learning</div>':'')+rows+
     '<div class="credit">From your Torah Calendar spreadsheet (2026) · embedded for offline use</div>';
 }
-
+ 
 /* ===================== Settings ===================== */
 function viewSettings(){
   var manage = state.habits.length
@@ -1353,7 +1370,7 @@ function viewSettings(){
     '</div>'+
     '<div style="text-align:center;color:var(--text3);font-size:13px;margin:24px 0 0">Cadence · stored on this device</div>';
 }
-
+ 
 /* Default habits, loaded once automatically (and by the empty-state button).
    Existing habits with the same name are skipped, so nothing is duplicated
    and no logged history is touched. */
@@ -1398,7 +1415,7 @@ function ensureDefaults(){
   state.seedv=SEED_VERSION; save();
 }
 function seed(){ addDefaults(); render(); }
-
+ 
 /* ===================== export ===================== */
 function download(filename,text,type){
   var blob=new Blob([text],{type:type});
@@ -1426,7 +1443,7 @@ function exportCSV(){
   }).join(',');}).join('\n');
   download('cadence-'+dKey(new Date())+'.csv', csv,'text/csv');
 }
-
+ 
 function exportSMCSV(){
   // mirrors the original spreadsheet: two header rows, then 35 columns per week
   var h1=['Week Ending','Parsha'], h2=['',''];
@@ -1444,7 +1461,7 @@ function exportSMCSV(){
   }).join(',');}).join('\n');
   download('shnayim-mikra-'+dKey(new Date())+'.csv',csv,'text/csv');
 }
-
+ 
 function exportDLCSV(){
   // mirrors the original Torah Calendar spreadsheet: Date + one column per subject, plus a Done flag per subject
   var header=['Date'];
@@ -1464,7 +1481,7 @@ function exportDLCSV(){
   }).join(',');}).join('\n');
   download('daily-learning-'+dKey(new Date())+'.csv',csv,'text/csv');
 }
-
+ 
 /* ===================== sheet (add / edit) ===================== */
 var backdrop=document.getElementById('backdrop'), sheet=document.getElementById('sheet');
 var sheetCat='daily', sheetEditId=null;
@@ -1488,7 +1505,7 @@ function openSheet(habit){
   setTimeout(function(){var f=document.getElementById('hname');if(!habit&&f)f.focus();},250);
 }
 function closeSheet(){ backdrop.classList.remove('show'); sheet.classList.remove('show'); }
-
+ 
 /* ===================== actions ===================== */
 function toggle(id,key){
   if(!state.log[id]) state.log[id]={};
@@ -1524,14 +1541,14 @@ function delHabit(id){
   save(); closeSheet(); render();
 }
 /* ===================== SEED_VERSION already declared above; boot below ===================== */
-
+ 
 /* ===================== events ===================== */
 document.querySelector('.tabbar').addEventListener('click',function(e){
   var t=e.target.closest('.tab'); if(t) go(t.getAttribute('data-tab'));
 });
 navAdd.addEventListener('click',function(){ openSheet(null); });
 backdrop.addEventListener('click',closeSheet);
-
+ 
 content.addEventListener('click',function(e){
   var tog=e.target.closest('[data-toggle]');
   if(tog){ e.stopPropagation(); toggle(tog.getAttribute('data-toggle'),tog.getAttribute('data-key')); return; }
@@ -1557,7 +1574,7 @@ content.addEventListener('click',function(e){
   if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION}; save(); render(); } return; }
   if(e.target.closest('[data-seed]')){ seed(); return; }
 });
-
+ 
 sheet.addEventListener('click',function(e){
   var cell=e.target.closest('[data-cell]');
   if(cell){ toggleCell(cell.getAttribute('data-cell'),cell.getAttribute('data-ck')); return; }
@@ -1570,10 +1587,11 @@ sheet.addEventListener('click',function(e){
 sheet.addEventListener('keydown',function(e){
   if(e.target.id==='hname'&&e.key==='Enter'){ addOrSave(); }
 });
-
+ 
 /* ===================== boot ===================== */
 load(); ensureDefaults(); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today');
 })();
 </script>
 </body>
 </html>
+ 
