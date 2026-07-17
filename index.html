@@ -19,7 +19,7 @@
     --warn:#ff9500; --bad:#ff3b30; --blue:#007aff;
     --bar:rgba(249,249,249,.80); --bar-border:rgba(60,60,67,.16);
     --warn-bg:#fff4e5; --bad-bg:#ffe9e7; --ok-bg:#e7f8ed; --neutral-bg:#ececed;
- 
+
     --safe-t:env(safe-area-inset-top,0px);
     --safe-b:env(safe-area-inset-bottom,0px);
     --navh:50px; --tabh:50px;
@@ -37,7 +37,7 @@
       --warn-bg:#3a2c12; --bad-bg:#3a1f1d; --ok-bg:#14331f; --neutral-bg:#2a2a2c;
     }
   }
- 
+
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;margin:0;}
   body{
@@ -50,10 +50,10 @@
   }
   input{user-select:text;-webkit-user-select:text;}
   button{font-family:inherit;color:inherit;cursor:pointer;}
- 
+
   /* ---------- App shell ---------- */
   .app{position:fixed;inset:0;display:flex;flex-direction:column;}
- 
+
   .navbar{
     flex:0 0 auto;
     padding-top:var(--safe-t);
@@ -75,7 +75,7 @@
     border-radius:50%;transition:background .15s;
   }
   .navbar .act:active{background:var(--card-press);}
- 
+
   .scroll{
     flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
@@ -86,10 +86,10 @@
   }
   .largetitle{font-size:32px;font-weight:800;letter-spacing:-.03em;margin:10px 2px 2px;}
   .subtitle{color:var(--text2);font-size:15px;margin:0 2px 16px;font-weight:500;}
- 
+
   @keyframes screenIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
   .anim{animation:screenIn .28s var(--ease);}
- 
+
   /* ---------- Tab bar ---------- */
   .tabbar{
     flex:0 0 auto;
@@ -111,7 +111,7 @@
   .tab svg{width:26px;height:26px;}
   .tab.on{color:var(--accent);}
   .tab:active{opacity:.6;}
- 
+
   /* ---------- Cards / lists ---------- */
   .sectlabel{
     font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
@@ -135,7 +135,7 @@
   .item .hint{font-size:13px;color:var(--text2);margin-top:2px;display:flex;align-items:center;gap:6px;}
   .item .hint.warn{color:var(--warn);} .item .hint.bad{color:var(--bad);}
   .chev{color:var(--text3);flex:0 0 auto;}
- 
+
   /* check circle */
   .check{
     flex:0 0 auto;width:30px;height:30px;border-radius:50%;
@@ -148,7 +148,7 @@
   .check.done svg{opacity:1;transform:scale(1);}
   @keyframes pop{0%{transform:scale(.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
   .check.pop{animation:pop .26s var(--ease);}
- 
+
   /* today progress ring strip */
   .todaybar{
     background:var(--card);border-radius:var(--radius);padding:16px;
@@ -159,7 +159,7 @@
   .miniring .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;letter-spacing:-.02em;}
   .todaybar .tt{font-size:16px;font-weight:600;}
   .todaybar .ts{font-size:14px;color:var(--text2);margin-top:2px;}
- 
+
   /* ---------- Progress page ---------- */
   .segmented{
     display:flex;background:var(--neutral-bg);border-radius:9px;padding:2px;margin:4px 2px 18px;
@@ -170,7 +170,7 @@
     transition:background .2s var(--ease),box-shadow .2s;
   }
   .seg.on{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.12);}
- 
+
   .hero{
     background:var(--card);border-radius:18px;padding:20px;box-shadow:0 0 0 .5px var(--sep);
     display:flex;align-items:center;gap:20px;
@@ -185,7 +185,7 @@
   .chip{font-size:13px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--neutral-bg);color:var(--text2);}
   .chip.ok{background:var(--ok-bg);color:var(--accent-deep);}
   .chip.bad{background:var(--bad-bg);color:var(--bad);}
- 
+
   .banner{
     margin-top:14px;border-radius:var(--radius);padding:13px 15px;font-size:14px;font-weight:500;
     display:flex;gap:10px;align-items:flex-start;
@@ -193,7 +193,7 @@
   .banner.bad{background:var(--bad-bg);color:var(--bad);}
   .banner.ok{background:var(--ok-bg);color:var(--accent-deep);}
   .banner b{font-weight:700;}
- 
+
   .heat{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
   .heat.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
   .hd{aspect-ratio:1;border-radius:6px;background:var(--neutral-bg);position:relative;}
@@ -204,7 +204,7 @@
   .heat.week{display:grid;grid-template-columns:repeat(7,1fr);}
   .heat.week .col{display:flex;flex-direction:column;align-items:center;gap:5px;}
   .heat.week .col .dn{font-size:11px;color:var(--text2);font-weight:600;}
- 
+
   .prow{display:flex;align-items:center;gap:12px;padding:12px 16px;}
   .prow .pn{flex:1;font-size:16px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .prow .pp{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;min-width:42px;text-align:right;}
@@ -214,7 +214,7 @@
   .prowwrap + .prowwrap::before{content:"";display:block;height:.5px;background:var(--sep);margin-left:16px;}
   .prowwrap{padding-bottom:11px;}
   .prowwrap .cnt{font-size:12px;color:var(--text2);padding:0 16px;font-variant-numeric:tabular-nums;}
- 
+
   /* ---------- Shnayim Mikra ---------- */
   .wknav{display:flex;align-items:center;gap:8px;margin:4px 0 14px;}
   .wkb{
@@ -228,7 +228,7 @@
   .wkmid{flex:1;text-align:center;min-width:0;}
   .wkp{font-size:21px;font-weight:800;letter-spacing:-.02em;}
   .wkd{font-size:12.5px;color:var(--text2);margin-top:1px;}
- 
+
   .aliyah{
     background:var(--card);border-radius:var(--radius);box-shadow:0 0 0 .5px var(--sep);
     padding:13px 14px 14px;margin-bottom:10px;
@@ -245,7 +245,7 @@
   .aref{flex:1;font-size:13.5px;color:var(--text2);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .acount{flex:0 0 auto;font-size:12.5px;font-weight:700;color:var(--text3);font-variant-numeric:tabular-nums;}
   .aliyah.full .acount{color:var(--accent);}
- 
+
   .smrow{display:flex;gap:5px;}
   .smitem{
     flex:1 1 0;min-width:0;border:none;background:transparent;padding:0;
@@ -263,9 +263,9 @@
   .smlab{font-size:10.5px;font-weight:600;color:var(--text2);line-height:1;text-align:center;}
   .smlab sup{font-size:8px;margin-left:1px;}
   .smitem.on .smlab{color:var(--accent);}
- 
+
   .credit{text-align:center;color:var(--text3);font-size:11.5px;margin:18px 0 0;}
- 
+
   /* ---------- Daily Learning ---------- */
   .learnrow{
     display:flex;align-items:flex-start;gap:14px;width:100%;
@@ -279,7 +279,7 @@
   .learnrow .lnm{font-size:13px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;color:var(--text2);}
   .learnrow .ltxt{font-size:16px;margin-top:2px;line-height:1.35;color:var(--text);}
   .learnrow.on .ltxt{color:var(--text2);text-decoration:line-through;}
- 
+
   /* ---------- Settings ---------- */
   .info{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 0 0 .5px var(--sep);font-size:15px;color:var(--text2);line-height:1.5;}
   .info b{color:var(--text);font-weight:600;}
@@ -287,14 +287,14 @@
   .btnrow:active{background:var(--card-press);}
   .btnrow.danger{color:var(--bad);}
   .btnrow .ic{color:var(--text3);}
- 
+
   /* ---------- Empty ---------- */
   .empty{text-align:center;color:var(--text2);padding:50px 24px;}
   .empty .ico{font-size:42px;margin-bottom:12px;}
   .empty .et{font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px;}
   .empty .seed{margin-top:18px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:600;box-shadow:0 4px 14px rgba(52,199,89,.3);}
   .empty .seed:active{filter:brightness(.94);}
- 
+
   /* ---------- Bottom sheet ---------- */
   .backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;
@@ -331,7 +331,7 @@
   .ghost{width:100%;border:none;background:transparent;color:var(--blue);padding:14px;font-size:17px;font-weight:500;margin-top:4px;}
   .delbtn{width:100%;border:none;background:var(--card);color:var(--bad);border-radius:14px;padding:15px;font-size:17px;font-weight:600;margin-top:12px;box-shadow:0 0 0 .5px var(--sep);}
   .delbtn:active{background:var(--card-press);}
- 
+
   /* editable history strip */
   .histstrip{display:flex;gap:7px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:8px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
   .cell{flex:0 0 auto;border:none;background:transparent;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -360,11 +360,11 @@
       </button>
     </div>
   </div>
- 
+
   <div class="scroll" id="scroll">
     <div class="content" id="content"></div>
   </div>
- 
+
   <nav class="tabbar">
     <button class="tab on" data-tab="today">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
@@ -388,14 +388,14 @@
     </button>
   </nav>
 </div>
- 
+
 <div class="backdrop" id="backdrop"></div>
 <div class="sheet" id="sheet"></div>
- 
+
 <script>
 (function(){
 "use strict";
- 
+
 /* ===================== storage ===================== */
 var SCHEDULE=[
 ["2026-07-11","Matos-Masei",["Numbers 30:2-31:12","Numbers 31:13-31:54","Numbers 32:1-32:19","Numbers 32:20-33:49","Numbers 33:50-34:15","Numbers 34:16-35:8","Numbers 35:9-36:13"]],
@@ -518,7 +518,7 @@ var SCHEDULE=[
 ["2028-12-23","Vayigash",["Genesis 44:18-44:30","Genesis 44:31-45:7","Genesis 45:8-45:18","Genesis 45:19-45:27","Genesis 45:28-46:27","Genesis 46:28-47:10","Genesis 47:11-47:27"]],
 ["2028-12-30","Vayechi",["Genesis 47:28-48:9","Genesis 48:10-48:16","Genesis 48:17-48:22","Genesis 49:1-49:18","Genesis 49:19-49:26","Genesis 49:27-50:20","Genesis 50:21-50:26"]]
 ];
- 
+
 /* Shnayim Mikra: 5 items per aliyah x 7 aliyos = 35 per week.
    Parsha schedule generated from the Hebcal Leyning API (Diaspora, full kriyah),
    CC-BY 4.0, hebcal.com — embedded so the screen works fully offline. */
@@ -543,7 +543,7 @@ function smAliyahDone(date,al){
   var n=0; for(var i=0;i<SM_ITEMS.length;i++){ if(smGet(date,al,SM_ITEMS[i][0])) n++; }
   return n;
 }
- 
+
 var DAILY=[
 ["2026-01-01","Yevamos 15a","","","","",""],
 ["2026-01-02","Chazara","","","","",""],
@@ -636,282 +636,282 @@ var DAILY=[
 ["2026-03-30","Yevamos 46a","","","Kilayim: Perek 1: Mishna 6- Kilayim: Perek 1: Mishna 9","Shmuel I 2",""],
 ["2026-03-31","Yevamos 46b","","","Kilayim: Perek 2: Mishna 1- Kilayim: Perek 2: Mishna 4","Shmuel I 3",""],
 ["2026-04-01","Yevamos 47a","","","Kilayim: Perek 2: Mishna 5- Kilayim: Perek 2: Mishna 8","Shmuel I 4",""],
-["2026-04-02","Yevamos 47b","","","Kilayim: Perek 2: Mishna 9- Kilayim: Perek 3: Mishna 1","Shmuel I 5",""],
+["2026-04-02","Yevamos 47b","","","Chazara","Shmuel I 5",""],
 ["2026-04-03","Chazara","","","Chazara","Shmuel I 6",""],
 ["2026-04-04","Chazara","","","Chazara","Shmuel I 7",""],
-["2026-04-05","Yevamos 48a","","","Kilayim: Perek 3: Mishna 2- Kilayim: Perek 3: Mishna 5","Shmuel I 8",""],
-["2026-04-06","Yevamos 48b","","","Kilayim: Perek 3: Mishna 6- Kilayim: Perek 4: Mishna 2","Shmuel I 9",""],
-["2026-04-07","Yevamos 49a","","","Kilayim: Perek 4: Mishna 3- Kilayim: Perek 4: Mishna 6","Shmuel I 10",""],
-["2026-04-08","Yevamos 49b","","","Kilayim: Perek 4: Mishna 7- Kilayim: Perek 5: Mishna 1","Shmuel I 11",""],
-["2026-04-09","Yevamos 50a","","","Kilayim: Perek 5: Mishna 2- Kilayim: Perek 5: Mishna 5","Shmuel I 12",""],
+["2026-04-05","Yevamos 48a","","","Kilayim: Perek 2: Mishna 9- Kilayim: Perek 3: Mishna 1","Shmuel I 8",""],
+["2026-04-06","Yevamos 48b","","","Kilayim: Perek 3: Mishna 2- Kilayim: Perek 3: Mishna 5","Shmuel I 9",""],
+["2026-04-07","Yevamos 49a","","","Kilayim: Perek 3: Mishna 6- Kilayim: Perek 4: Mishna 2","Shmuel I 10",""],
+["2026-04-08","Yevamos 49b","","","Chazara","Shmuel I 11",""],
+["2026-04-09","Yevamos 50a","","","Chazara","Shmuel I 12",""],
 ["2026-04-10","Chazara","","","Chazara","Shmuel I 13",""],
 ["2026-04-11","Chazara","","","Chazara","Shmuel I 14",""],
-["2026-04-12","Yevamos 50b","","","Kilayim: Perek 5: Mishna 6- Kilayim: Perek 6: Mishna 1","Shmuel I 15",""],
-["2026-04-13","Yevamos 51a","","","Kilayim: Perek 6: Mishna 2- Kilayim: Perek 6: Mishna 5","Shmuel I 16",""],
-["2026-04-14","Yevamos 51b","","","Kilayim: Perek 6: Mishna 6- Kilayim: Perek 6: Mishna 9","Shmuel I 17",""],
-["2026-04-15","Yevamos 52a","","","Kilayim: Perek 7: Mishna 1- Kilayim: Perek 7: Mishna 4","Shmuel I 18",""],
-["2026-04-16","Yevamos 52b","","","Kilayim: Perek 7: Mishna 5- Kilayim: Perek 7: Mishna 8","Shmuel I 19",""],
+["2026-04-12","Yevamos 50b","","","Kilayim: Perek 4: Mishna 3- Kilayim: Perek 4: Mishna 6","Shmuel I 15",""],
+["2026-04-13","Yevamos 51a","","","Kilayim: Perek 4: Mishna 7- Kilayim: Perek 5: Mishna 1","Shmuel I 16",""],
+["2026-04-14","Yevamos 51b","","","Kilayim: Perek 5: Mishna 2- Kilayim: Perek 5: Mishna 5","Shmuel I 17",""],
+["2026-04-15","Yevamos 52a","","","Kilayim: Perek 5: Mishna 6- Kilayim: Perek 6: Mishna 1","Shmuel I 18",""],
+["2026-04-16","Yevamos 52b","","","Kilayim: Perek 6: Mishna 2- Kilayim: Perek 6: Mishna 5","Shmuel I 19",""],
 ["2026-04-17","Chazara","","","Chazara","Shmuel I 20",""],
 ["2026-04-18","Chazara","","","Chazara","Shmuel I 21",""],
-["2026-04-19","Yevamos 53a","","","Kilayim: Perek 8: Mishna 1- Kilayim: Perek 8: Mishna 4","Shmuel I 22",""],
-["2026-04-20","Yevamos 53b","","","Kilayim: Perek 8: Mishna 5- Kilayim: Perek 9: Mishna 2","Shmuel I 23",""],
-["2026-04-21","Yevamos 54a","","","Kilayim: Perek 9: Mishna 3- Kilayim: Perek 9: Mishna 6","Shmuel I 24",""],
-["2026-04-22","Yevamos 54b","","","Kilayim: Perek 9: Mishna 7- Kilayim: Perek 9: Mishna 10","Shmuel I 25",""],
-["2026-04-23","Yevamos 55a","","","Sheviis: Perek 1: Mishna 1- Sheviis: Perek 1: Mishna 4","Shmuel I 26",""],
+["2026-04-19","Yevamos 53a","","","Kilayim: Perek 6: Mishna 6- Kilayim: Perek 6: Mishna 9","Shmuel I 22",""],
+["2026-04-20","Yevamos 53b","","","Kilayim: Perek 7: Mishna 1- Kilayim: Perek 7: Mishna 4","Shmuel I 23",""],
+["2026-04-21","Yevamos 54a","","","Kilayim: Perek 7: Mishna 5- Kilayim: Perek 7: Mishna 8","Shmuel I 24",""],
+["2026-04-22","Yevamos 54b","","","Kilayim: Perek 8: Mishna 1- Kilayim: Perek 8: Mishna 4","Shmuel I 25",""],
+["2026-04-23","Yevamos 55a","","","Kilayim: Perek 8: Mishna 5- Kilayim: Perek 9: Mishna 2","Shmuel I 26",""],
 ["2026-04-24","Chazara","","","Chazara","Shmuel I 27",""],
 ["2026-04-25","Chazara","","","Chazara","Shmuel I 28",""],
-["2026-04-26","Yevamos 55b","","","Sheviis: Perek 1: Mishna 5- Sheviis: Perek 1: Mishna 8","Shmuel I 29",""],
-["2026-04-27","Yevamos 56a","","","Sheviis: Perek 2: Mishna 1- Sheviis: Perek 2: Mishna 4","Shmuel I 30",""],
-["2026-04-28","Yevamos 56b","","","Sheviis: Perek 2: Mishna 5- Sheviis: Perek 2: Mishna 8","Shmuel I 31",""],
-["2026-04-29","Yevamos 57a","","","Sheviis: Perek 2: Mishna 9- Sheviis: Perek 3: Mishna 2","Shmuel II 1",""],
-["2026-04-30","Yevamos 57b","","","Sheviis: Perek 3: Mishna 3- Sheviis: Perek 3: Mishna 6","Shmuel II 2",""],
+["2026-04-26","Yevamos 55b","","","Kilayim: Perek 9: Mishna 3- Kilayim: Perek 9: Mishna 6","Shmuel I 29",""],
+["2026-04-27","Yevamos 56a","","","Kilayim: Perek 9: Mishna 7- Kilayim: Perek 9: Mishna 10","Shmuel I 30",""],
+["2026-04-28","Yevamos 56b","","","Sheviis: Perek 1: Mishna 1- Sheviis: Perek 1: Mishna 4","Shmuel I 31",""],
+["2026-04-29","Yevamos 57a","","","Sheviis: Perek 1: Mishna 5- Sheviis: Perek 1: Mishna 8","Shmuel II 1",""],
+["2026-04-30","Yevamos 57b","","","Sheviis: Perek 2: Mishna 1- Sheviis: Perek 2: Mishna 4","Shmuel II 2",""],
 ["2026-05-01","Chazara","","","Chazara","Shmuel II 3",""],
 ["2026-05-02","Chazara","","","Chazara","Shmuel II 4",""],
-["2026-05-03","Yevamos 58a","","","Sheviis: Perek 3: Mishna 7- Sheviis: Perek 3: Mishna 10","Shmuel II 5",""],
-["2026-05-04","Yevamos 58b","","","Sheviis: Perek 4: Mishna 1- Sheviis: Perek 4: Mishna 4","Shmuel II 6",""],
-["2026-05-05","Yevamos 59a","","","Sheviis: Perek 4: Mishna 5- Sheviis: Perek 4: Mishna 8","Shmuel II 7",""],
-["2026-05-06","Yevamos 59b","","","Sheviis: Perek 4: Mishna 9- Sheviis: Perek 5: Mishna 2","Shmuel II 8",""],
-["2026-05-07","Yevamos 60a","","","Sheviis: Perek 5: Mishna 3- Sheviis: Perek 5: Mishna 6","Shmuel II 9",""],
+["2026-05-03","Yevamos 58a","","","Sheviis: Perek 2: Mishna 5- Sheviis: Perek 2: Mishna 8","Shmuel II 5",""],
+["2026-05-04","Yevamos 58b","","","Sheviis: Perek 2: Mishna 9- Sheviis: Perek 3: Mishna 2","Shmuel II 6",""],
+["2026-05-05","Yevamos 59a","","","Sheviis: Perek 3: Mishna 3- Sheviis: Perek 3: Mishna 6","Shmuel II 7",""],
+["2026-05-06","Yevamos 59b","","","Sheviis: Perek 3: Mishna 7- Sheviis: Perek 3: Mishna 10","Shmuel II 8",""],
+["2026-05-07","Yevamos 60a","","","Sheviis: Perek 4: Mishna 1- Sheviis: Perek 4: Mishna 4","Shmuel II 9",""],
 ["2026-05-08","Chazara","","","Chazara","Shmuel II 10",""],
 ["2026-05-09","Chazara","","","Chazara","Shmuel II 11",""],
-["2026-05-10","Yevamos 60b","","","Sheviis: Perek 5: Mishna 7- Sheviis: Perek 6: Mishna 1","Shmuel II 12",""],
-["2026-05-11","Yevamos 61a","","","Sheviis: Perek 6: Mishna 2- Sheviis: Perek 6: Mishna 5","Shmuel II 13",""],
-["2026-05-12","Yevamos 61b","","","Sheviis: Perek 6: Mishna 6- Sheviis: Perek 7: Mishna 3","Shmuel II 14",""],
-["2026-05-13","Yevamos 62a","","","Sheviis: Perek 7: Mishna 4- Sheviis: Perek 7: Mishna 7","Shmuel II 15",""],
-["2026-05-14","Yevamos 62b","","","Sheviis: Perek 8: Mishna 1- Sheviis: Perek 8: Mishna 4","Shmuel II 16",""],
+["2026-05-10","Yevamos 60b","","","Sheviis: Perek 4: Mishna 5- Sheviis: Perek 4: Mishna 8","Shmuel II 12",""],
+["2026-05-11","Yevamos 61a","","","Sheviis: Perek 4: Mishna 9- Sheviis: Perek 5: Mishna 2","Shmuel II 13",""],
+["2026-05-12","Yevamos 61b","","","Sheviis: Perek 5: Mishna 3- Sheviis: Perek 5: Mishna 6","Shmuel II 14",""],
+["2026-05-13","Yevamos 62a","","","Sheviis: Perek 5: Mishna 7- Sheviis: Perek 6: Mishna 1","Shmuel II 15",""],
+["2026-05-14","Yevamos 62b","","","Sheviis: Perek 6: Mishna 2- Sheviis: Perek 6: Mishna 5","Shmuel II 16",""],
 ["2026-05-15","Chazara","","","Chazara","Shmuel II 17",""],
 ["2026-05-16","Chazara","","","Chazara","Shmuel II 18",""],
-["2026-05-17","Yevamos 63a","","","Sheviis: Perek 8: Mishna 5- Sheviis: Perek 8: Mishna 8","Shmuel II 19",""],
-["2026-05-18","Yevamos 63b","","","Sheviis: Perek 8: Mishna 9- Sheviis: Perek 9: Mishna 1","Shmuel II 20",""],
-["2026-05-19","Yevamos 64a","","","Sheviis: Perek 9: Mishna 2- Sheviis: Perek 9: Mishna 5","Shmuel II 21",""],
-["2026-05-20","Yevamos 64b","","Shaarei Teshuva: 1:1","Sheviis: Perek 9: Mishna 6- Sheviis: Perek 9: Mishna 9","Shmuel II 22",""],
-["2026-05-21","Yevamos 65a","","Shaarei Teshuva: 1:2-3","Sheviis: Perek 10: Mishna 1- Sheviis: Perek 10: Mishna 4","Shmuel II 23",""],
+["2026-05-17","Yevamos 63a","","","Sheviis: Perek 6: Mishna 6- Sheviis: Perek 7: Mishna 3","Shmuel II 19",""],
+["2026-05-18","Yevamos 63b","","","Sheviis: Perek 7: Mishna 4- Sheviis: Perek 7: Mishna 7","Shmuel II 20",""],
+["2026-05-19","Yevamos 64a","","","Sheviis: Perek 8: Mishna 1- Sheviis: Perek 8: Mishna 4","Shmuel II 21",""],
+["2026-05-20","Yevamos 64b","","Shaarei Teshuva: 1:1","Sheviis: Perek 8: Mishna 5- Sheviis: Perek 8: Mishna 8","Shmuel II 22",""],
+["2026-05-21","Yevamos 65a","","Shaarei Teshuva: 1:2-3","Sheviis: Perek 8: Mishna 9- Sheviis: Perek 9: Mishna 1","Shmuel II 23",""],
 ["2026-05-22","Chazara","","Shaarei Teshuva: Chazara","Chazara","Shmuel II 24",""],
 ["2026-05-23","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 1",""],
-["2026-05-24","Yevamos 65b","","Shaarei Teshuva: 1:4","Sheviis: Perek 10: Mishna 5- Sheviis: Perek 10: Mishna 8","Melachim I 2",""],
-["2026-05-25","Yevamos 66a","","Shaarei Teshuva: 1:5-6","Sheviis: Perek 10: Mishna 9- Terumos: Perek 1: Mishna 3","Melachim I 3",""],
-["2026-05-26","Yevamos 66b","","Shaarei Teshuva: 1:7-8","Terumos: Perek 1: Mishna 4- Terumos: Perek 1: Mishna 7","Melachim I 4",""],
-["2026-05-27","Yevamos 67a","","Shaarei Teshuva: 1:9","Terumos: Perek 1: Mishna 8- Terumos: Perek 2: Mishna 1","Melachim I 5",""],
-["2026-05-28","Yevamos 67b","","Shaarei Teshuva: 1:10","Terumos: Perek 2: Mishna 2- Terumos: Perek 2: Mishna 5","Melachim I 6",""],
+["2026-05-24","Yevamos 65b","","Shaarei Teshuva: 1:4","Sheviis: Perek 9: Mishna 2- Sheviis: Perek 9: Mishna 5","Melachim I 2",""],
+["2026-05-25","Yevamos 66a","","Shaarei Teshuva: 1:5-6","Sheviis: Perek 9: Mishna 6- Sheviis: Perek 9: Mishna 9","Melachim I 3",""],
+["2026-05-26","Yevamos 66b","","Shaarei Teshuva: 1:7-8","Sheviis: Perek 10: Mishna 1- Sheviis: Perek 10: Mishna 4","Melachim I 4",""],
+["2026-05-27","Yevamos 67a","","Shaarei Teshuva: 1:9","Sheviis: Perek 10: Mishna 5- Sheviis: Perek 10: Mishna 8","Melachim I 5",""],
+["2026-05-28","Yevamos 67b","","Shaarei Teshuva: 1:10","Sheviis: Perek 10: Mishna 9- Terumos: Perek 1: Mishna 3","Melachim I 6",""],
 ["2026-05-29","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 7",""],
 ["2026-05-30","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 8",""],
-["2026-05-31","Yevamos 68a","","Shaarei Teshuva: 1:10","Terumos: Perek 2: Mishna 6- Terumos: Perek 3: Mishna 3","Melachim I 9",""],
-["2026-06-01","Yevamos 68b","","Shaarei Teshuva: 1:11","Terumos: Perek 3: Mishna 4- Terumos: Perek 3: Mishna 7","Melachim I 10",""],
-["2026-06-02","Yevamos 69a","","Shaarei Teshuva: 1:11","Terumos: Perek 3: Mishna 8- Terumos: Perek 4: Mishna 2","Melachim I 11",""],
-["2026-06-03","Yevamos 69b","","Shaarei Teshuva: 1:12","Terumos: Perek 4: Mishna 3- Terumos: Perek 4: Mishna 6","Melachim I 12",""],
-["2026-06-04","Yevamos 70a","","Shaarei Teshuva: 1:13","Terumos: Perek 4: Mishna 7- Terumos: Perek 4: Mishna 10","Melachim I 13",""],
+["2026-05-31","Yevamos 68a","","Shaarei Teshuva: 1:10","Terumos: Perek 1: Mishna 4- Terumos: Perek 1: Mishna 7","Melachim I 9",""],
+["2026-06-01","Yevamos 68b","","Shaarei Teshuva: 1:11","Terumos: Perek 1: Mishna 8- Terumos: Perek 2: Mishna 1","Melachim I 10",""],
+["2026-06-02","Yevamos 69a","","Shaarei Teshuva: 1:11","Terumos: Perek 2: Mishna 2- Terumos: Perek 2: Mishna 5","Melachim I 11",""],
+["2026-06-03","Yevamos 69b","","Shaarei Teshuva: 1:12","Terumos: Perek 2: Mishna 6- Terumos: Perek 3: Mishna 3","Melachim I 12",""],
+["2026-06-04","Yevamos 70a","","Shaarei Teshuva: 1:13","Terumos: Perek 3: Mishna 4- Terumos: Perek 3: Mishna 7","Melachim I 13",""],
 ["2026-06-05","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 14",""],
 ["2026-06-06","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 15",""],
-["2026-06-07","Yevamos 70b","","Shaarei Teshuva: 1:14-15","Terumos: Perek 4: Mishna 11- Terumos: Perek 5: Mishna 1","Melachim I 16",""],
-["2026-06-08","Yevamos 71a","","Shaarei Teshuva: 1:16","Terumos: Perek 5: Mishna 2- Terumos: Perek 5: Mishna 5","Melachim I 17",""],
-["2026-06-09","Yevamos 71b","","Shaarei Teshuva: 1:17-18","Terumos: Perek 5: Mishna 6- Terumos: Perek 5: Mishna 9","Melachim I 18",""],
-["2026-06-10","Yevamos 72a","","Shaarei Teshuva: 1:19-20","Terumos: Perek 6: Mishna 1- Terumos: Perek 6: Mishna 4","Melachim I 19",""],
-["2026-06-11","Yevamos 72b","","Shaarei Teshuva: 1:21","Terumos: Perek 6: Mishna 5- Terumos: Perek 7: Mishna 2","Melachim I 20",""],
+["2026-06-07","Yevamos 70b","","Shaarei Teshuva: 1:14-15","Terumos: Perek 3: Mishna 8- Terumos: Perek 4: Mishna 2","Melachim I 16",""],
+["2026-06-08","Yevamos 71a","","Shaarei Teshuva: 1:16","Terumos: Perek 4: Mishna 3- Terumos: Perek 4: Mishna 6","Melachim I 17",""],
+["2026-06-09","Yevamos 71b","","Shaarei Teshuva: 1:17-18","Terumos: Perek 4: Mishna 7- Terumos: Perek 4: Mishna 10","Melachim I 18",""],
+["2026-06-10","Yevamos 72a","","Shaarei Teshuva: 1:19-20","Terumos: Perek 4: Mishna 11- Terumos: Perek 5: Mishna 1","Melachim I 19",""],
+["2026-06-11","Yevamos 72b","","Shaarei Teshuva: 1:21","Terumos: Perek 5: Mishna 2- Terumos: Perek 5: Mishna 5","Melachim I 20",""],
 ["2026-06-12","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 21",""],
 ["2026-06-13","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim I 22",""],
-["2026-06-14","Yevamos 73a","","Shaarei Teshuva: 1:22","Terumos: Perek 7: Mishna 3- Terumos: Perek 7: Mishna 6","Melachim II 1",""],
-["2026-06-15","Yevamos 73b","","Shaarei Teshuva: 1:23-24","Terumos: Perek 7: Mishna 7- Terumos: Perek 8: Mishna 3","Melachim II 2",""],
-["2026-06-16","Yevamos 74a","","Shaarei Teshuva: 1:25","Terumos: Perek 8: Mishna 4- Terumos: Perek 8: Mishna 7","Melachim II 3",""],
-["2026-06-17","Yevamos 74b","","Shaarei Teshuva: 1:26-27","Terumos: Perek 8: Mishna 8- Terumos: Perek 8: Mishna 11","Melachim II 4",""],
-["2026-06-18","Yevamos 75a","","Shaarei Teshuva: 1:28-29","Terumos: Perek 8: Mishna 12- Terumos: Perek 9: Mishna 3","Melachim II 5",""],
+["2026-06-14","Yevamos 73a","","Shaarei Teshuva: 1:22","Terumos: Perek 5: Mishna 6- Terumos: Perek 5: Mishna 9","Melachim II 1",""],
+["2026-06-15","Yevamos 73b","","Shaarei Teshuva: 1:23-24","Terumos: Perek 6: Mishna 1- Terumos: Perek 6: Mishna 4","Melachim II 2",""],
+["2026-06-16","Yevamos 74a","","Shaarei Teshuva: 1:25","Terumos: Perek 6: Mishna 5- Terumos: Perek 7: Mishna 2","Melachim II 3",""],
+["2026-06-17","Yevamos 74b","","Shaarei Teshuva: 1:26-27","Terumos: Perek 7: Mishna 3- Terumos: Perek 7: Mishna 6","Melachim II 4",""],
+["2026-06-18","Yevamos 75a","","Shaarei Teshuva: 1:28-29","Terumos: Perek 7: Mishna 7- Terumos: Perek 8: Mishna 3","Melachim II 5",""],
 ["2026-06-19","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim II 6",""],
 ["2026-06-20","Chazara","","Shaarei Teshuva: Chazara","Chazara","Melachim II 7",""],
-["2026-06-21","Yevamos 75b","","Shaarei Teshuva: 1:30","Terumos: Perek 9: Mishna 4- Terumos: Perek 9: Mishna 7","Melachim II 8",""],
-["2026-06-22","Yevamos 76a","","Shaarei Teshuva: 1:31","Terumos: Perek 10: Mishna 1- Terumos: Perek 10: Mishna 4","Melachim II 9",""],
-["2026-06-23","Yevamos 76b","","Shaarei Teshuva: 1:32-34","Terumos: Perek 10: Mishna 5- Terumos: Perek 10: Mishna 8","Melachim II 10",""],
-["2026-06-24","Yevamos 77a","","Shaarei Teshuva: 1:35","Terumos: Perek 10: Mishna 9- Terumos: Perek 10: Mishna 12","Melachim II 11",""],
-["2026-06-25","Yevamos 77b","","Shaarei Teshuva: 1:36-37","Terumos: Perek 11: Mishna 1- Terumos: Perek 11: Mishna 4","Melachim II 12",""],
+["2026-06-21","Yevamos 75b","","Shaarei Teshuva: 1:30","Terumos: Perek 8: Mishna 4- Terumos: Perek 8: Mishna 7","Melachim II 8",""],
+["2026-06-22","Yevamos 76a","","Shaarei Teshuva: 1:31","Terumos: Perek 8: Mishna 8- Terumos: Perek 8: Mishna 11","Melachim II 9",""],
+["2026-06-23","Yevamos 76b","","Shaarei Teshuva: 1:32-34","Terumos: Perek 8: Mishna 12- Terumos: Perek 9: Mishna 3","Melachim II 10",""],
+["2026-06-24","Yevamos 77a","","Shaarei Teshuva: 1:35","Terumos: Perek 9: Mishna 4- Terumos: Perek 9: Mishna 7","Melachim II 11",""],
+["2026-06-25","Yevamos 77b","","Shaarei Teshuva: 1:36-37","Terumos: Perek 10: Mishna 1- Terumos: Perek 10: Mishna 4","Melachim II 12",""],
 ["2026-06-26","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Melachim II 13",""],
 ["2026-06-27","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Melachim II 14",""],
-["2026-06-28","Yevamos 78a","MB1: 2","Shaarei Teshuva: 1:38-39","Terumos: Perek 11: Mishna 5- Terumos: Perek 11: Mishna 8","Melachim II 15",""],
-["2026-06-29","Yevamos 78b","MB1: 3","Shaarei Teshuva: 1:40-41","Terumos: Perek 11: Mishna 9- Maasros: Perek 1: Mishna 2","Melachim II 16",""],
-["2026-06-30","Yevamos 79a","MB1: 4","Shaarei Teshuva: 1:42","Maasros: Perek 1: Mishna 3- Maasros: Perek 1: Mishna 6","Melachim II 17",""],
-["2026-07-01","Yevamos 79b","MB1: 5","Shaarei Teshuva: 1:42-43","Maasros: Perek 1: Mishna 7- Maasros: Perek 2: Mishna 2","Melachim II 18","Tanya: 1"],
-["2026-07-02","Yevamos 80a","MB1: 6","Shaarei Teshuva: 1:44-45","Maasros: Perek 2: Mishna 3- Maasros: Perek 2: Mishna 6","Melachim II 19","Tanya: 2"],
+["2026-06-28","Yevamos 78a","MB1: 2","Shaarei Teshuva: 1:38-39","Terumos: Perek 10: Mishna 5- Terumos: Perek 10: Mishna 8","Melachim II 15",""],
+["2026-06-29","Yevamos 78b","MB1: 3","Shaarei Teshuva: 1:40-41","Terumos: Perek 10: Mishna 9- Terumos: Perek 10: Mishna 12","Melachim II 16",""],
+["2026-06-30","Yevamos 79a","MB1: 4","Shaarei Teshuva: 1:42","Terumos: Perek 11: Mishna 1- Terumos: Perek 11: Mishna 4","Melachim II 17",""],
+["2026-07-01","Yevamos 79b","MB1: 5","Shaarei Teshuva: 1:42-43","Terumos: Perek 11: Mishna 5- Terumos: Perek 11: Mishna 8","Melachim II 18","Tanya: 1"],
+["2026-07-02","Yevamos 80a","MB1: 6","Shaarei Teshuva: 1:44-45","Terumos: Perek 11: Mishna 9- Maasros: Perek 1: Mishna 2","Melachim II 19","Tanya: 2"],
 ["2026-07-03","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Melachim II 20","Tanya: Chazara"],
 ["2026-07-04","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Melachim II 21","Tanya: Chazara"],
-["2026-07-05","Yevamos 80b","MB1: 7","Shaarei Teshuva: 1:45-46","Maasros: Perek 2: Mishna 7- Maasros: Perek 3: Mishna 2","Melachim II 22","Tanya: 3"],
-["2026-07-06","Yevamos 81a","MB1: 8","Shaarei Teshuva: 1:47","Maasros: Perek 3: Mishna 3- Maasros: Perek 3: Mishna 6","Melachim II 23","Tanya: 4"],
-["2026-07-07","Yevamos 81b","MB1: 9","Shaarei Teshuva: 1:47-48","Maasros: Perek 3: Mishna 7- Maasros: Perek 3: Mishna 10","Melachim II 24","Tanya: 5"],
-["2026-07-08","Yevamos 82a","MB1: 10","Shaarei Teshuva: 1:49","Maasros: Perek 4: Mishna 1- Maasros: Perek 4: Mishna 4","Melachim II 25","Tanya: 6"],
-["2026-07-09","Yevamos 82b","MB1: 11","Shaarei Teshuva: 1:50-52","Maasros: Perek 4: Mishna 5- Maasros: Perek 5: Mishna 2","Yeshayahu 1","Tanya: 7"],
+["2026-07-05","Yevamos 80b","MB1: 7","Shaarei Teshuva: 1:45-46","Maasros: Perek 1: Mishna 3- Maasros: Perek 1: Mishna 6","Melachim II 22","Tanya: 3"],
+["2026-07-06","Yevamos 81a","MB1: 8","Shaarei Teshuva: 1:47","Maasros: Perek 1: Mishna 7- Maasros: Perek 2: Mishna 2","Melachim II 23","Tanya: 4"],
+["2026-07-07","Yevamos 81b","MB1: 9","Shaarei Teshuva: 1:47-48","Maasros: Perek 2: Mishna 3- Maasros: Perek 2: Mishna 6","Melachim II 24","Tanya: 5"],
+["2026-07-08","Yevamos 82a","MB1: 10","Shaarei Teshuva: 1:49","Maasros: Perek 2: Mishna 7- Maasros: Perek 3: Mishna 2","Melachim II 25","Tanya: 6"],
+["2026-07-09","Yevamos 82b","MB1: 11","Shaarei Teshuva: 1:50-52","Maasros: Perek 3: Mishna 3- Maasros: Perek 3: Mishna 6","Yeshayahu 1","Tanya: 7"],
 ["2026-07-10","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 2","Tanya: Chazara"],
 ["2026-07-11","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 3","Tanya: Chazara"],
-["2026-07-12","Yevamos 83a","MB1: 12","Shaarei Teshuva: 2:1","Maasros: Perek 5: Mishna 3- Maasros: Perek 5: Mishna 6","Yeshayahu 4","Tanya: 8"],
-["2026-07-13","Yevamos 83b","MB1: 13","Shaarei Teshuva: 2:2","Maasros: Perek 5: Mishna 7- Maaser Sheni: Perek 1: Mishna 2","Yeshayahu 5","Tanya: 9"],
-["2026-07-14","Yevamos 84a","MB1: 14","Shaarei Teshuva: 2:2","Maaser Sheni: Perek 1: Mishna 3- Maaser Sheni: Perek 1: Mishna 6","Yeshayahu 6","Tanya: 10"],
-["2026-07-15","Yevamos 84b","MB1: 15","Shaarei Teshuva: 2:3","Maaser Sheni: Perek 1: Mishna 7- Maaser Sheni: Perek 2: Mishna 3","Yeshayahu 7","Tanya: 11"],
-["2026-07-16","Yevamos 85a","MB1: 16","Shaarei Teshuva: 2:4","Maaser Sheni: Perek 2: Mishna 4- Maaser Sheni: Perek 2: Mishna 7","Yeshayahu 8","Tanya: 12"],
+["2026-07-12","Yevamos 83a","MB1: 12","Shaarei Teshuva: 2:1","Maasros: Perek 3: Mishna 7- Maasros: Perek 3: Mishna 10","Yeshayahu 4","Tanya: 8"],
+["2026-07-13","Yevamos 83b","MB1: 13","Shaarei Teshuva: 2:2","Maasros: Perek 4: Mishna 1- Maasros: Perek 4: Mishna 4","Yeshayahu 5","Tanya: 9"],
+["2026-07-14","Yevamos 84a","MB1: 14","Shaarei Teshuva: 2:2","Maasros: Perek 4: Mishna 5- Maasros: Perek 5: Mishna 2","Yeshayahu 6","Tanya: 10"],
+["2026-07-15","Yevamos 84b","MB1: 15","Shaarei Teshuva: 2:3","Maasros: Perek 5: Mishna 3- Maasros: Perek 5: Mishna 6","Yeshayahu 7","Tanya: 11"],
+["2026-07-16","Yevamos 85a","MB1: 16","Shaarei Teshuva: 2:4","Maasros: Perek 5: Mishna 7- Maaser Sheni: Perek 1: Mishna 2","Yeshayahu 8","Tanya: 12"],
 ["2026-07-17","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 9","Tanya: Chazara"],
 ["2026-07-18","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 10","Tanya: Chazara"],
-["2026-07-19","Yevamos 85b","MB1: 17","Shaarei Teshuva: 2:5-6","Maaser Sheni: Perek 2: Mishna 8- Maaser Sheni: Perek 3: Mishna 1","Yeshayahu 11","Tanya: 13"],
-["2026-07-20","Yevamos 86a","MB1: 18","Shaarei Teshuva: 2:7","Maaser Sheni: Perek 3: Mishna 2- Maaser Sheni: Perek 3: Mishna 5","Yeshayahu 12","Tanya: 14"],
-["2026-07-21","Yevamos 86b","MB1: 19","Shaarei Teshuva: 2:8-9","Maaser Sheni: Perek 3: Mishna 6- Maaser Sheni: Perek 3: Mishna 9","Yeshayahu 13","Tanya: 15"],
-["2026-07-22","Yevamos 87a","MB1: 20","Shaarei Teshuva: 2:9","Maaser Sheni: Perek 3: Mishna 10- Maaser Sheni: Perek 3: Mishna 13","Yeshayahu 14","Tanya: 16"],
-["2026-07-23","Yevamos 87b","MB1: 21","Shaarei Teshuva: 2:9","Maaser Sheni: Perek 4: Mishna 1- Maaser Sheni: Perek 4: Mishna 4","Yeshayahu 15","Tanya: 17"],
+["2026-07-19","Yevamos 85b","MB1: 17","Shaarei Teshuva: 2:5-6","Maaser Sheni: Perek 1: Mishna 3- Maaser Sheni: Perek 1: Mishna 6","Yeshayahu 11","Tanya: 13"],
+["2026-07-20","Yevamos 86a","MB1: 18","Shaarei Teshuva: 2:7","Maaser Sheni: Perek 1: Mishna 7- Maaser Sheni: Perek 2: Mishna 3","Yeshayahu 12","Tanya: 14"],
+["2026-07-21","Yevamos 86b","MB1: 19","Shaarei Teshuva: 2:8-9","Maaser Sheni: Perek 2: Mishna 4- Maaser Sheni: Perek 2: Mishna 7","Yeshayahu 13","Tanya: 15"],
+["2026-07-22","Yevamos 87a","MB1: 20","Shaarei Teshuva: 2:9","Maaser Sheni: Perek 2: Mishna 8- Maaser Sheni: Perek 3: Mishna 1","Yeshayahu 14","Tanya: 16"],
+["2026-07-23","Yevamos 87b","MB1: 21","Shaarei Teshuva: 2:9","Maaser Sheni: Perek 3: Mishna 2- Maaser Sheni: Perek 3: Mishna 5","Yeshayahu 15","Tanya: 17"],
 ["2026-07-24","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 16","Tanya: Chazara"],
 ["2026-07-25","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 17","Tanya: Chazara"],
-["2026-07-26","Yevamos 88a","MB1: 22","Shaarei Teshuva: 2:10","Maaser Sheni: Perek 4: Mishna 5- Maaser Sheni: Perek 4: Mishna 8","Yeshayahu 18","Tanya: 18"],
-["2026-07-27","Yevamos 88b","MB1: 23","Shaarei Teshuva: 2:10","Maaser Sheni: Perek 4: Mishna 9- Maaser Sheni: Perek 4: Mishna 12","Yeshayahu 19","Tanya: 19"],
-["2026-07-28","Yevamos 89a","MB1: 24","Shaarei Teshuva: 2:11","Maaser Sheni: Perek 5: Mishna 1- Maaser Sheni: Perek 5: Mishna 4","Yeshayahu 20","Tanya: 20"],
-["2026-07-29","Yevamos 89b","MB1: 25","Shaarei Teshuva: 2:12","Maaser Sheni: Perek 5: Mishna 5- Maaser Sheni: Perek 5: Mishna 8","Yeshayahu 21","Tanya: 21"],
-["2026-07-30","Yevamos 90a","MB1: 26","Shaarei Teshuva: 2:13","Maaser Sheni: Perek 5: Mishna 9- Maaser Sheni: Perek 5: Mishna 12","Yeshayahu 22","Tanya: 22"],
+["2026-07-26","Yevamos 88a","MB1: 22","Shaarei Teshuva: 2:10","Maaser Sheni: Perek 3: Mishna 6- Maaser Sheni: Perek 3: Mishna 9","Yeshayahu 18","Tanya: 18"],
+["2026-07-27","Yevamos 88b","MB1: 23","Shaarei Teshuva: 2:10","Maaser Sheni: Perek 3: Mishna 10- Maaser Sheni: Perek 3: Mishna 13","Yeshayahu 19","Tanya: 19"],
+["2026-07-28","Yevamos 89a","MB1: 24","Shaarei Teshuva: 2:11","Maaser Sheni: Perek 4: Mishna 1- Maaser Sheni: Perek 4: Mishna 4","Yeshayahu 20","Tanya: 20"],
+["2026-07-29","Yevamos 89b","MB1: 25","Shaarei Teshuva: 2:12","Maaser Sheni: Perek 4: Mishna 5- Maaser Sheni: Perek 4: Mishna 8","Yeshayahu 21","Tanya: 21"],
+["2026-07-30","Yevamos 90a","MB1: 26","Shaarei Teshuva: 2:13","Maaser Sheni: Perek 4: Mishna 9- Maaser Sheni: Perek 4: Mishna 12","Yeshayahu 22","Tanya: 22"],
 ["2026-07-31","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 23","Tanya: Chazara"],
 ["2026-08-01","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 24","Tanya: Chazara"],
-["2026-08-02","Yevamos 90b","MB1: 27","Shaarei Teshuva: 2:14","Maaser Sheni: Perek 5: Mishna 13- Challah: Perek 1: Mishna 1","Yeshayahu 25","Tanya: 23"],
-["2026-08-03","Yevamos 91a","MB1: 28","Shaarei Teshuva: 2:15-16","Challah: Perek 1: Mishna 2- Challah: Perek 1: Mishna 5","Yeshayahu 26","Tanya: 24"],
-["2026-08-04","Yevamos 91b","MB1: 29","Shaarei Teshuva: 2:17","Challah: Perek 1: Mishna 6- Challah: Perek 1: Mishna 9","Yeshayahu 27","Tanya: 25"],
-["2026-08-05","Yevamos 92a","MB1: 30","Shaarei Teshuva: 2:17-18","Challah: Perek 2: Mishna 1- Challah: Perek 2: Mishna 4","Yeshayahu 28","Tanya: 26"],
-["2026-08-06","Yevamos 92b","MB1: 31","Shaarei Teshuva: 2:19","Challah: Perek 2: Mishna 5- Challah: Perek 2: Mishna 8","Yeshayahu 29","Tanya: 27"],
+["2026-08-02","Yevamos 90b","MB1: 27","Shaarei Teshuva: 2:14","Maaser Sheni: Perek 5: Mishna 1- Maaser Sheni: Perek 5: Mishna 4","Yeshayahu 25","Tanya: 23"],
+["2026-08-03","Yevamos 91a","MB1: 28","Shaarei Teshuva: 2:15-16","Maaser Sheni: Perek 5: Mishna 5- Maaser Sheni: Perek 5: Mishna 8","Yeshayahu 26","Tanya: 24"],
+["2026-08-04","Yevamos 91b","MB1: 29","Shaarei Teshuva: 2:17","Maaser Sheni: Perek 5: Mishna 9- Maaser Sheni: Perek 5: Mishna 12","Yeshayahu 27","Tanya: 25"],
+["2026-08-05","Yevamos 92a","MB1: 30","Shaarei Teshuva: 2:17-18","Maaser Sheni: Perek 5: Mishna 13- Challah: Perek 1: Mishna 1","Yeshayahu 28","Tanya: 26"],
+["2026-08-06","Yevamos 92b","MB1: 31","Shaarei Teshuva: 2:19","Challah: Perek 1: Mishna 2- Challah: Perek 1: Mishna 5","Yeshayahu 29","Tanya: 27"],
 ["2026-08-07","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 30","Tanya: Chazara"],
 ["2026-08-08","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 31","Tanya: Chazara"],
-["2026-08-09","Yevamos 93a","MB1: 32","Shaarei Teshuva: 2:19","Challah: Perek 3: Mishna 1- Challah: Perek 3: Mishna 4","Yeshayahu 32","Tanya: 28"],
-["2026-08-10","Yevamos 93b","MB1: 33","Shaarei Teshuva: 2:20-21","Challah: Perek 3: Mishna 5- Challah: Perek 3: Mishna 8","Yeshayahu 33","Tanya: 29"],
-["2026-08-11","Yevamos 94a","MB1: 34","Shaarei Teshuva: 2:22-24","Challah: Perek 3: Mishna 9- Challah: Perek 4: Mishna 2","Yeshayahu 34","Tanya: 30"],
-["2026-08-12","Yevamos 94b","MB1: 35","Shaarei Teshuva: 2:25","Challah: Perek 4: Mishna 3- Challah: Perek 4: Mishna 6","Yeshayahu 35","Tanya: 31"],
-["2026-08-13","Yevamos 95a","MB1: 36","Shaarei Teshuva: 2:26","Challah: Perek 4: Mishna 7- Challah: Perek 4: Mishna 10","Yeshayahu 36","Tanya: 32"],
+["2026-08-09","Yevamos 93a","MB1: 32","Shaarei Teshuva: 2:19","Challah: Perek 1: Mishna 6- Challah: Perek 1: Mishna 9","Yeshayahu 32","Tanya: 28"],
+["2026-08-10","Yevamos 93b","MB1: 33","Shaarei Teshuva: 2:20-21","Challah: Perek 2: Mishna 1- Challah: Perek 2: Mishna 4","Yeshayahu 33","Tanya: 29"],
+["2026-08-11","Yevamos 94a","MB1: 34","Shaarei Teshuva: 2:22-24","Challah: Perek 2: Mishna 5- Challah: Perek 2: Mishna 8","Yeshayahu 34","Tanya: 30"],
+["2026-08-12","Yevamos 94b","MB1: 35","Shaarei Teshuva: 2:25","Challah: Perek 3: Mishna 1- Challah: Perek 3: Mishna 4","Yeshayahu 35","Tanya: 31"],
+["2026-08-13","Yevamos 95a","MB1: 36","Shaarei Teshuva: 2:26","Challah: Perek 3: Mishna 5- Challah: Perek 3: Mishna 8","Yeshayahu 36","Tanya: 32"],
 ["2026-08-14","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 37","Tanya: Chazara"],
 ["2026-08-15","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 38","Tanya: Chazara"],
-["2026-08-16","Yevamos 95b","MB1: 37","Shaarei Teshuva: 2:27-30","Challah: Perek 4: Mishna 11- Orlah: Perek 1: Mishna 3","Yeshayahu 39","Tanya: 33"],
-["2026-08-17","Yevamos 96a","MB1: 38","Shaarei Teshuva: 2:31-34","Orlah: Perek 1: Mishna 4- Orlah: Perek 1: Mishna 7","Yeshayahu 40","Tanya: 34"],
-["2026-08-18","Yevamos 96b","MB1: 39","Shaarei Teshuva: 3:1-2","Orlah: Perek 1: Mishna 8- Orlah: Perek 2: Mishna 2","Yeshayahu 41","Tanya: 35"],
-["2026-08-19","Yevamos 97a","MB1: 40","Shaarei Teshuva: 3:2-3","Orlah: Perek 2: Mishna 3- Orlah: Perek 2: Mishna 6","Yeshayahu 42","Tanya: 36"],
-["2026-08-20","Yevamos 97b","MB1: 41","Shaarei Teshuva: 3:4-5","Orlah: Perek 2: Mishna 7- Orlah: Perek 2: Mishna 10","Yeshayahu 43","Tanya: 37"],
+["2026-08-16","Yevamos 95b","MB1: 37","Shaarei Teshuva: 2:27-30","Challah: Perek 3: Mishna 9- Challah: Perek 4: Mishna 2","Yeshayahu 39","Tanya: 33"],
+["2026-08-17","Yevamos 96a","MB1: 38","Shaarei Teshuva: 2:31-34","Challah: Perek 4: Mishna 3- Challah: Perek 4: Mishna 6","Yeshayahu 40","Tanya: 34"],
+["2026-08-18","Yevamos 96b","MB1: 39","Shaarei Teshuva: 3:1-2","Challah: Perek 4: Mishna 7- Challah: Perek 4: Mishna 10","Yeshayahu 41","Tanya: 35"],
+["2026-08-19","Yevamos 97a","MB1: 40","Shaarei Teshuva: 3:2-3","Challah: Perek 4: Mishna 11- Orlah: Perek 1: Mishna 3","Yeshayahu 42","Tanya: 36"],
+["2026-08-20","Yevamos 97b","MB1: 41","Shaarei Teshuva: 3:4-5","Orlah: Perek 1: Mishna 4- Orlah: Perek 1: Mishna 7","Yeshayahu 43","Tanya: 37"],
 ["2026-08-21","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 44","Tanya: Chazara"],
 ["2026-08-22","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 45","Tanya: Chazara"],
-["2026-08-23","Yevamos 98a","MB1: 42","Shaarei Teshuva: 3:6-7","Orlah: Perek 2: Mishna 11- Orlah: Perek 2: Mishna 14","Yeshayahu 46","Tanya: 38"],
-["2026-08-24","Yevamos 98b","MB1: 43","Shaarei Teshuva: 3:8","Orlah: Perek 2: Mishna 15- Orlah: Perek 3: Mishna 1","Yeshayahu 47","Tanya: 39"],
-["2026-08-25","Yevamos 99a","MB1: 44","Shaarei Teshuva: 3:9","Orlah: Perek 3: Mishna 2- Orlah: Perek 3: Mishna 5","Yeshayahu 48","Tanya: 40"],
-["2026-08-26","Yevamos 99b","MB1: 45","Shaarei Teshuva: 3:9-10","Orlah: Perek 3: Mishna 6- Orlah: Perek 3: Mishna 9","Yeshayahu 49","Tanya: 41"],
-["2026-08-27","Yevamos 100a","MB1: 46","Shaarei Teshuva: 3:11-12","Bikkurim: Perek 1: Mishna 1- Bikkurim: Perek 1: Mishna 4","Yeshayahu 50","Tanya: 42"],
+["2026-08-23","Yevamos 98a","MB1: 42","Shaarei Teshuva: 3:6-7","Orlah: Perek 1: Mishna 8- Orlah: Perek 2: Mishna 2","Yeshayahu 46","Tanya: 38"],
+["2026-08-24","Yevamos 98b","MB1: 43","Shaarei Teshuva: 3:8","Orlah: Perek 2: Mishna 3- Orlah: Perek 2: Mishna 6","Yeshayahu 47","Tanya: 39"],
+["2026-08-25","Yevamos 99a","MB1: 44","Shaarei Teshuva: 3:9","Orlah: Perek 2: Mishna 7- Orlah: Perek 2: Mishna 10","Yeshayahu 48","Tanya: 40"],
+["2026-08-26","Yevamos 99b","MB1: 45","Shaarei Teshuva: 3:9-10","Orlah: Perek 2: Mishna 11- Orlah: Perek 2: Mishna 14","Yeshayahu 49","Tanya: 41"],
+["2026-08-27","Yevamos 100a","MB1: 46","Shaarei Teshuva: 3:11-12","Orlah: Perek 2: Mishna 15- Orlah: Perek 3: Mishna 1","Yeshayahu 50","Tanya: 42"],
 ["2026-08-28","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 51","Tanya: Chazara"],
 ["2026-08-29","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 52","Tanya: Chazara"],
-["2026-08-30","Yevamos 100b","MB1: 47","Shaarei Teshuva: 3:13","Bikkurim: Perek 1: Mishna 5- Bikkurim: Perek 1: Mishna 8","Yeshayahu 53","Tanya: 43"],
-["2026-08-31","Yevamos 101a","MB1: 48","Shaarei Teshuva: 3:14-15","Bikkurim: Perek 1: Mishna 9- Bikkurim: Perek 2: Mishna 1","Yeshayahu 54","Tanya: 44"],
-["2026-09-01","Yevamos 101b","MB1: 49","Shaarei Teshuva: 3:16-17","Bikkurim: Perek 2: Mishna 2- Bikkurim: Perek 2: Mishna 5","Yeshayahu 55","Tanya: 45"],
-["2026-09-02","Yevamos 102a","MB1: 50","Shaarei Teshuva: 3:18-21","Bikkurim: Perek 2: Mishna 6- Bikkurim: Perek 2: Mishna 9","Yeshayahu 56","Tanya: 46"],
-["2026-09-03","Yevamos 102b","MB1: 51","Shaarei Teshuva: 3:22-23","Bikkurim: Perek 2: Mishna 10- Bikkurim: Perek 3: Mishna 2","Yeshayahu 57","Tanya: 47"],
+["2026-08-30","Yevamos 100b","MB1: 47","Shaarei Teshuva: 3:13","Orlah: Perek 3: Mishna 2- Orlah: Perek 3: Mishna 5","Yeshayahu 53","Tanya: 43"],
+["2026-08-31","Yevamos 101a","MB1: 48","Shaarei Teshuva: 3:14-15","Orlah: Perek 3: Mishna 6- Orlah: Perek 3: Mishna 9","Yeshayahu 54","Tanya: 44"],
+["2026-09-01","Yevamos 101b","MB1: 49","Shaarei Teshuva: 3:16-17","Bikkurim: Perek 1: Mishna 1- Bikkurim: Perek 1: Mishna 4","Yeshayahu 55","Tanya: 45"],
+["2026-09-02","Yevamos 102a","MB1: 50","Shaarei Teshuva: 3:18-21","Bikkurim: Perek 1: Mishna 5- Bikkurim: Perek 1: Mishna 8","Yeshayahu 56","Tanya: 46"],
+["2026-09-03","Yevamos 102b","MB1: 51","Shaarei Teshuva: 3:22-23","Bikkurim: Perek 1: Mishna 9- Bikkurim: Perek 2: Mishna 1","Yeshayahu 57","Tanya: 47"],
 ["2026-09-04","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 58","Tanya: Chazara"],
 ["2026-09-05","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 59","Tanya: Chazara"],
-["2026-09-06","Yevamos 103a","MB1: 52","Shaarei Teshuva: 3:24","Bikkurim: Perek 3: Mishna 3- Bikkurim: Perek 3: Mishna 6","Yeshayahu 60","Tanya: 48"],
-["2026-09-07","Yevamos 103b","MB1: 53","Shaarei Teshuva: 3:24-25","Bikkurim: Perek 3: Mishna 7- Bikkurim: Perek 3: Mishna 10","Yeshayahu 61","Tanya: 49"],
-["2026-09-08","Yevamos 104a","MB1: 54","Shaarei Teshuva: 3:26-28","Bikkurim: Perek 3: Mishna 11- Shabbos: Perek 1: Mishna 2","Yeshayahu 62","Tanya: 50"],
-["2026-09-09","Yevamos 104b","MB1: 55","Shaarei Teshuva: 3:29-30","Shabbos: Perek 1: Mishna 3- Shabbos: Perek 1: Mishna 6","Yeshayahu 63","Tanya: 51"],
-["2026-09-10","Yevamos 105a","MB1: 56","Shaarei Teshuva: 3:31-34","Shabbos: Perek 1: Mishna 7- Shabbos: Perek 1: Mishna 10","Yeshayahu 64","Tanya: 52"],
+["2026-09-06","Yevamos 103a","MB1: 52","Shaarei Teshuva: 3:24","Bikkurim: Perek 2: Mishna 2- Bikkurim: Perek 2: Mishna 5","Yeshayahu 60","Tanya: 48"],
+["2026-09-07","Yevamos 103b","MB1: 53","Shaarei Teshuva: 3:24-25","Bikkurim: Perek 2: Mishna 6- Bikkurim: Perek 2: Mishna 9","Yeshayahu 61","Tanya: 49"],
+["2026-09-08","Yevamos 104a","MB1: 54","Shaarei Teshuva: 3:26-28","Bikkurim: Perek 2: Mishna 10- Bikkurim: Perek 3: Mishna 2","Yeshayahu 62","Tanya: 50"],
+["2026-09-09","Yevamos 104b","MB1: 55","Shaarei Teshuva: 3:29-30","Bikkurim: Perek 3: Mishna 3- Bikkurim: Perek 3: Mishna 6","Yeshayahu 63","Tanya: 51"],
+["2026-09-10","Yevamos 105a","MB1: 56","Shaarei Teshuva: 3:31-34","Bikkurim: Perek 3: Mishna 7- Bikkurim: Perek 3: Mishna 10","Yeshayahu 64","Tanya: 52"],
 ["2026-09-11","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 65","Tanya: Chazara"],
 ["2026-09-12","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yeshayahu 66","Tanya: Chazara"],
-["2026-09-13","Yevamos 105b","MB1: 57","Shaarei Teshuva: 3:35-37","Shabbos: Perek 1: Mishna 11- Shabbos: Perek 2: Mishna 3","Yirmiyahu 1","Tanya: 53"],
-["2026-09-14","Yevamos 106a","MB1: 58","Shaarei Teshuva: 3:38-39","Shabbos: Perek 2: Mishna 4- Shabbos: Perek 2: Mishna 7","Yirmiyahu 2","Tanya: 54"],
-["2026-09-15","Yevamos 106b","MB1: 59","Shaarei Teshuva: 3:40-43","Shabbos: Perek 3: Mishna 1- Shabbos: Perek 3: Mishna 4","Yirmiyahu 3","Tanya: 55"],
-["2026-09-16","Yevamos 107a","MB1: 60","Shaarei Teshuva: 3:44","Shabbos: Perek 3: Mishna 5- Shabbos: Perek 4: Mishna 2","Yirmiyahu 4","Tanya: 56"],
-["2026-09-17","Yevamos 107b","MB1: 61","Shaarei Teshuva: 3:45","Shabbos: Perek 5: Mishna 1- Shabbos: Perek 5: Mishna 4","Yirmiyahu 5","Tanya: 57"],
+["2026-09-13","Yevamos 105b","MB1: 57","Shaarei Teshuva: 3:35-37","Bikkurim: Perek 3: Mishna 11- Shabbos: Perek 1: Mishna 2","Yirmiyahu 1","Tanya: 53"],
+["2026-09-14","Yevamos 106a","MB1: 58","Shaarei Teshuva: 3:38-39","Shabbos: Perek 1: Mishna 3- Shabbos: Perek 1: Mishna 6","Yirmiyahu 2","Tanya: 54"],
+["2026-09-15","Yevamos 106b","MB1: 59","Shaarei Teshuva: 3:40-43","Shabbos: Perek 1: Mishna 7- Shabbos: Perek 1: Mishna 10","Yirmiyahu 3","Tanya: 55"],
+["2026-09-16","Yevamos 107a","MB1: 60","Shaarei Teshuva: 3:44","Shabbos: Perek 1: Mishna 11- Shabbos: Perek 2: Mishna 3","Yirmiyahu 4","Tanya: 56"],
+["2026-09-17","Yevamos 107b","MB1: 61","Shaarei Teshuva: 3:45","Shabbos: Perek 2: Mishna 4- Shabbos: Perek 2: Mishna 7","Yirmiyahu 5","Tanya: 57"],
 ["2026-09-18","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 6","Tanya: Chazara"],
 ["2026-09-19","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 7","Tanya: Chazara"],
-["2026-09-20","Yevamos 108a","MB1: 62","Shaarei Teshuva: 3:45-47","Shabbos: Perek 6: Mishna 1- Shabbos: Perek 6: Mishna 4","Yirmiyahu 8","Tanya: 58"],
-["2026-09-21","Yevamos 108b","MB1: 63","Shaarei Teshuva: 3:48-50","Shabbos: Perek 6: Mishna 5- Shabbos: Perek 6: Mishna 8","Yirmiyahu 9","Tanya: 59"],
-["2026-09-22","Yevamos 109a","MB1: 64","Shaarei Teshuva: 3:51-54","Shabbos: Perek 6: Mishna 9- Shabbos: Perek 7: Mishna 2","Yirmiyahu 10","Tanya: 60"],
-["2026-09-23","Yevamos 109b","MB1: 65","Shaarei Teshuva: 3:55-58","Shabbos: Perek 7: Mishna 3- Shabbos: Perek 8: Mishna 2","Yirmiyahu 11","Tanya: 61"],
-["2026-09-24","Yevamos 110a","MB1: 66","Shaarei Teshuva: 3:59-60","Shabbos: Perek 8: Mishna 3- Shabbos: Perek 8: Mishna 6","Yirmiyahu 12","Tanya: 62"],
+["2026-09-20","Yevamos 108a","MB1: 62","Shaarei Teshuva: 3:45-47","Shabbos: Perek 3: Mishna 1- Shabbos: Perek 3: Mishna 4","Yirmiyahu 8","Tanya: 58"],
+["2026-09-21","Yevamos 108b","MB1: 63","Shaarei Teshuva: 3:48-50","Shabbos: Perek 3: Mishna 5- Shabbos: Perek 4: Mishna 2","Yirmiyahu 9","Tanya: 59"],
+["2026-09-22","Yevamos 109a","MB1: 64","Shaarei Teshuva: 3:51-54","Shabbos: Perek 5: Mishna 1- Shabbos: Perek 5: Mishna 4","Yirmiyahu 10","Tanya: 60"],
+["2026-09-23","Yevamos 109b","MB1: 65","Shaarei Teshuva: 3:55-58","Shabbos: Perek 6: Mishna 1- Shabbos: Perek 6: Mishna 4","Yirmiyahu 11","Tanya: 61"],
+["2026-09-24","Yevamos 110a","MB1: 66","Shaarei Teshuva: 3:59-60","Shabbos: Perek 6: Mishna 5- Shabbos: Perek 6: Mishna 8","Yirmiyahu 12","Tanya: 62"],
 ["2026-09-25","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 13","Tanya: Chazara"],
 ["2026-09-26","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 14","Tanya: Chazara"],
-["2026-09-27","Yevamos 110b","MB1: 67","Shaarei Teshuva: 3:61-65","Shabbos: Perek 8: Mishna 7- Shabbos: Perek 9: Mishna 3","Yirmiyahu 15","Tanya: 63"],
-["2026-09-28","Yevamos 111a","MB1: 68","Shaarei Teshuva: 3:66-67","Shabbos: Perek 9: Mishna 4- Shabbos: Perek 9: Mishna 7","Yirmiyahu 16","Tanya: 64"],
-["2026-09-29","Yevamos 111b","MB1: 69","Shaarei Teshuva: 3:68-70","Shabbos: Perek 10: Mishna 1- Shabbos: Perek 10: Mishna 4","Yirmiyahu 17","Tanya: 65"],
-["2026-09-30","Yevamos 112a","MB1: 70","Shaarei Teshuva: 3:71-73","Shabbos: Perek 10: Mishna 5- Shabbos: Perek 11: Mishna 2","Yirmiyahu 18","Tanya: 66"],
-["2026-10-01","Yevamos 112b","MB1: 71","Shaarei Teshuva: 3:74","Shabbos: Perek 11: Mishna 3- Shabbos: Perek 11: Mishna 6","Yirmiyahu 19","Tanya: 67"],
+["2026-09-27","Yevamos 110b","MB1: 67","Shaarei Teshuva: 3:61-65","Shabbos: Perek 6: Mishna 9- Shabbos: Perek 7: Mishna 2","Yirmiyahu 15","Tanya: 63"],
+["2026-09-28","Yevamos 111a","MB1: 68","Shaarei Teshuva: 3:66-67","Shabbos: Perek 7: Mishna 3- Shabbos: Perek 8: Mishna 2","Yirmiyahu 16","Tanya: 64"],
+["2026-09-29","Yevamos 111b","MB1: 69","Shaarei Teshuva: 3:68-70","Shabbos: Perek 8: Mishna 3- Shabbos: Perek 8: Mishna 6","Yirmiyahu 17","Tanya: 65"],
+["2026-09-30","Yevamos 112a","MB1: 70","Shaarei Teshuva: 3:71-73","Shabbos: Perek 8: Mishna 7- Shabbos: Perek 9: Mishna 3","Yirmiyahu 18","Tanya: 66"],
+["2026-10-01","Yevamos 112b","MB1: 71","Shaarei Teshuva: 3:74","Shabbos: Perek 9: Mishna 4- Shabbos: Perek 9: Mishna 7","Yirmiyahu 19","Tanya: 67"],
 ["2026-10-02","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 20","Tanya: Chazara"],
 ["2026-10-03","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 21","Tanya: Chazara"],
-["2026-10-04","Yevamos 113a","MB1: 72","Shaarei Teshuva: 3:75-77","Shabbos: Perek 12: Mishna 1- Shabbos: Perek 12: Mishna 4","Yirmiyahu 22","Tanya: 68"],
-["2026-10-05","Yevamos 113b","MB1: 73","Shaarei Teshuva: 3:78-81","Shabbos: Perek 12: Mishna 5- Shabbos: Perek 13: Mishna 2","Yirmiyahu 23","Tanya: 69"],
-["2026-10-06","Yevamos 114a","MB1: 74","Shaarei Teshuva: 3:82","Shabbos: Perek 13: Mishna 3- Shabbos: Perek 13: Mishna 6","Yirmiyahu 24","Tanya: 70"],
-["2026-10-07","Yevamos 114b","MB1: 75","Shaarei Teshuva: 3:83-85","Shabbos: Perek 13: Mishna 7- Shabbos: Perek 14: Mishna 3","Yirmiyahu 25","Tanya: 71"],
-["2026-10-08","Yevamos 115a","MB1: 76","Shaarei Teshuva: 3:86-87","Shabbos: Perek 14: Mishna 4- Shabbos: Perek 15: Mishna 3","Yirmiyahu 26","Tanya: 72"],
+["2026-10-04","Yevamos 113a","MB1: 72","Shaarei Teshuva: 3:75-77","Shabbos: Perek 10: Mishna 1- Shabbos: Perek 10: Mishna 4","Yirmiyahu 22","Tanya: 68"],
+["2026-10-05","Yevamos 113b","MB1: 73","Shaarei Teshuva: 3:78-81","Shabbos: Perek 10: Mishna 5- Shabbos: Perek 11: Mishna 2","Yirmiyahu 23","Tanya: 69"],
+["2026-10-06","Yevamos 114a","MB1: 74","Shaarei Teshuva: 3:82","Shabbos: Perek 11: Mishna 3- Shabbos: Perek 11: Mishna 6","Yirmiyahu 24","Tanya: 70"],
+["2026-10-07","Yevamos 114b","MB1: 75","Shaarei Teshuva: 3:83-85","Shabbos: Perek 12: Mishna 1- Shabbos: Perek 12: Mishna 4","Yirmiyahu 25","Tanya: 71"],
+["2026-10-08","Yevamos 115a","MB1: 76","Shaarei Teshuva: 3:86-87","Shabbos: Perek 12: Mishna 5- Shabbos: Perek 13: Mishna 2","Yirmiyahu 26","Tanya: 72"],
 ["2026-10-09","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 27","Tanya: Chazara"],
 ["2026-10-10","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 28","Tanya: Chazara"],
-["2026-10-11","Yevamos 115b","MB1: 77","Shaarei Teshuva: 3:88-93","Shabbos: Perek 16: Mishna 1- Shabbos: Perek 16: Mishna 4","Yirmiyahu 29","Tanya: 73"],
-["2026-10-12","Yevamos 116a","MB1: 78","Shaarei Teshuva: 3:94-96","Shabbos: Perek 16: Mishna 5- Shabbos: Perek 16: Mishna 8","Yirmiyahu 30","Tanya: 74"],
-["2026-10-13","Yevamos 116b","MB1: 79","Shaarei Teshuva: 3:97-106","Shabbos: Perek 17: Mishna 1- Shabbos: Perek 17: Mishna 4","Yirmiyahu 31","Tanya: 75"],
-["2026-10-14","Yevamos 117a","MB1: 80","Shaarei Teshuva: 3:107-110","Shabbos: Perek 17: Mishna 5- Shabbos: Perek 17: Mishna 8","Yirmiyahu 32","Tanya: 76"],
-["2026-10-15","Yevamos 117b","MB1: 81","Shaarei Teshuva: 3:111-112","Shabbos: Perek 18: Mishna 1- Shabbos: Perek 19: Mishna 1","Yirmiyahu 33","Tanya: 77"],
+["2026-10-11","Yevamos 115b","MB1: 77","Shaarei Teshuva: 3:88-93","Shabbos: Perek 13: Mishna 3- Shabbos: Perek 13: Mishna 6","Yirmiyahu 29","Tanya: 73"],
+["2026-10-12","Yevamos 116a","MB1: 78","Shaarei Teshuva: 3:94-96","Shabbos: Perek 13: Mishna 7- Shabbos: Perek 14: Mishna 3","Yirmiyahu 30","Tanya: 74"],
+["2026-10-13","Yevamos 116b","MB1: 79","Shaarei Teshuva: 3:97-106","Shabbos: Perek 14: Mishna 4- Shabbos: Perek 15: Mishna 3","Yirmiyahu 31","Tanya: 75"],
+["2026-10-14","Yevamos 117a","MB1: 80","Shaarei Teshuva: 3:107-110","Shabbos: Perek 16: Mishna 1- Shabbos: Perek 16: Mishna 4","Yirmiyahu 32","Tanya: 76"],
+["2026-10-15","Yevamos 117b","MB1: 81","Shaarei Teshuva: 3:111-112","Shabbos: Perek 16: Mishna 5- Shabbos: Perek 16: Mishna 8","Yirmiyahu 33","Tanya: 77"],
 ["2026-10-16","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 34","Tanya: Chazara"],
 ["2026-10-17","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 35","Tanya: Chazara"],
-["2026-10-18","Yevamos 118a","MB1: 82","Shaarei Teshuva: 3:113-116","Shabbos: Perek 19: Mishna 2- Shabbos: Perek 19: Mishna 5","Yirmiyahu 36","Tanya: 78"],
-["2026-10-19","Yevamos 118b","MB1: 83","Shaarei Teshuva: 3:117-121","Shabbos: Perek 19: Mishna 6- Shabbos: Perek 20: Mishna 3","Yirmiyahu 37","Tanya: 79"],
-["2026-10-20","Yevamos 119a","MB1: 84","Shaarei Teshuva: 3:122-124","Shabbos: Perek 20: Mishna 4- Shabbos: Perek 21: Mishna 2","Yirmiyahu 38","Tanya: 80"],
-["2026-10-21","Yevamos 119b","MB1: 85","Shaarei Teshuva: 3:125-130","Shabbos: Perek 21: Mishna 3- Shabbos: Perek 22: Mishna 3","Yirmiyahu 39","Tanya: 81"],
-["2026-10-22","Yevamos 120a","MB1: 86","Shaarei Teshuva: 3:131-135","Shabbos: Perek 22: Mishna 4- Shabbos: Perek 23: Mishna 1","Yirmiyahu 40","Tanya: 82"],
+["2026-10-18","Yevamos 118a","MB1: 82","Shaarei Teshuva: 3:113-116","Shabbos: Perek 17: Mishna 1- Shabbos: Perek 17: Mishna 4","Yirmiyahu 36","Tanya: 78"],
+["2026-10-19","Yevamos 118b","MB1: 83","Shaarei Teshuva: 3:117-121","Shabbos: Perek 17: Mishna 5- Shabbos: Perek 17: Mishna 8","Yirmiyahu 37","Tanya: 79"],
+["2026-10-20","Yevamos 119a","MB1: 84","Shaarei Teshuva: 3:122-124","Shabbos: Perek 18: Mishna 1- Shabbos: Perek 19: Mishna 1","Yirmiyahu 38","Tanya: 80"],
+["2026-10-21","Yevamos 119b","MB1: 85","Shaarei Teshuva: 3:125-130","Shabbos: Perek 19: Mishna 2- Shabbos: Perek 19: Mishna 5","Yirmiyahu 39","Tanya: 81"],
+["2026-10-22","Yevamos 120a","MB1: 86","Shaarei Teshuva: 3:131-135","Shabbos: Perek 19: Mishna 6- Shabbos: Perek 20: Mishna 3","Yirmiyahu 40","Tanya: 82"],
 ["2026-10-23","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 41","Tanya: Chazara"],
 ["2026-10-24","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 42","Tanya: Chazara"],
-["2026-10-25","Yevamos 120b","MB1: 87","Shaarei Teshuva: 3:135-138","Shabbos: Perek 23: Mishna 2- Shabbos: Perek 23: Mishna 5","Yirmiyahu 43","Tanya: 83"],
-["2026-10-26","Yevamos 121a","MB1: 88","Shaarei Teshuva: 3:139-142","Shabbos: Perek 24: Mishna 1- Shabbos: Perek 24: Mishna 4","Yirmiyahu 44","Tanya: 84"],
-["2026-10-27","Yevamos 121b","MB1: 89","Shaarei Teshuva: 3:143","Shabbos: Perek 24: Mishna 5- Eruvin: Perek 1: Mishna 3","Yirmiyahu 45","Tanya: 85"],
-["2026-10-28","Yevamos 122a","MB1: 90","Shaarei Teshuva: 3:143-145","Eruvin: Perek 1: Mishna 4- Eruvin: Perek 1: Mishna 7","Yirmiyahu 46","Tanya: 86"],
-["2026-10-29","Yevamos 122b","MB1: 91","Shaarei Teshuva: 3:146-147","Eruvin: Perek 1: Mishna 8- Eruvin: Perek 2: Mishna 1","Yirmiyahu 47","Tanya: 87"],
+["2026-10-25","Yevamos 120b","MB1: 87","Shaarei Teshuva: 3:135-138","Shabbos: Perek 20: Mishna 4- Shabbos: Perek 21: Mishna 2","Yirmiyahu 43","Tanya: 83"],
+["2026-10-26","Yevamos 121a","MB1: 88","Shaarei Teshuva: 3:139-142","Shabbos: Perek 21: Mishna 3- Shabbos: Perek 22: Mishna 3","Yirmiyahu 44","Tanya: 84"],
+["2026-10-27","Yevamos 121b","MB1: 89","Shaarei Teshuva: 3:143","Shabbos: Perek 22: Mishna 4- Shabbos: Perek 23: Mishna 1","Yirmiyahu 45","Tanya: 85"],
+["2026-10-28","Yevamos 122a","MB1: 90","Shaarei Teshuva: 3:143-145","Shabbos: Perek 23: Mishna 2- Shabbos: Perek 23: Mishna 5","Yirmiyahu 46","Tanya: 86"],
+["2026-10-29","Yevamos 122b","MB1: 91","Shaarei Teshuva: 3:146-147","Shabbos: Perek 24: Mishna 1- Shabbos: Perek 24: Mishna 4","Yirmiyahu 47","Tanya: 87"],
 ["2026-10-30","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 48","Tanya: Chazara"],
 ["2026-10-31","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yirmiyahu 49","Tanya: Chazara"],
-["2026-11-01","Yevamos 123a","MB1: 92","Shaarei Teshuva: 3:148","Eruvin: Perek 2: Mishna 2- Eruvin: Perek 2: Mishna 5","Yirmiyahu 50","Tanya: 88"],
-["2026-11-02","Yevamos 123b","MB1: 93","Shaarei Teshuva: 3:148","Eruvin: Perek 2: Mishna 6- Eruvin: Perek 3: Mishna 3","Yirmiyahu 51","Tanya: 89"],
-["2026-11-03","Kesubos 2a","MB1: 94","Shaarei Teshuva: 3:148-152","Eruvin: Perek 3: Mishna 4- Eruvin: Perek 3: Mishna 7","Yirmiyahu 52","Tanya: 90"],
-["2026-11-04","Kesubos 2b","MB1: 95","Shaarei Teshuva: 3:153-155","Eruvin: Perek 3: Mishna 8- Eruvin: Perek 4: Mishna 2","Yechezkel 1","Tanya: 91"],
-["2026-11-05","Kesubos 3a","MB1: 96","Shaarei Teshuva: 3:156-157","Eruvin: Perek 4: Mishna 3- Eruvin: Perek 4: Mishna 6","Yechezkel 2","Tanya: 92"],
+["2026-11-01","Yevamos 123a","MB1: 92","Shaarei Teshuva: 3:148","Shabbos: Perek 24: Mishna 5- Eruvin: Perek 1: Mishna 3","Yirmiyahu 50","Tanya: 88"],
+["2026-11-02","Yevamos 123b","MB1: 93","Shaarei Teshuva: 3:148","Eruvin: Perek 1: Mishna 4- Eruvin: Perek 1: Mishna 7","Yirmiyahu 51","Tanya: 89"],
+["2026-11-03","Kesubos 2a","MB1: 94","Shaarei Teshuva: 3:148-152","Eruvin: Perek 1: Mishna 8- Eruvin: Perek 2: Mishna 1","Yirmiyahu 52","Tanya: 90"],
+["2026-11-04","Kesubos 2b","MB1: 95","Shaarei Teshuva: 3:153-155","Eruvin: Perek 2: Mishna 2- Eruvin: Perek 2: Mishna 5","Yechezkel 1","Tanya: 91"],
+["2026-11-05","Kesubos 3a","MB1: 96","Shaarei Teshuva: 3:156-157","Eruvin: Perek 2: Mishna 6- Eruvin: Perek 3: Mishna 3","Yechezkel 2","Tanya: 92"],
 ["2026-11-06","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 3","Tanya: Chazara"],
 ["2026-11-07","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 4","Tanya: Chazara"],
-["2026-11-08","Kesubos 3b","MB1: 97","Shaarei Teshuva: 3:158","Eruvin: Perek 4: Mishna 7- Eruvin: Perek 4: Mishna 10","Yechezkel 5","Tanya: 93"],
-["2026-11-09","Kesubos 4a","MB1: 98","Shaarei Teshuva: 3:159","Eruvin: Perek 4: Mishna 11- Eruvin: Perek 5: Mishna 3","Yechezkel 6","Tanya: 94"],
-["2026-11-10","Kesubos 4b","MB1: 99","Shaarei Teshuva: 3:160-161","Eruvin: Perek 5: Mishna 4- Eruvin: Perek 5: Mishna 7","Yechezkel 7","Tanya: 95"],
-["2026-11-11","Kesubos 5a","MB1: 100","Shaarei Teshuva: 3:162-163","Eruvin: Perek 5: Mishna 8- Eruvin: Perek 6: Mishna 2","Yechezkel 8","Tanya: 96"],
-["2026-11-12","Kesubos 5b","MB1: 101","Shaarei Teshuva: 3:164-166","Eruvin: Perek 6: Mishna 3- Eruvin: Perek 6: Mishna 6","Yechezkel 9","Tanya: 97"],
+["2026-11-08","Kesubos 3b","MB1: 97","Shaarei Teshuva: 3:158","Eruvin: Perek 3: Mishna 4- Eruvin: Perek 3: Mishna 7","Yechezkel 5","Tanya: 93"],
+["2026-11-09","Kesubos 4a","MB1: 98","Shaarei Teshuva: 3:159","Eruvin: Perek 3: Mishna 8- Eruvin: Perek 4: Mishna 2","Yechezkel 6","Tanya: 94"],
+["2026-11-10","Kesubos 4b","MB1: 99","Shaarei Teshuva: 3:160-161","Eruvin: Perek 4: Mishna 3- Eruvin: Perek 4: Mishna 6","Yechezkel 7","Tanya: 95"],
+["2026-11-11","Kesubos 5a","MB1: 100","Shaarei Teshuva: 3:162-163","Eruvin: Perek 4: Mishna 7- Eruvin: Perek 4: Mishna 10","Yechezkel 8","Tanya: 96"],
+["2026-11-12","Kesubos 5b","MB1: 101","Shaarei Teshuva: 3:164-166","Eruvin: Perek 4: Mishna 11- Eruvin: Perek 5: Mishna 3","Yechezkel 9","Tanya: 97"],
 ["2026-11-13","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 10","Tanya: Chazara"],
 ["2026-11-14","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 11","Tanya: Chazara"],
-["2026-11-15","Kesubos 6a","MB1: 102","Shaarei Teshuva: 3:167","Eruvin: Perek 6: Mishna 7- Eruvin: Perek 6: Mishna 10","Yechezkel 12","Tanya: 98"],
-["2026-11-16","Kesubos 6b","MB1: 103","Shaarei Teshuva: 3:168","Eruvin: Perek 7: Mishna 1- Eruvin: Perek 7: Mishna 4","Yechezkel 13","Tanya: 99"],
-["2026-11-17","Kesubos 7a","MB1: 104","Shaarei Teshuva: 3:169-171","Eruvin: Perek 7: Mishna 5- Eruvin: Perek 7: Mishna 8","Yechezkel 14","Tanya: 100"],
-["2026-11-18","Kesubos 7b","MB1: 105","Shaarei Teshuva: 3:172-173","Eruvin: Perek 7: Mishna 9- Eruvin: Perek 8: Mishna 1","Yechezkel 15","Tanya: 101"],
-["2026-11-19","Kesubos 8a","MB1: 106","Shaarei Teshuva: 3:174","Eruvin: Perek 8: Mishna 2- Eruvin: Perek 8: Mishna 5","Yechezkel 16","Tanya: 102"],
+["2026-11-15","Kesubos 6a","MB1: 102","Shaarei Teshuva: 3:167","Eruvin: Perek 5: Mishna 4- Eruvin: Perek 5: Mishna 7","Yechezkel 12","Tanya: 98"],
+["2026-11-16","Kesubos 6b","MB1: 103","Shaarei Teshuva: 3:168","Eruvin: Perek 5: Mishna 8- Eruvin: Perek 6: Mishna 2","Yechezkel 13","Tanya: 99"],
+["2026-11-17","Kesubos 7a","MB1: 104","Shaarei Teshuva: 3:169-171","Eruvin: Perek 6: Mishna 3- Eruvin: Perek 6: Mishna 6","Yechezkel 14","Tanya: 100"],
+["2026-11-18","Kesubos 7b","MB1: 105","Shaarei Teshuva: 3:172-173","Eruvin: Perek 6: Mishna 7- Eruvin: Perek 6: Mishna 10","Yechezkel 15","Tanya: 101"],
+["2026-11-19","Kesubos 8a","MB1: 106","Shaarei Teshuva: 3:174","Eruvin: Perek 7: Mishna 1- Eruvin: Perek 7: Mishna 4","Yechezkel 16","Tanya: 102"],
 ["2026-11-20","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 17","Tanya: Chazara"],
 ["2026-11-21","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 18","Tanya: Chazara"],
-["2026-11-22","Kesubos 8b","MB1: 107","Shaarei Teshuva: 3:175","Eruvin: Perek 8: Mishna 6- Eruvin: Perek 8: Mishna 9","Yechezkel 19","Tanya: 103"],
-["2026-11-23","Kesubos 9a","MB1: 108","Shaarei Teshuva: 3:176","Eruvin: Perek 8: Mishna 10- Eruvin: Perek 9: Mishna 2","Yechezkel 20","Tanya: 104"],
-["2026-11-24","Kesubos 9b","MB1: 109","Shaarei Teshuva: 3:177","Eruvin: Perek 9: Mishna 3- Eruvin: Perek 10: Mishna 2","Yechezkel 21","Tanya: 105"],
-["2026-11-25","Kesubos 10a","MB1: 110","Shaarei Teshuva: 3:177-178","Eruvin: Perek 10: Mishna 3- Eruvin: Perek 10: Mishna 6","Yechezkel 22","Tanya: 106"],
-["2026-11-26","Kesubos 10b","MB1: 111","Shaarei Teshuva: 3:178-179","Eruvin: Perek 10: Mishna 7- Eruvin: Perek 10: Mishna 10","Yechezkel 23","Tanya: 107"],
+["2026-11-22","Kesubos 8b","MB1: 107","Shaarei Teshuva: 3:175","Eruvin: Perek 7: Mishna 5- Eruvin: Perek 7: Mishna 8","Yechezkel 19","Tanya: 103"],
+["2026-11-23","Kesubos 9a","MB1: 108","Shaarei Teshuva: 3:176","Eruvin: Perek 7: Mishna 9- Eruvin: Perek 8: Mishna 1","Yechezkel 20","Tanya: 104"],
+["2026-11-24","Kesubos 9b","MB1: 109","Shaarei Teshuva: 3:177","Eruvin: Perek 8: Mishna 2- Eruvin: Perek 8: Mishna 5","Yechezkel 21","Tanya: 105"],
+["2026-11-25","Kesubos 10a","MB1: 110","Shaarei Teshuva: 3:177-178","Eruvin: Perek 8: Mishna 6- Eruvin: Perek 8: Mishna 9","Yechezkel 22","Tanya: 106"],
+["2026-11-26","Kesubos 10b","MB1: 111","Shaarei Teshuva: 3:178-179","Eruvin: Perek 8: Mishna 10- Eruvin: Perek 9: Mishna 2","Yechezkel 23","Tanya: 107"],
 ["2026-11-27","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 24","Tanya: Chazara"],
 ["2026-11-28","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 25","Tanya: Chazara"],
-["2026-11-29","Kesubos 11a","MB1: 112","Shaarei Teshuva: 3:180-181","Eruvin: Perek 10: Mishna 11- Eruvin: Perek 10: Mishna 14","Yechezkel 26","Tanya: 108"],
-["2026-11-30","Kesubos 11b","MB1: 113","Shaarei Teshuva: 3:181-182","Eruvin: Perek 10: Mishna 15- Pesachim: Perek 1: Mishna 3","Yechezkel 27","Tanya: 109"],
-["2026-12-01","Kesubos 12a","MB1: 114","Shaarei Teshuva: 3:183-184","Pesachim: Perek 1: Mishna 4- Pesachim: Perek 1: Mishna 7","Yechezkel 28","Tanya: 110"],
-["2026-12-02","Kesubos 12b","MB1: 115","Shaarei Teshuva: 3:185-186","Pesachim: Perek 2: Mishna 1- Pesachim: Perek 2: Mishna 4","Yechezkel 29","Tanya: 111"],
-["2026-12-03","Kesubos 13a","MB1: 116","Shaarei Teshuva: 3:187-188","Pesachim: Perek 2: Mishna 5- Pesachim: Perek 2: Mishna 8","Yechezkel 30","Tanya: 112"],
+["2026-11-29","Kesubos 11a","MB1: 112","Shaarei Teshuva: 3:180-181","Eruvin: Perek 9: Mishna 3- Eruvin: Perek 10: Mishna 2","Yechezkel 26","Tanya: 108"],
+["2026-11-30","Kesubos 11b","MB1: 113","Shaarei Teshuva: 3:181-182","Eruvin: Perek 10: Mishna 3- Eruvin: Perek 10: Mishna 6","Yechezkel 27","Tanya: 109"],
+["2026-12-01","Kesubos 12a","MB1: 114","Shaarei Teshuva: 3:183-184","Eruvin: Perek 10: Mishna 7- Eruvin: Perek 10: Mishna 10","Yechezkel 28","Tanya: 110"],
+["2026-12-02","Kesubos 12b","MB1: 115","Shaarei Teshuva: 3:185-186","Eruvin: Perek 10: Mishna 11- Eruvin: Perek 10: Mishna 14","Yechezkel 29","Tanya: 111"],
+["2026-12-03","Kesubos 13a","MB1: 116","Shaarei Teshuva: 3:187-188","Eruvin: Perek 10: Mishna 15- Pesachim: Perek 1: Mishna 3","Yechezkel 30","Tanya: 112"],
 ["2026-12-04","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 31","Tanya: Chazara"],
 ["2026-12-05","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 32","Tanya: Chazara"],
-["2026-12-06","Kesubos 13b","MB1: 117","Shaarei Teshuva: 3:189-190","Pesachim: Perek 3: Mishna 1- Pesachim: Perek 3: Mishna 4","Yechezkel 33","Tanya: 113"],
-["2026-12-07","Kesubos 14a","MB1: 118","Shaarei Teshuva: 3:191-192","Pesachim: Perek 3: Mishna 5- Pesachim: Perek 3: Mishna 8","Yechezkel 34","Tanya: 114"],
-["2026-12-08","Kesubos 14b","MB1: 119","Shaarei Teshuva: 3:192-193","Pesachim: Perek 4: Mishna 1- Pesachim: Perek 4: Mishna 4","Yechezkel 35","Tanya: 115"],
-["2026-12-09","Kesubos 15a","MB1: 120","Shaarei Teshuva: 3:194-195","Pesachim: Perek 4: Mishna 5- Pesachim: Perek 4: Mishna 8","Yechezkel 36","Tanya: 116"],
-["2026-12-10","Kesubos 15b","MB1: 121","Shaarei Teshuva: 3:196-197","Pesachim: Perek 4: Mishna 9- Pesachim: Perek 5: Mishna 3","Yechezkel 37","Tanya: 117"],
+["2026-12-06","Kesubos 13b","MB1: 117","Shaarei Teshuva: 3:189-190","Pesachim: Perek 1: Mishna 4- Pesachim: Perek 1: Mishna 7","Yechezkel 33","Tanya: 113"],
+["2026-12-07","Kesubos 14a","MB1: 118","Shaarei Teshuva: 3:191-192","Pesachim: Perek 2: Mishna 1- Pesachim: Perek 2: Mishna 4","Yechezkel 34","Tanya: 114"],
+["2026-12-08","Kesubos 14b","MB1: 119","Shaarei Teshuva: 3:192-193","Pesachim: Perek 2: Mishna 5- Pesachim: Perek 2: Mishna 8","Yechezkel 35","Tanya: 115"],
+["2026-12-09","Kesubos 15a","MB1: 120","Shaarei Teshuva: 3:194-195","Pesachim: Perek 3: Mishna 1- Pesachim: Perek 3: Mishna 4","Yechezkel 36","Tanya: 116"],
+["2026-12-10","Kesubos 15b","MB1: 121","Shaarei Teshuva: 3:196-197","Pesachim: Perek 3: Mishna 5- Pesachim: Perek 3: Mishna 8","Yechezkel 37","Tanya: 117"],
 ["2026-12-11","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 38","Tanya: Chazara"],
 ["2026-12-12","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 39","Tanya: Chazara"],
-["2026-12-13","Kesubos 16a","MB1: 122","Shaarei Teshuva: 3:198-199","Pesachim: Perek 5: Mishna 4- Pesachim: Perek 5: Mishna 7","Yechezkel 40","Tanya: 118"],
-["2026-12-14","Kesubos 16b","MB1: 123","Shaarei Teshuva: 3:200","Pesachim: Perek 5: Mishna 8- Pesachim: Perek 6: Mishna 1","Yechezkel 41","Tanya: 119"],
-["2026-12-15","Kesubos 17a","MB1: 124","Shaarei Teshuva: 3:201","Pesachim: Perek 6: Mishna 2- Pesachim: Perek 6: Mishna 5","Yechezkel 42","Tanya: 120"],
-["2026-12-16","Kesubos 17b","MB1: 125","Shaarei Teshuva: 3:202-204","Pesachim: Perek 6: Mishna 6- Pesachim: Perek 7: Mishna 3","Yechezkel 43","Tanya: 121"],
-["2026-12-17","Kesubos 18a","MB1: 126","Shaarei Teshuva: 3:205-207","Pesachim: Perek 7: Mishna 4- Pesachim: Perek 7: Mishna 7","Yechezkel 44","Tanya: 122"],
+["2026-12-13","Kesubos 16a","MB1: 122","Shaarei Teshuva: 3:198-199","Pesachim: Perek 4: Mishna 1- Pesachim: Perek 4: Mishna 4","Yechezkel 40","Tanya: 118"],
+["2026-12-14","Kesubos 16b","MB1: 123","Shaarei Teshuva: 3:200","Pesachim: Perek 4: Mishna 5- Pesachim: Perek 4: Mishna 8","Yechezkel 41","Tanya: 119"],
+["2026-12-15","Kesubos 17a","MB1: 124","Shaarei Teshuva: 3:201","Pesachim: Perek 4: Mishna 9- Pesachim: Perek 5: Mishna 3","Yechezkel 42","Tanya: 120"],
+["2026-12-16","Kesubos 17b","MB1: 125","Shaarei Teshuva: 3:202-204","Pesachim: Perek 5: Mishna 4- Pesachim: Perek 5: Mishna 7","Yechezkel 43","Tanya: 121"],
+["2026-12-17","Kesubos 18a","MB1: 126","Shaarei Teshuva: 3:205-207","Pesachim: Perek 5: Mishna 8- Pesachim: Perek 6: Mishna 1","Yechezkel 44","Tanya: 122"],
 ["2026-12-18","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 45","Tanya: Chazara"],
 ["2026-12-19","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Yechezkel 46","Tanya: Chazara"],
-["2026-12-20","Kesubos 18b","MB1: 127","Shaarei Teshuva: 3:208-209","Pesachim: Perek 7: Mishna 8- Pesachim: Perek 7: Mishna 11","Yechezkel 47","Tanya: 123"],
-["2026-12-21","Kesubos 19a","MB1: 128","Shaarei Teshuva: 3:210","Pesachim: Perek 7: Mishna 12- Pesachim: Perek 8: Mishna 2","Yechezkel 48","Tanya: 124"],
-["2026-12-22","Kesubos 19b","MB1: 129","Shaarei Teshuva: 3:211","Pesachim: Perek 8: Mishna 3- Pesachim: Perek 8: Mishna 6","Hoshea 1","Tanya: 125"],
-["2026-12-23","Kesubos 20a","MB1: 130","Shaarei Teshuva: 3:212-213","Pesachim: Perek 8: Mishna 7- Pesachim: Perek 9: Mishna 2","Hoshea 2","Tanya: 126"],
-["2026-12-24","Kesubos 20b","MB1: 131","Shaarei Teshuva: 3:214-215","Pesachim: Perek 9: Mishna 3- Pesachim: Perek 9: Mishna 6","Hoshea 3","Tanya: 127"],
+["2026-12-20","Kesubos 18b","MB1: 127","Shaarei Teshuva: 3:208-209","Pesachim: Perek 6: Mishna 2- Pesachim: Perek 6: Mishna 5","Yechezkel 47","Tanya: 123"],
+["2026-12-21","Kesubos 19a","MB1: 128","Shaarei Teshuva: 3:210","Pesachim: Perek 6: Mishna 6- Pesachim: Perek 7: Mishna 3","Yechezkel 48","Tanya: 124"],
+["2026-12-22","Kesubos 19b","MB1: 129","Shaarei Teshuva: 3:211","Pesachim: Perek 7: Mishna 4- Pesachim: Perek 7: Mishna 7","Hoshea 1","Tanya: 125"],
+["2026-12-23","Kesubos 20a","MB1: 130","Shaarei Teshuva: 3:212-213","Pesachim: Perek 7: Mishna 8- Pesachim: Perek 7: Mishna 11","Hoshea 2","Tanya: 126"],
+["2026-12-24","Kesubos 20b","MB1: 131","Shaarei Teshuva: 3:214-215","Pesachim: Perek 7: Mishna 12- Pesachim: Perek 8: Mishna 2","Hoshea 3","Tanya: 127"],
 ["2026-12-25","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Hoshea 4","Tanya: Chazara"],
 ["2026-12-26","Chazara","Chazara","Shaarei Teshuva: Chazara","Chazara","Hoshea 5","Tanya: Chazara"],
-["2026-12-27","Kesubos 21a","MB1: 132","Shaarei Teshuva: 3:216-217","Pesachim: Perek 9: Mishna 7- Pesachim: Perek 9: Mishna 10","Hoshea 6","Tanya: 128"],
-["2026-12-28","Kesubos 21b","MB1: 133","Shaarei Teshuva: 3:218","Pesachim: Perek 9: Mishna 11- Pesachim: Perek 10: Mishna 3","Hoshea 7","Tanya: 129"],
-["2026-12-29","Kesubos 22a","MB1: 134","Shaarei Teshuva: 3:219","Pesachim: Perek 10: Mishna 4- Pesachim: Perek 10: Mishna 7","Hoshea 8","Tanya: 130"],
-["2026-12-30","Kesubos 22b","MB1: 135","Shaarei Teshuva: 3:219-220","Pesachim: Perek 10: Mishna 8- Shekalim: Perek 1: Mishna 2","Hoshea 9","Tanya: 131"],
-["2026-12-31","Kesubos 23a","MB1: 136","Shaarei Teshuva: 3:221-222","Shekalim: Perek 1: Mishna 3- Shekalim: Perek 1: Mishna 6","Hoshea 10","Tanya: 132"]
+["2026-12-27","Kesubos 21a","MB1: 132","Shaarei Teshuva: 3:216-217","Pesachim: Perek 8: Mishna 3- Pesachim: Perek 8: Mishna 6","Hoshea 6","Tanya: 128"],
+["2026-12-28","Kesubos 21b","MB1: 133","Shaarei Teshuva: 3:218","Pesachim: Perek 8: Mishna 7- Pesachim: Perek 9: Mishna 2","Hoshea 7","Tanya: 129"],
+["2026-12-29","Kesubos 22a","MB1: 134","Shaarei Teshuva: 3:219","Pesachim: Perek 9: Mishna 3- Pesachim: Perek 9: Mishna 6","Hoshea 8","Tanya: 130"],
+["2026-12-30","Kesubos 22b","MB1: 135","Shaarei Teshuva: 3:219-220","Pesachim: Perek 9: Mishna 7- Pesachim: Perek 9: Mishna 10","Hoshea 9","Tanya: 131"],
+["2026-12-31","Kesubos 23a","MB1: 136","Shaarei Teshuva: 3:221-222","Pesachim: Perek 9: Mishna 11- Pesachim: Perek 10: Mishna 3","Hoshea 10","Tanya: 132"]
 ];
- 
+
 /* Daily Learning: one row per day from the user's Torah Calendar spreadsheet
    (columns B-G: Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava/Chassidus).
    2026 embedded so it works offline; re-embed later years as the spreadsheet grows. */
@@ -937,7 +937,7 @@ function dlItemsFor(row){
 function dlDoneCount(date,items){
   var n=0; for(var i=0;i<items.length;i++){ if(dlGet(date,items[i][0])) n++; } return n;
 }
- 
+
 var KEY='cadence.v1';
 var state={habits:[],log:{},sm:{},dl:{},seedv:0};
 function load(){
@@ -945,7 +945,7 @@ function load(){
   catch(e){ state={habits:[],log:{},sm:{},dl:{},seedv:0}; }
 }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
- 
+
 /* ===================== dates ===================== */
 function sod(d){var x=new Date(d);x.setHours(0,0,0,0);return x;}
 function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
@@ -959,7 +959,7 @@ function addMonths(d,n){var x=monthStart(d);return new Date(x.getFullYear(),x.ge
 function mKey(d){var x=monthStart(d);return x.getFullYear()+'-'+pad(x.getMonth()+1);}
 function periodKey(cat,d){return cat==='daily'?dKey(d):cat==='weekly'?wKey(d):mKey(d);}
 function periodStart(cat,d){return cat==='daily'?sod(d):cat==='weekly'?weekStart(d):monthStart(d);}
- 
+
 /* Parse a stored 'YYYY-MM-DD' as a LOCAL date (new Date(str) would read it as
    UTC and shift it a day earlier in western time zones). */
 function parseLocal(s){
@@ -983,16 +983,16 @@ function startPS(h){
   for(var k in log){ if(log[k]){ var s=keyToStart(h.cat,k); if(s<earliest) earliest=s; } }
   return earliest;
 }
- 
+
 var CATS={
   daily:{label:'Daily',unit:'day',units:'days',window:30,strip:14},
   weekly:{label:'Weekly',unit:'week',units:'weeks',window:12,strip:8},
   monthly:{label:'Monthly',unit:'month',units:'months',window:12,strip:6}
 };
 var GOAL=80;
- 
+
 function isDone(id,k){return !!(state.log[id]&&state.log[id][k]);}
- 
+
 function buildPeriods(cat,count){
   var now=new Date(),out=[];
   for(var i=count-1;i>=0;i--){
@@ -1001,7 +1001,7 @@ function buildPeriods(cat,count){
   }
   return out;
 }
- 
+
 /* rolling stats: completion rate + consecutive-miss streak */
 function stats(h){
   var cat=CATS[h.cat];
@@ -1030,7 +1030,7 @@ function stats(h){
   else {status='new';label='New';}
   return {ratePct:ratePct,miss:miss,status:status,label:label,curKey:cur.key,curDone:curDone,denom:denom};
 }
- 
+
 /* window completion for Progress (week | month) */
 function windowStats(h,mode){
   var cat=h.cat, now=new Date();
@@ -1056,7 +1056,7 @@ function windowStats(h,mode){
     return tally([{key:mKey(now),start:monthStart(now),isCurrent:true}]);
   }
 }
- 
+
 /* ===================== helpers ===================== */
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function uid(){return 'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
@@ -1073,7 +1073,7 @@ function ringSVG(size,stroke,pct,color){
   '</svg>';
 }
 var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
- 
+
 /* editable history strip (any past period can be toggled) */
 function cellLabel(cat,start,cur){
   if(cat==='daily') return ['S','M','T','W','T','F','S'][start.getDay()]+'<br>'+start.getDate();
@@ -1099,14 +1099,14 @@ function refreshHist(){
   var el=document.getElementById('histStrip');
   if(h&&el){ el.innerHTML=historyCells(h); el.scrollLeft=el.scrollWidth; }
 }
- 
+
 /* ===================== router ===================== */
 var screen='today', progMode='week', smIdx=0, learnIdx=0;
 var content=document.getElementById('content');
 var navTitle=document.getElementById('navTitle');
 var navAdd=document.getElementById('navAdd');
 var justTog=null;
- 
+
 function go(s){
   screen=s;
   document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===s);});
@@ -1125,7 +1125,7 @@ function render(){
   document.querySelectorAll('.bar > i').forEach(function(el){var w=el.getAttribute('data-w');el.style.width='0%';requestAnimationFrame(function(){el.style.width=w;});});
   justTog=null;
 }
- 
+
 /* ===================== Today ===================== */
 function dateLine(){
   var d=new Date();
@@ -1171,7 +1171,7 @@ function viewToday(){
   return '<div class="largetitle">Today</div><div class="subtitle">'+dateLine()+'</div>'+
     summary + groupFor('daily')+groupFor('weekly')+groupFor('monthly');
 }
- 
+
 /* ===================== Progress ===================== */
 function dailyHeat(mode){
   var dailies=state.habits.filter(function(h){return h.cat==='daily';});
@@ -1234,25 +1234,25 @@ function viewProgress(){
   var alertList=state.habits.filter(function(h){return stats(h).miss>=2;});
   var color=pct===null?'var(--text3)':(pct>=GOAL?'var(--accent)':'var(--warn)');
   var label=progMode==='week'?'this week':'this month';
- 
+
   var hero='<div class="hero"><div class="ring">'+ringSVG(84,9,pct,color)+'<div class="v'+(pct===null?' muted':'')+'">'+(pct===null?'—':pct+'%')+'</div></div>'+
     '<div class="meta"><div class="big">'+totDone+' of '+totDue+' completions '+label+'</div>'+
     '<div class="chips"><span class="chip '+(atGoal>0?'ok':'')+'">'+atGoal+' at goal · 80%+</span>'+
     '<span class="chip '+(alertList.length>0?'bad':'')+'">'+alertList.length+' streak alert'+(alertList.length===1?'':'s')+'</span></div></div></div>';
- 
+
   var banner = alertList.length
     ? '<div class="banner bad"><span>⚠</span><span><b>'+alertList.length+' broke the no-two-in-a-row rule:</b> '+alertList.map(function(h){return esc(h.name);}).join(', ')+'. Complete the current period to recover.</span></div>'
     : '<div class="banner ok"><span>✓</span><span><b>All streaks intact</b> — nothing missed twice in a row.</span></div>';
- 
+
   var seg='<div class="segmented"><button class="seg'+(progMode==='week'?' on':'')+'" data-mode="week">Week</button><button class="seg'+(progMode==='month'?' on':'')+'" data-mode="month">Month</button></div>';
- 
+
   var heat=dailyHeat(progMode);
   var heatBlock=heat?'<div class="sectlabel">Daily activity · '+label+'</div><div style="padding:2px">'+heat+'</div>':'';
- 
+
   return '<div class="largetitle">Progress</div>'+seg+hero+banner+heatBlock+
     progSection('daily',progMode)+progSection('weekly',progMode)+progSection('monthly',progMode);
 }
- 
+
 /* ===================== Shnayim Mikra ===================== */
 function viewMikra(){
   var wk=SCHEDULE[smIdx];
@@ -1261,13 +1261,13 @@ function viewMikra(){
   var todayIdx=smIndexForToday();
   var done=smWeekDone(date), pct=Math.round(done/SM_TOTAL*100);
   var ends=parseLocal(date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
- 
+
   var nav='<div class="wknav">'+
     '<button class="wkb" data-wk="'+(smIdx-1)+'"'+(smIdx<=0?' disabled':'')+' aria-label="Previous week">‹</button>'+
     '<div class="wkmid"><div class="wkp">'+esc(parsha)+'</div><div class="wkd">Week ending '+ends+
       (smIdx===todayIdx?' · this week':'')+'</div></div>'+
     '<button class="wkb" data-wk="'+(smIdx+1)+'"'+(smIdx>=SCHEDULE.length-1?' disabled':'')+' aria-label="Next week">›</button></div>';
- 
+
   var hero='<div class="hero" style="margin-bottom:6px"><div class="ring">'+
     ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
     '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
@@ -1276,7 +1276,7 @@ function viewMikra(){
     (done===SM_TOTAL?'Parsha finished 🎉':'7 aliyos × 5')+'</span>'+
     (smIdx!==todayIdx?'<span class="chip" data-wk="'+todayIdx+'" style="color:var(--blue)">Jump to this week</span>':'')+
     '</div></div></div>';
- 
+
   var cards='';
   for(var a=1;a<=7;a++){
     var n=smAliyahDone(date,a);
@@ -1292,12 +1292,12 @@ function viewMikra(){
         '<div class="acount">'+n+'/5</div></div>'+
       '<div class="smrow">'+chips+'</div></div>';
   }
- 
+
   return '<div class="largetitle">Shnayim Mikra</div>'+nav+hero+
     '<div class="sectlabel">Aliyos</div>'+cards+
     '<div class="credit">Parsha schedule via Hebcal.com (CC BY 4.0) · Diaspora</div>';
 }
- 
+
 /* ===================== Daily Learning ===================== */
 function viewLearn(){
   var row=DAILY[learnIdx];
@@ -1308,12 +1308,12 @@ function viewLearn(){
   var done=dlDoneCount(date,items), total=items.length;
   var pct=total?Math.round(done/total*100):0;
   var dstr=parseLocal(date).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
- 
+
   var nav='<div class="wknav">'+
     '<button class="wkb" data-dl="'+(learnIdx-1)+'"'+(learnIdx<=0?' disabled':'')+' aria-label="Previous day">‹</button>'+
     '<div class="wkmid"><div class="wkp">'+dstr+'</div><div class="wkd">'+(learnIdx===todayIdx?'Today':'')+'</div></div>'+
     '<button class="wkb" data-dl="'+(learnIdx+1)+'"'+(learnIdx>=DAILY.length-1?' disabled':'')+' aria-label="Next day">›</button></div>';
- 
+
   var hero = total ? '<div class="hero" style="margin-bottom:6px"><div class="ring">'+
     ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
     '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
@@ -1321,19 +1321,19 @@ function viewLearn(){
     '<div class="chips"><span class="chip'+(done===total?' ok':'')+'">'+(done===total?'All done 🎉':'Tap to check off')+'</span>'+
     (learnIdx!==todayIdx?'<span class="chip" data-dl="'+todayIdx+'" style="color:var(--blue)">Jump to today</span>':'')+
     '</div></div></div>' : '';
- 
+
   var rows = items.length ? '<div class="group">'+items.map(function(it){
     var on=dlGet(date,it[0]);
     return '<button class="learnrow'+(on?' on':'')+'" data-dlt="'+date+'" data-dk="'+it[0]+'">'+
       '<span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
       '<span class="body"><div class="lnm">'+esc(it[1])+'</div><div class="ltxt">'+esc(it[2])+'</div></span></button>';
   }).join('')+'</div>' : '<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for this day.</div></div>';
- 
+
   return '<div class="largetitle">Daily Learning</div>'+nav+hero+
     (items.length?'<div class="sectlabel">Today\'s learning</div>':'')+rows+
     '<div class="credit">From your Torah Calendar spreadsheet (2026) · embedded for offline use</div>';
 }
- 
+
 /* ===================== Settings ===================== */
 function viewSettings(){
   var manage = state.habits.length
@@ -1357,7 +1357,7 @@ function viewSettings(){
     '</div>'+
     '<div style="text-align:center;color:var(--text3);font-size:13px;margin:24px 0 0">Cadence · stored on this device</div>';
 }
- 
+
 /* Default habits, loaded once automatically (and by the empty-state button).
    Existing habits with the same name are skipped, so nothing is duplicated
    and no logged history is touched. */
@@ -1402,7 +1402,7 @@ function ensureDefaults(){
   state.seedv=SEED_VERSION; save();
 }
 function seed(){ addDefaults(); render(); }
- 
+
 /* ===================== export ===================== */
 function download(filename,text,type){
   var blob=new Blob([text],{type:type});
@@ -1430,7 +1430,7 @@ function exportCSV(){
   }).join(',');}).join('\n');
   download('cadence-'+dKey(new Date())+'.csv', csv,'text/csv');
 }
- 
+
 function exportSMCSV(){
   // mirrors the original spreadsheet: two header rows, then 35 columns per week
   var h1=['Week Ending','Parsha'], h2=['',''];
@@ -1448,7 +1448,7 @@ function exportSMCSV(){
   }).join(',');}).join('\n');
   download('shnayim-mikra-'+dKey(new Date())+'.csv',csv,'text/csv');
 }
- 
+
 function exportDLCSV(){
   // mirrors the original Torah Calendar spreadsheet: Date + one column per subject, plus a Done flag per subject
   var header=['Date'];
@@ -1468,7 +1468,7 @@ function exportDLCSV(){
   }).join(',');}).join('\n');
   download('daily-learning-'+dKey(new Date())+'.csv',csv,'text/csv');
 }
- 
+
 /* ===================== sheet (add / edit) ===================== */
 var backdrop=document.getElementById('backdrop'), sheet=document.getElementById('sheet');
 var sheetCat='daily', sheetEditId=null;
@@ -1492,7 +1492,7 @@ function openSheet(habit){
   setTimeout(function(){var f=document.getElementById('hname');if(!habit&&f)f.focus();},250);
 }
 function closeSheet(){ backdrop.classList.remove('show'); sheet.classList.remove('show'); }
- 
+
 /* ===================== actions ===================== */
 function toggle(id,key){
   if(!state.log[id]) state.log[id]={};
@@ -1528,14 +1528,14 @@ function delHabit(id){
   save(); closeSheet(); render();
 }
 /* ===================== SEED_VERSION already declared above; boot below ===================== */
- 
+
 /* ===================== events ===================== */
 document.querySelector('.tabbar').addEventListener('click',function(e){
   var t=e.target.closest('.tab'); if(t) go(t.getAttribute('data-tab'));
 });
 navAdd.addEventListener('click',function(){ openSheet(null); });
 backdrop.addEventListener('click',closeSheet);
- 
+
 content.addEventListener('click',function(e){
   var tog=e.target.closest('[data-toggle]');
   if(tog){ e.stopPropagation(); toggle(tog.getAttribute('data-toggle'),tog.getAttribute('data-key')); return; }
@@ -1561,7 +1561,7 @@ content.addEventListener('click',function(e){
   if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION}; save(); render(); } return; }
   if(e.target.closest('[data-seed]')){ seed(); return; }
 });
- 
+
 sheet.addEventListener('click',function(e){
   var cell=e.target.closest('[data-cell]');
   if(cell){ toggleCell(cell.getAttribute('data-cell'),cell.getAttribute('data-ck')); return; }
@@ -1574,11 +1574,10 @@ sheet.addEventListener('click',function(e){
 sheet.addEventListener('keydown',function(e){
   if(e.target.id==='hname'&&e.key==='Enter'){ addOrSave(); }
 });
- 
+
 /* ===================== boot ===================== */
 load(); ensureDefaults(); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today');
 })();
 </script>
 </body>
 </html>
- 
