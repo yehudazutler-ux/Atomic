@@ -1384,8 +1384,8 @@ var DEFAULTS=[
   ["weekly","Weekly Review"],
   ["monthly","Monthly Review"]
 ];
-var START=dKey(new Date());   // day one: today (set dynamically the first time the app loads)
-var SEED_VERSION=2;
+var START="2026-07-26";
+  var SEED_VERSION=3;
 function addMissingDefaults(){
   var have={}; state.habits.forEach(function(h){have[h.name.toLowerCase()]=true;});
   DEFAULTS.forEach(function(e){
