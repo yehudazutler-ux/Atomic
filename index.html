@@ -1023,7 +1023,7 @@ function stats(h){
   }
   var cur=ps[ps.length-1], curDone=isDone(h.id,cur.key);
   var status,label;
-  if(miss>=2){status='bad';label='Missed '+miss+' in a row';}
+  if(miss===2){status='bad';label='Missed 2 in a row';}
   else if(ratePct!==null&&ratePct<GOAL){status='warn';label='Below 80%';}
   else if(miss===1&&!curDone){status='warn';label='At risk';}
   else if(ratePct!==null&&ratePct>=GOAL){status='ok';label='On track';}
@@ -1136,7 +1136,7 @@ function rowItem(h){
   var done=isDone(h.id,st.curKey);
   var pop=(justTog&&justTog===h.id&&done)?' pop':'';
   var hint='';
-  if(st.miss>=2) hint='<div class="hint bad">⚠ Missed '+st.miss+' '+(CATS[h.cat].units)+' in a row</div>';
+  if(st.miss===2) hint='<div class="hint bad">⚠ Missed 2 '+(CATS[h.cat].units)+' in a row</div>';
   else if(st.status==='warn'&&st.label==='At risk') hint='<div class="hint warn">Complete to protect your streak</div>';
   else if(st.ratePct!==null) hint='<div class="hint">'+st.ratePct+'% · last '+CATS[h.cat].window+' '+CATS[h.cat].units+'</div>';
   else hint='<div class="hint">New habit</div>';
@@ -1210,11 +1210,11 @@ function dailyHeat(mode){
 }
 function progRow(h,mode){
   var w=windowStats(h,mode), st=stats(h);
-  var color=statusColor(w.pct===null?'new':(w.pct>=GOAL?'ok':(st.miss>=2?'bad':'warn')));
+  var color=statusColor(w.pct===null?'new':(w.pct>=GOAL?'ok':(st.miss===2?'bad':'warn')));
   var pctTxt=w.pct===null?'—':w.pct+'%';
   return '<div class="prowwrap"><div class="prow"><div class="pn">'+esc(h.name)+'</div>'+
     '<div class="pp'+(w.pct===null?' muted':'')+'">'+pctTxt+'</div></div>'+
-    '<div class="cnt">'+w.done+' of '+w.due+' '+(CATS[h.cat].units)+(st.miss>=2?' · ⚠ '+st.miss+' missed in a row':'')+'</div>'+
+    '<div class="cnt">'+w.done+' of '+w.due+' '+(CATS[h.cat].units)+(st.miss===2?' · ⚠ 2 missed in a row':'')+'</div>'+
     '<div style="padding:0 16px"><div class="bar"><i data-w="'+(w.pct||0)+'%" style="background:'+color+'"></i></div></div></div>';
 }
 function progSection(cat,mode){
@@ -1231,7 +1231,7 @@ function viewProgress(){
   state.habits.forEach(function(h){var w=windowStats(h,progMode);totDue+=w.due;totDone+=w.done;});
   var pct=totDue?Math.round(totDone/totDue*100):null;
   var atGoal=state.habits.filter(function(h){var w=windowStats(h,progMode);return w.pct!==null&&w.pct>=GOAL;}).length;
-  var alertList=state.habits.filter(function(h){return stats(h).miss>=2;});
+  var alertList=state.habits.filter(function(h){return stats(h).miss===2;});
   var color=pct===null?'var(--text3)':(pct>=GOAL?'var(--accent)':'var(--warn)');
   var label=progMode==='week'?'this week':'this month';
 
@@ -1384,8 +1384,8 @@ var DEFAULTS=[
   ["weekly","Weekly Review"],
   ["monthly","Monthly Review"]
 ];
-var START="2026-07-19";   // day one: today (set dynamically the first time the app loads)
-var SEED_VERSION=3;
+var START=dKey(new Date());   // day one: today (set dynamically the first time the app loads)
+var SEED_VERSION=2;
 function addMissingDefaults(){
   var have={}; state.habits.forEach(function(h){have[h.name.toLowerCase()]=true;});
   DEFAULTS.forEach(function(e){
