@@ -16,7 +16,7 @@
     --text:#1c1c1e; --text2:rgba(60,60,67,.6); --text3:rgba(60,60,67,.32);
     --sep:rgba(60,60,67,.16); --sep-strong:rgba(60,60,67,.28);
     --accent:#34c759; --accent-deep:#248a3d;
-    --warn:#ff9500; --bad:#ff3b30; --blue:#007aff;
+    --warn:#ff9500; --bad:#ff3b30; --blue:#007aff; --violet:#af52de;
     --bar:rgba(249,249,249,.80); --bar-border:rgba(60,60,67,.16);
     --warn-bg:#fff4e5; --bad-bg:#ffe9e7; --ok-bg:#e7f8ed; --neutral-bg:#ececed;
 
@@ -32,7 +32,7 @@
       --text:#ffffff; --text2:rgba(235,235,245,.6); --text3:rgba(235,235,245,.3);
       --sep:rgba(84,84,88,.55); --sep-strong:rgba(84,84,88,.75);
       --accent:#30d158; --accent-deep:#30d158;
-      --warn:#ff9f0a; --bad:#ff453a; --blue:#0a84ff;
+      --warn:#ff9f0a; --bad:#ff453a; --blue:#0a84ff; --violet:#bf5af2;
       --bar:rgba(20,20,22,.80); --bar-border:rgba(84,84,88,.55);
       --warn-bg:#3a2c12; --bad-bg:#3a1f1d; --ok-bg:#14331f; --neutral-bg:#2a2a2c;
     }
@@ -136,23 +136,62 @@
   .item .hint.warn{color:var(--warn);} .item .hint.bad{color:var(--bad);}
   .chev{color:var(--text3);flex:0 0 auto;}
 
+  /* category icon badge */
+  .catdot{
+    flex:0 0 auto;width:26px;height:26px;border-radius:8px;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .catdot svg{width:14px;height:14px;}
+  .cat-daily{background:linear-gradient(135deg,var(--accent),var(--accent-deep));}
+  .cat-weekly{background:linear-gradient(135deg,var(--blue),#0055c8);}
+  .cat-monthly{background:linear-gradient(135deg,var(--violet),#8a2fc0);}
+
+  /* section header with icon chip */
+  .cathead{display:flex;align-items:center;gap:7px;}
+  .chip-ico{
+    width:18px;height:18px;border-radius:5px;color:#fff;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .chip-ico svg{width:11px;height:11px;}
+
+  /* streak flame badge */
+  .streak{
+    display:inline-flex;align-items:center;gap:2px;font-size:11.5px;font-weight:700;
+    color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:1.5px 6px 1.5px 5px;
+    margin-left:7px;vertical-align:middle;
+  }
+
+  /* per-habit mini trend chart (Progress tab) */
+  .spark{display:flex;gap:3px;padding:0 16px;margin-top:9px;}
+  .spark i{flex:1;min-width:0;height:15px;border-radius:3px;background:var(--neutral-bg);display:block;}
+  .spark i.sk-done{background:linear-gradient(180deg,var(--accent),var(--accent-deep));}
+  .spark i.sk-miss{background:color-mix(in srgb,var(--bad) 40%,var(--neutral-bg));}
+  .spark i.sk-cur{box-shadow:inset 0 0 0 2px var(--text3);}
+  .spark i.sk-pre{opacity:.3;}
+
   /* check circle */
   .check{
     flex:0 0 auto;width:30px;height:30px;border-radius:50%;
     border:2px solid var(--sep-strong);background:transparent;
     display:flex;align-items:center;justify-content:center;
-    transition:transform .15s var(--ease),background .15s,border-color .15s;
+    transition:transform .15s var(--ease),background .15s,border-color .15s,box-shadow .15s;
   }
   .check svg{width:18px;height:18px;color:#fff;opacity:0;transform:scale(.4);transition:opacity .15s,transform .2s var(--ease);}
-  .check.done{background:var(--accent);border-color:var(--accent);}
+  .check.done{background:var(--accent);border-color:var(--accent);box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 45%,transparent);}
   .check.done svg{opacity:1;transform:scale(1);}
   @keyframes pop{0%{transform:scale(.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
   .check.pop{animation:pop .26s var(--ease);}
 
   /* today progress ring strip */
   .todaybar{
-    background:var(--card);border-radius:var(--radius);padding:16px;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 9%,var(--card)),var(--card) 65%);
+    border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;
     box-shadow:0 0 0 .5px var(--sep);display:flex;align-items:center;gap:16px;margin-bottom:4px;
+  }
+  .todaybar::after{
+    content:"";position:absolute;top:-36px;right:-36px;width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle,color-mix(in srgb,var(--accent) 30%,transparent) 0%,transparent 72%);
+    pointer-events:none;
   }
   .miniring{flex:0 0 auto;width:56px;height:56px;position:relative;}
   .miniring svg{transform:rotate(-90deg);}
@@ -172,9 +211,16 @@
   .seg.on{background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.12);}
 
   .hero{
-    background:var(--card);border-radius:18px;padding:20px;box-shadow:0 0 0 .5px var(--sep);
+    background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 10%,var(--card)),var(--card) 60%);
+    border-radius:18px;padding:20px;box-shadow:0 0 0 .5px var(--sep);position:relative;overflow:hidden;
     display:flex;align-items:center;gap:20px;
   }
+  .hero::after{
+    content:"";position:absolute;top:-46px;right:-46px;width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle,color-mix(in srgb,var(--accent) 28%,transparent) 0%,transparent 72%);
+    pointer-events:none;
+  }
+  .hero > *{position:relative;}
   .hero .ring{flex:0 0 auto;width:84px;height:84px;position:relative;}
   .hero .ring svg{transform:rotate(-90deg);}
   .hero .ring .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:800;letter-spacing:-.03em;}
@@ -268,7 +314,7 @@
 
   /* ---------- Daily Learning ---------- */
   .learnrow{
-    display:flex;align-items:flex-start;gap:14px;width:100%;
+    display:flex;align-items:flex-start;gap:14px;width:100%;cursor:pointer;
     border:none;background:var(--card);font:inherit;color:inherit;text-align:left;
     padding:13px 16px;position:relative;transition:background .12s;
   }
@@ -279,6 +325,12 @@
   .learnrow .lnm{font-size:13px;font-weight:600;letter-spacing:.01em;text-transform:uppercase;color:var(--text2);}
   .learnrow .ltxt{font-size:16px;margin-top:2px;line-height:1.35;color:var(--text);}
   .learnrow.on .ltxt{color:var(--text2);text-decoration:line-through;}
+  .pacecap{margin-top:6px;display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--blue);font-weight:600;}
+  .unbm{border:none;background:var(--neutral-bg);color:var(--text2);font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;}
+  .unbm:active{background:var(--card-press);}
+  .pinbtn{border:none;background:var(--neutral-bg);color:var(--blue);font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:8px;}
+  .pinbtn.on{background:var(--ok-bg);color:var(--accent-deep);}
+  .pinbtn:active{filter:brightness(.95);}
 
   /* ---------- Settings ---------- */
   .info{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 0 0 .5px var(--sep);font-size:15px;color:var(--text2);line-height:1.5;}
@@ -290,7 +342,11 @@
 
   /* ---------- Empty ---------- */
   .empty{text-align:center;color:var(--text2);padding:50px 24px;}
-  .empty .ico{font-size:42px;margin-bottom:12px;}
+  .empty .ico{
+    font-size:36px;width:88px;height:88px;line-height:88px;margin:0 auto 14px;border-radius:50%;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 20%,var(--card)),var(--card) 70%);
+    box-shadow:0 0 0 .5px var(--sep);
+  }
   .empty .et{font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px;}
   .empty .seed{margin-top:18px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:600;box-shadow:0 4px 14px rgba(52,199,89,.3);}
   .empty .seed:active{filter:brightness(.94);}
@@ -331,6 +387,8 @@
   .ghost{width:100%;border:none;background:transparent;color:var(--blue);padding:14px;font-size:17px;font-weight:500;margin-top:4px;}
   .delbtn{width:100%;border:none;background:var(--card);color:var(--bad);border-radius:14px;padding:15px;font-size:17px;font-weight:600;margin-top:12px;box-shadow:0 0 0 .5px var(--sep);}
   .delbtn:active{background:var(--card-press);}
+  .restartbtn{width:100%;border:none;background:var(--card);color:var(--blue);border-radius:14px;padding:15px;font-size:17px;font-weight:600;margin-top:12px;box-shadow:0 0 0 .5px var(--sep);}
+  .restartbtn:active{background:var(--card-press);}
 
   /* editable history strip */
   .histstrip{display:flex;gap:7px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:8px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
@@ -939,10 +997,10 @@ function dlDoneCount(date,items){
 }
 
 var KEY='cadence.v1';
-var state={habits:[],log:{},sm:{},dl:{},seedv:0};
+var state={habits:[],log:{},sm:{},dl:{},seedv:0,dlbm:{}};
 function load(){
-  try{ var raw=localStorage.getItem(KEY); if(raw){ var d=JSON.parse(raw); state={habits:d.habits||[],log:d.log||{},sm:d.sm||{},dl:d.dl||{},seedv:d.seedv||0}; } }
-  catch(e){ state={habits:[],log:{},sm:{},dl:{},seedv:0}; }
+  try{ var raw=localStorage.getItem(KEY); if(raw){ var d=JSON.parse(raw); state={habits:d.habits||[],log:d.log||{},sm:d.sm||{},dl:d.dl||{},seedv:d.seedv||0,dlbm:d.dlbm||{}}; } }
+  catch(e){ state={habits:[],log:{},sm:{},dl:{},seedv:0,dlbm:{}}; }
 }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
 
@@ -984,12 +1042,48 @@ function startPS(h){
   return earliest;
 }
 
+var ICO_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+var ICO_REPEAT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
+var ICO_CAL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
 var CATS={
-  daily:{label:'Daily',unit:'day',units:'days',window:30,strip:14},
-  weekly:{label:'Weekly',unit:'week',units:'weeks',window:12,strip:8},
-  monthly:{label:'Monthly',unit:'month',units:'months',window:12,strip:6}
+  daily:{label:'Daily',unit:'day',units:'days',window:30,strip:14,icon:ICO_SUN,cls:'cat-daily'},
+  weekly:{label:'Weekly',unit:'week',units:'weeks',window:12,strip:8,icon:ICO_REPEAT,cls:'cat-weekly'},
+  monthly:{label:'Monthly',unit:'month',units:'months',window:12,strip:6,icon:ICO_CAL,cls:'cat-monthly'}
 };
 var GOAL=80;
+function sectHead(label,cat){
+  return '<div class="sectlabel cathead"><span class="chip-ico '+CATS[cat].cls+'">'+CATS[cat].icon+'</span>'+label+'</div>';
+}
+/* current consecutive-completion streak (positive), ending at the most recent
+   completed period; the current not-yet-done period doesn't break it, it just
+   isn't counted until checked off. */
+function posStreak(h){
+  var cat=CATS[h.cat], createdPS=startPS(h);
+  var ps=buildPeriods(h.cat,cat.window), streak=0;
+  for(var i=ps.length-1;i>=0;i--){
+    var p=ps[i]; if(p.start<createdPS) break;
+    var done=isDone(h.id,p.key);
+    if(p.isCurrent&&!done) continue;
+    if(!done) break;
+    streak++;
+  }
+  return streak;
+}
+function streakBadge(h){
+  var n=posStreak(h);
+  return n>=2 ? '<span class="streak">🔥 '+n+'</span>' : '';
+}
+/* compact per-habit trend chart for the Progress tab */
+function miniSpark(h){
+  var cat=CATS[h.cat], eff=startPS(h);
+  var ps=buildPeriods(h.cat,cat.strip);
+  var bars=ps.map(function(p){
+    var done=isDone(h.id,p.key);
+    var cls=done?'sk-done':(p.isCurrent?'sk-cur':(p.start>=eff?'sk-miss':'sk-pre'));
+    return '<i class="'+cls+'"></i>';
+  }).join('');
+  return '<div class="spark">'+bars+'</div>';
+}
 
 function isDone(id,k){return !!(state.log[id]&&state.log[id][k]);}
 
@@ -1024,8 +1118,8 @@ function stats(h){
   var cur=ps[ps.length-1], curDone=isDone(h.id,cur.key);
   var status,label;
   if(miss===2){status='bad';label='Missed 2 in a row';}
-  else if(ratePct!==null&&ratePct<GOAL){status='warn';label='Below 80%';}
   else if(miss===1&&!curDone){status='warn';label='At risk';}
+  else if(ratePct!==null&&ratePct<GOAL){status='warn';label='Below 80%';}
   else if(ratePct!==null&&ratePct>=GOAL){status='ok';label='On track';}
   else {status='new';label='New';}
   return {ratePct:ratePct,miss:miss,status:status,label:label,curKey:cur.key,curDone:curDone,denom:denom};
@@ -1101,7 +1195,7 @@ function refreshHist(){
 }
 
 /* ===================== router ===================== */
-var screen='today', progMode='week', smIdx=0, learnIdx=0;
+var screen='today', progMode='week', smIdx=0, learnIdx=0, learnMode='today';
 var content=document.getElementById('content');
 var navTitle=document.getElementById('navTitle');
 var navAdd=document.getElementById('navAdd');
@@ -1142,7 +1236,8 @@ function rowItem(h){
   else hint='<div class="hint">New habit</div>';
   return '<div class="item" data-open="'+h.id+'">'+
     '<button class="check'+(done?' done':'')+pop+'" data-toggle="'+h.id+'" data-key="'+st.curKey+'" aria-label="Toggle">'+CHECK+'</button>'+
-    '<div class="body"><div class="nm">'+esc(h.name)+'</div>'+hint+'</div>'+
+    '<div class="catdot '+CATS[h.cat].cls+'">'+CATS[h.cat].icon+'</div>'+
+    '<div class="body"><div class="nm">'+esc(h.name)+streakBadge(h)+'</div>'+hint+'</div>'+
     '<svg class="chev" width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg>'+
   '</div>';
 }
@@ -1150,7 +1245,7 @@ function groupFor(cat){
   var hs=state.habits.filter(function(h){return h.cat===cat;});
   if(!hs.length) return '';
   var titles={daily:'Today',weekly:'This week',monthly:'This month'};
-  return '<div class="sectlabel">'+titles[cat]+'</div><div class="group">'+hs.map(rowItem).join('')+'</div>';
+  return sectHead(titles[cat],cat)+'<div class="group">'+hs.map(rowItem).join('')+'</div>';
 }
 function viewToday(){
   if(!state.habits.length){
@@ -1212,15 +1307,18 @@ function progRow(h,mode){
   var w=windowStats(h,mode), st=stats(h);
   var color=statusColor(w.pct===null?'new':(w.pct>=GOAL?'ok':(st.miss===2?'bad':'warn')));
   var pctTxt=w.pct===null?'—':w.pct+'%';
-  return '<div class="prowwrap"><div class="prow"><div class="pn">'+esc(h.name)+'</div>'+
+  return '<div class="prowwrap"><div class="prow">'+
+    '<div class="catdot '+CATS[h.cat].cls+'">'+CATS[h.cat].icon+'</div>'+
+    '<div class="pn">'+esc(h.name)+streakBadge(h)+'</div>'+
     '<div class="pp'+(w.pct===null?' muted':'')+'">'+pctTxt+'</div></div>'+
     '<div class="cnt">'+w.done+' of '+w.due+' '+(CATS[h.cat].units)+(st.miss===2?' · ⚠ 2 missed in a row':'')+'</div>'+
-    '<div style="padding:0 16px"><div class="bar"><i data-w="'+(w.pct||0)+'%" style="background:'+color+'"></i></div></div></div>';
+    '<div style="padding:0 16px"><div class="bar"><i data-w="'+(w.pct||0)+'%" style="background:'+color+'"></i></div></div>'+
+    miniSpark(h)+'</div>';
 }
 function progSection(cat,mode){
   var hs=state.habits.filter(function(h){return h.cat===cat;});
   if(!hs.length) return '';
-  return '<div class="sectlabel">'+CATS[cat].label+'</div><div class="group">'+hs.map(function(h){return progRow(h,mode);}).join('')+'</div>';
+  return sectHead(CATS[cat].label,cat)+'<div class="group">'+hs.map(function(h){return progRow(h,mode);}).join('')+'</div>';
 }
 function viewProgress(){
   if(!state.habits.length){
@@ -1299,38 +1397,90 @@ function viewMikra(){
 }
 
 /* ===================== Daily Learning ===================== */
-function viewLearn(){
+/* Personal per-subject pacing: each subject (Gemara, Halacha, Mussar, Mishnayos,
+   Nach, Machshava) can carry its own bookmark into the shared calendar-dated
+   schedule, independent of the others and independent of the literal date.
+   state.dlbm[key] = {idx: <row index bookmarked>, set: <date the bookmark was set>}.
+   With no bookmark, a subject just follows today's literal calendar row (old
+   behavior). With a bookmark, "today" for that subject = bookmarked row +
+   (days elapsed since the bookmark was set) — i.e. it keeps moving forward one
+   page a day from wherever you actually said you were, not from the calendar. */
+function effectiveIdx(key){
+  var bm=state.dlbm&&state.dlbm[key];
+  if(!bm) return learnIndexForToday();
+  var days=Math.round((sod(new Date())-parseLocal(bm.set))/86400000);
+  var idx=bm.idx+days;
+  if(idx<0) idx=0; if(idx>DAILY.length-1) idx=DAILY.length-1;
+  return idx;
+}
+function myLearningItems(){
+  var out=[];
+  LEARN_ITEMS.forEach(function(it,i){
+    var idx=effectiveIdx(it[0]), row=DAILY[idx];
+    if(!row) return;
+    var val=row[i+1]; if(!val) return;
+    out.push({key:it[0],label:it[1],text:val,date:row[0],bookmarked:!!(state.dlbm&&state.dlbm[it[0]])});
+  });
+  return out;
+}
+function viewLearn(){ return learnMode==='browse' ? viewLearnBrowse() : viewLearnToday(); }
+
+function viewLearnToday(){
+  var items=myLearningItems();
+  var done=items.filter(function(it){return dlGet(it.date,it.key);}).length, total=items.length;
+  var pct=total?Math.round(done/total*100):0;
+  var seg='<div class="segmented"><button class="seg on" data-lmode="today">My Learning</button>'+
+    '<button class="seg" data-lmode="browse">Browse schedule</button></div>';
+
+  var hero=total?'<div class="hero" style="margin-bottom:6px"><div class="ring">'+
+    ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
+    '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
+    '<div class="meta"><div class="big">'+done+' of '+total+' complete</div>'+
+    '<div class="chips"><span class="chip'+(done===total?' ok':'')+'">'+(done===total?'All done 🎉':'Tap to check off')+'</span></div></div></div>':'';
+
+  var rows=items.length?'<div class="group">'+items.map(function(it){
+    var on=dlGet(it.date,it.key);
+    var pacecap=it.bookmarked?'<div class="pacecap">📍 your pace <button class="unbm" data-unbm="'+it.key+'">reset to calendar</button></div>':'';
+    return '<div class="learnrow'+(on?' on':'')+'" data-dlt="'+it.date+'" data-dk="'+it.key+'">'+
+      '<span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
+      '<span class="body"><div class="lnm">'+esc(it.label)+'</div><div class="ltxt">'+esc(it.text)+'</div>'+pacecap+'</span></div>';
+  }).join('')+'</div>':'<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for today.</div></div>';
+
+  return '<div class="largetitle">Daily Learning</div>'+seg+hero+
+    (items.length?'<div class="sectlabel">Today\'s learning</div>':'')+rows+
+    '<div class="credit">From your Torah Calendar spreadsheet (2026) · embedded for offline use</div>';
+}
+
+function viewLearnBrowse(){
   var row=DAILY[learnIdx];
   if(!row) return '<div class="largetitle">Daily Learning</div><div class="empty"><div class="ico">📚</div><div class="et">Schedule ended</div><div>The embedded learning schedule runs out here — re-embed the next year from your Torah Calendar spreadsheet.</div></div>';
   var date=row[0];
   var items=dlItemsFor(row);
   var todayIdx=learnIndexForToday();
-  var done=dlDoneCount(date,items), total=items.length;
-  var pct=total?Math.round(done/total*100):0;
   var dstr=parseLocal(date).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+  var seg='<div class="segmented"><button class="seg" data-lmode="today">My Learning</button>'+
+    '<button class="seg on" data-lmode="browse">Browse schedule</button></div>';
 
   var nav='<div class="wknav">'+
     '<button class="wkb" data-dl="'+(learnIdx-1)+'"'+(learnIdx<=0?' disabled':'')+' aria-label="Previous day">‹</button>'+
     '<div class="wkmid"><div class="wkp">'+dstr+'</div><div class="wkd">'+(learnIdx===todayIdx?'Today':'')+'</div></div>'+
     '<button class="wkb" data-dl="'+(learnIdx+1)+'"'+(learnIdx>=DAILY.length-1?' disabled':'')+' aria-label="Next day">›</button></div>';
 
-  var hero = total ? '<div class="hero" style="margin-bottom:6px"><div class="ring">'+
-    ringSVG(84,9,pct,pct===100?'var(--accent)':'var(--blue)')+
-    '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div>'+
-    '<div class="meta"><div class="big">'+done+' of '+total+' complete</div>'+
-    '<div class="chips"><span class="chip'+(done===total?' ok':'')+'">'+(done===total?'All done 🎉':'Tap to check off')+'</span>'+
-    (learnIdx!==todayIdx?'<span class="chip" data-dl="'+todayIdx+'" style="color:var(--blue)">Jump to today</span>':'')+
-    '</div></div></div>' : '';
+  var jump=learnIdx!==todayIdx?'<div style="text-align:center;margin:2px 0 14px"><button class="ghost" data-dl="'+todayIdx+'" style="margin:0;padding:6px">Jump to today</button></div>':'';
 
-  var rows = items.length ? '<div class="group">'+items.map(function(it){
+  var rows=items.length?'<div class="group">'+items.map(function(it){
     var on=dlGet(date,it[0]);
-    return '<button class="learnrow'+(on?' on':'')+'" data-dlt="'+date+'" data-dk="'+it[0]+'">'+
+    var bm=state.dlbm&&state.dlbm[it[0]];
+    var here=bm&&bm.idx===learnIdx;
+    var pin='<button class="pinbtn'+(here?' on':'')+'" data-pin="'+it[0]+'">'+(here?'📍 bookmarked here':(bm?'Update to here':'📍 I\'m here'))+'</button>';
+    return '<div class="learnrow'+(on?' on':'')+'" data-dlt="'+date+'" data-dk="'+it[0]+'">'+
       '<span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
-      '<span class="body"><div class="lnm">'+esc(it[1])+'</div><div class="ltxt">'+esc(it[2])+'</div></span></button>';
-  }).join('')+'</div>' : '<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for this day.</div></div>';
+      '<span class="body"><div class="lnm">'+esc(it[1])+'</div><div class="ltxt">'+esc(it[2])+'</div><div class="pacecap">'+pin+'</div></span></div>';
+  }).join('')+'</div>':'<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for this day.</div></div>';
 
-  return '<div class="largetitle">Daily Learning</div>'+nav+hero+
-    (items.length?'<div class="sectlabel">Today\'s learning</div>':'')+rows+
+  return '<div class="largetitle">Daily Learning</div>'+seg+nav+jump+
+    (items.length?'<div class="sectlabel">Browsing this day · tap "I\'m here" on any subject to bookmark your real pace</div>':'')+rows+
     '<div class="credit">From your Torah Calendar spreadsheet (2026) · embedded for offline use</div>';
 }
 
@@ -1384,8 +1534,8 @@ var DEFAULTS=[
   ["weekly","Weekly Review"],
   ["monthly","Monthly Review"]
 ];
-var START="2026-07-26";
-  var SEED_VERSION=3;
+var START=dKey(new Date());   // day one: today (set dynamically the first time the app loads)
+var SEED_VERSION=3;
 function addMissingDefaults(){
   var have={}; state.habits.forEach(function(h){have[h.name.toLowerCase()]=true;});
   DEFAULTS.forEach(function(e){
@@ -1396,7 +1546,8 @@ function addDefaults(){ addMissingDefaults(); state.seedv=SEED_VERSION; save(); 
 function ensureDefaults(){
   if(state.seedv===SEED_VERSION) return;
   addMissingDefaults();
-  // anchor every default habit's start to July 5, 2026 (custom habits untouched)
+  // re-anchor every default habit's start date to today, whenever SEED_VERSION is
+  // bumped (custom habits untouched — their start date is when you added them)
   var isDef={}; DEFAULTS.forEach(function(e){ isDef[e[1].toLowerCase()]=true; });
   state.habits.forEach(function(h){ if(isDef[h.name.toLowerCase()]) h.created=START; });
   state.seedv=SEED_VERSION; save();
@@ -1486,6 +1637,7 @@ function openSheet(habit){
     (habit?('<div class="seglabel">History · tap any '+CATS[habit.cat].unit+' to mark it done or undo</div>'+
             '<div class="histstrip" id="histStrip">'+historyCells(habit)+'</div>'):'')+
     '<button class="save" id="saveBtn">'+(habit?'Save changes':'Add habit')+'</button>'+
+    (habit?'<button class="restartbtn" id="restartBtn">↻ Restart from today</button>':'')+
     (habit?'<button class="delbtn" id="delBtn">Delete habit</button>':'<button class="ghost" id="cancelBtn">Cancel</button>');
   backdrop.classList.add('show'); sheet.classList.add('show');
   var hs=document.getElementById('histStrip'); if(hs) hs.scrollLeft=hs.scrollWidth;
@@ -1519,6 +1671,17 @@ function addOrSave(){
   }
   save(); closeSheet(); render();
 }
+/* Wipe a single habit's tracked history and re-anchor its start date to today,
+   without touching its id/name/position or any other habit. Use this to catch
+   up a subject that's fallen behind, instead of it dragging down its % forever. */
+function restartHabit(id){
+  var h=state.habits.find(function(x){return x.id===id;});
+  if(!h) return;
+  if(!confirm('Restart "'+h.name+'"? This clears its tracked history and starts fresh from today — nothing before today will count as missed.')) return;
+  delete state.log[id];
+  h.created=dKey(new Date());
+  save(); closeSheet(); render();
+}
 function delHabit(id){
   var h=state.habits.find(function(x){return x.id===id;});
   if(!h) return;
@@ -1542,6 +1705,17 @@ content.addEventListener('click',function(e){
   var sm=e.target.closest('[data-sm]');
   if(sm){ smToggle(sm.getAttribute('data-sm'),sm.getAttribute('data-al'),sm.getAttribute('data-k'));
     render(); if(navigator.vibrate) try{navigator.vibrate(6);}catch(err){} return; }
+  var lmode=e.target.closest('[data-lmode]');
+  if(lmode){ learnMode=lmode.getAttribute('data-lmode'); render(); return; }
+  var pin=e.target.closest('[data-pin]');
+  if(pin){ var pk=pin.getAttribute('data-pin');
+    if(!state.dlbm) state.dlbm={};
+    state.dlbm[pk]={idx:learnIdx,set:dKey(new Date())};
+    save(); render(); if(navigator.vibrate) try{navigator.vibrate(10);}catch(err){} return; }
+  var unbm=e.target.closest('[data-unbm]');
+  if(unbm){ var uk=unbm.getAttribute('data-unbm');
+    if(state.dlbm) delete state.dlbm[uk];
+    save(); render(); return; }
   var dlt=e.target.closest('[data-dlt]');
   if(dlt){ dlToggle(dlt.getAttribute('data-dlt'),dlt.getAttribute('data-dk'));
     render(); if(navigator.vibrate) try{navigator.vibrate(6);}catch(err){} return; }
@@ -1558,7 +1732,7 @@ content.addEventListener('click',function(e){
   var ex=e.target.closest('[data-export]');
   if(ex){ var w=ex.getAttribute('data-export');
     if(w==='json') exportJSON(); else if(w==='csv') exportCSV(); else if(w==='smcsv') exportSMCSV(); else exportDLCSV(); return; }
-  if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION}; save(); render(); } return; }
+  if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION,dlbm:{}}; save(); render(); } return; }
   if(e.target.closest('[data-seed]')){ seed(); return; }
 });
 
@@ -1569,6 +1743,7 @@ sheet.addEventListener('click',function(e){
   if(sc){ sheetCat=sc.getAttribute('data-scat'); document.querySelectorAll('#catSeg .seg').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-scat')===sheetCat);}); return; }
   if(e.target.closest('#saveBtn')){ addOrSave(); return; }
   if(e.target.closest('#cancelBtn')){ closeSheet(); return; }
+  if(e.target.closest('#restartBtn')){ restartHabit(sheetEditId); return; }
   if(e.target.closest('#delBtn')){ delHabit(sheetEditId); return; }
 });
 sheet.addEventListener('keydown',function(e){
