@@ -1,4 +1,4 @@
-# Cadence — habit and learning tracker
+# Tamid — habit and learning tracker
 
 A mobile-first habit tracker. Daily / weekly / monthly habits with two built-in rules: 80%+ completion and never miss two in a row. Also includes Shnayim Mikra (weekly parsha with aliyos check-offs) and Daily Learning (Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava/Chassidus).
 
