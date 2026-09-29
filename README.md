@@ -1,65 +1,24 @@
-# Cadence — habit tracker
+# Cadence — habit and learning tracker
 
-A mobile-first, iOS-style habit tracker. Tracks daily / weekly / monthly habits
-with two success rules built in: **80%+ completion** and **never miss two in a
-row**. All data lives in `localStorage` on the device. Works fully offline.
+A mobile-first habit tracker. Daily / weekly / monthly habits with two built-in rules: 80%+ completion and never miss two in a row. Also includes Shnayim Mikra (weekly parsha with aliyos check-offs) and Daily Learning (Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava/Chassidus).
 
 ## Files
 
-```
-.
-└── index.html   ← the entire app (HTML + CSS + JS, no dependencies, no build step)
-```
+- `index.html` — the whole app (design and logic).
+- `data/content.json` — everything the app shows that comes from spreadsheets: the habit list, the parsha schedule, and the daily learning schedule. The app loads it on every open.
 
-## Run locally
+## How it is updated
 
-Just open `index.html` in a browser, or serve the folder:
+Habits and schedules are maintained in spreadsheets. To publish a change, the `/habit-tracker-update` skill rebuilds `data/content.json` from the spreadsheets and uploads it here. `index.html` is only re-uploaded when the app itself changes.
 
-```bash
-npx serve .
-```
+## Progress is never touched
 
-## Deploy with GitHub Pages (free)
+Check-offs, custom habits, chosen emojis, skip days and personal-pace bookmarks are stored only in the browser on your device (localStorage). Updating the spreadsheets or this repo never changes them. Habits are linked by a permanent ID, so renaming, pausing or adding a habit in the spreadsheet keeps its history.
 
-1. Create a new **public** repo on GitHub (e.g. `cadence`).
-2. Upload `index.html` (and this `README.md` if you like) via "Add file" → "Upload files."
-3. Repo → Settings → Pages → under "Build and deployment," set Source to
-   "Deploy from a branch," Branch `main`, folder `/ (root)` → Save.
-4. Wait ~30–60 seconds, refresh the Pages settings screen for your live URL
-   (`https://yourusername.github.io/cadence/`).
-5. To update later: edit `index.html` in the repo (pencil icon) and commit —
-   Pages redeploys automatically.
+## Using it
 
-## Add to Home Screen (native feel)
-On iPhone: open the deployed URL in Safari → Share → "Add to Home Screen."
-It launches full-screen with no browser chrome, respecting safe-area insets.
+- Add to Home Screen on iPhone (Safari: Share > Add to Home Screen) for a full-screen app.
+- Settings: tap a habit to edit its emoji; mark skip days; "Check for updates now"; export your data as JSON or CSV.
+- The app works offline using the last saved copy of the schedule.
 
-## Shnayim Mikra
-
-A dedicated tab shows the current week's parsha with all seven aliyos (verse ranges
-included) and five check-offs per aliyah — Mikra, Mikra, Targum, Rashi, Ramban (35 total).
-Arrows move between weeks; "Jump to this week" returns to today. The parsha schedule for
-2026-07-11 through 2028-12-30 (Diaspora, full kriyah) is embedded, so it works offline.
-
-Schedule data generated from the Hebcal Leyning API, hebcal.com, CC BY 4.0.
-
-## Daily Learning
-
-A dedicated "Learn" tab shows each day's assignments from your personal Torah Calendar
-spreadsheet — Gemara, Halacha, Mussar, Mishnayos, Nach, and Machshava/Chassidus — with a
-check-off per subject (subjects with nothing scheduled that day are hidden). Arrows move
-between days; "Jump to today" returns to the current date.
-
-Calendar year 2026 (Jan 1 – Dec 31) is embedded from the "Torah Calendar.xlsx" spreadsheet,
-so it works offline. As the spreadsheet is extended into 2027 and beyond, re-embed the next
-year's rows into the `DAILY` array near the top of the `<script>` block in `index.html`
-(same format: `["YYYY-MM-DD", Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava]`, empty
-string for any subject not scheduled that day).
-
-## Data
-- **Persist:** automatic, in `localStorage` (`cadence.v1`).
-- **Export JSON / CSV:** Settings tab. The habit CSV is one row per period
-  (`Habit, Cadence, Period, Start Date, Completed`) — ready to pivot in Excel.
-  The Shnayim Mikra CSV mirrors the original spreadsheet layout (Week Ending, Parsha,
-  then 7 aliyos x 5 columns). The Daily Learning CSV mirrors the Torah Calendar
-  spreadsheet layout (Date, then one column + a Done flag per subject).
+Parsha schedule data generated from the Hebcal Leyning API, hebcal.com, CC BY 4.0.
