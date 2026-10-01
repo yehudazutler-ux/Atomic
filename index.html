@@ -509,6 +509,28 @@ body{font-family:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Helv
 .skiprow .emotype{max-width:190px}
 .syncin{display:block;width:100%;box-sizing:border-box;border:none;border-bottom:1px solid var(--sep);background:var(--card);color:var(--text);padding:14px 16px;font-size:17px;outline:none}
 .syncstat{margin-top:8px;font-size:13px;color:var(--gold2)}
+
+#uptosheet{background:#fff;color:#111;border-radius:14px;padding:18px 16px;font-size:14px;line-height:1.35;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+#uptosheet .ut-title{margin:0;font-size:22px}
+#uptosheet .ut-date{color:#555;margin:2px 0 10px}
+#uptosheet .ut-h{margin:14px 0 6px;font-size:15px;border-bottom:2px solid #111;padding-bottom:3px}
+#uptosheet .ut-sm{font-weight:400;font-size:12px;color:#555}
+.ut-t{width:100%;border-collapse:collapse}
+.ut-t td,.ut-t th{border:1px solid #bbb;padding:6px 7px;text-align:left;vertical-align:top;font-size:13px}
+.ut-sub{font-weight:700;width:34%}
+.ut-none{color:#888;font-style:italic}
+.ut-mik th{background:#eee;font-size:11px}
+.ut-box{text-align:center!important;font-size:17px!important;width:13%}
+.ut-al{width:6%;text-align:center!important}
+.ut-notes{border-bottom:1px solid #999;height:26px}
+@media print{
+  html,body{background:#fff!important;height:auto!important}
+  .app{display:block!important;height:auto!important;position:static!important}
+  .navbar,.tabbar,.noprint,.credit{display:none!important}
+  .scroll,.content{position:static!important;height:auto!important;overflow:visible!important;padding:0!important;margin:0!important;background:#fff!important;animation:none!important;transform:none!important}
+  #uptosheet{box-shadow:none!important;border-radius:0!important;padding:0!important}
+  @page{margin:14mm}
+}
 </style>
 </head>
 <body>
@@ -932,9 +954,9 @@ var justTog=null;
 
 function go(s){
   screen=s;
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===s);});
-  navTitle.textContent=s==='today'?'Today':s==='progress'?'Progress':s==='mikra'?'Shnayim Mikra':s==='learn'?'Daily Learning':'Settings';
-  navAdd.style.visibility=(s==='settings'||s==='mikra'||s==='learn')?'hidden':'visible';
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===(s==='upto'?'settings':s));});
+  navTitle.textContent=s==='today'?'Today':s==='progress'?'Progress':s==='mikra'?'Shnayim Mikra':s==='learn'?'Daily Learning':s==='upto'?'Where I\'m up to':'Settings';
+  navAdd.style.visibility=(s==='settings'||s==='mikra'||s==='learn'||s==='upto')?'hidden':'visible';
   render();
   document.getElementById('scroll').scrollTop=0;
 }
@@ -943,6 +965,7 @@ function render(){
   else if(screen==='progress') content.innerHTML=viewProgress();
   else if(screen==='mikra') content.innerHTML=viewMikra();
   else if(screen==='learn') content.innerHTML=viewLearn();
+  else if(screen==='upto') content.innerHTML=viewUpTo();
   else content.innerHTML=viewSettings();
   content.classList.remove('anim'); void content.offsetWidth; content.classList.add('anim');
   document.querySelectorAll('.bar > i').forEach(function(el){var w=el.getAttribute('data-w');el.style.width='0%';requestAnimationFrame(function(){el.style.width=w;});});
@@ -1276,6 +1299,8 @@ function viewSettings(){
   if(paused.length) manage+='<div class="sectlabel">Paused (set to Active = No in your spreadsheet)</div><div class="group">'+paused.map(mrow).join('')+'</div>';
   return '<div class="largetitle">Settings</div>'+
     syncSection()+
+    '<div class="sectlabel">Shabbos reminder</div>'+
+    '<div class="group"><button class="btnrow" data-goto="upto"><span>🖨️ Where I\'m up to (printable)</span><span class="ic">›</span></button></div>'+
     '<div class="sectlabel">Your goal</div>'+
     '<div class="info"><b>Hit 80% or higher</b> completion on every habit, and <b>never miss two periods in a row</b>. '+
     'Tamid tracks both: the ring turns gold at 80%+, and any habit missed twice in a row raises a red streak alert.</div>'+
@@ -1530,6 +1555,8 @@ content.addEventListener('click',function(e){
     if(w==='json') exportJSON(); else if(w==='csv') exportCSV(); else if(w==='smcsv') exportSMCSV(); else exportDLCSV(); return; }
   if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? If you are signed in to sync, this also erases it on your other devices. This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION,dlbm:{}}; save(); render(); } return; }
   if(e.target.closest('[data-restartdl]')){ restartAllLearning(); return; }
+  var gt=e.target.closest('[data-goto]'); if(gt){ go(gt.getAttribute('data-goto')); return; }
+  if(e.target.closest('[data-printupto]')){ try{ window.print(); }catch(err){ alert('Printing is not available here. Open Tamid in Safari or on your computer and try again.'); } return; }
   var syb=e.target.closest('[data-sync]'); if(syb){ var sk=syb.getAttribute('data-sync');
     if(sk==='now'){ syncNow(); } else if(sk==='out'){ if(confirm('Sign out on this device? Your progress stays on this device and in your login.')){ SY.fb.signOut(SY.auth); } } else { syncAuthAction(sk); }
     return; }
@@ -1795,6 +1822,43 @@ function syncSection(){
 }
 window.addEventListener('online',function(){ if(SY.user) syncNow(); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden&&SY.user) syncNow(); });
+
+
+/* ===================== where I'm up to (printable) ===================== */
+function lastCheckedFor(si,key){
+  var best=null; Object.keys(state.dl||{}).forEach(function(d){
+    if(state.dl[d]&&state.dl[d][key]){ var ri=DATE_IDX[d]; if(ri!==undefined&&DAILY[ri][si+1]&&(best===null||d>best)) best=d; } });
+  if(best===null) return null;
+  return {date:best,text:DAILY[DATE_IDX[best]][si+1]};
+}
+function viewUpTo(){
+  var now=new Date();
+  var head=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  var rows=LEARN_ITEMS.map(function(it,si){
+    var r=lastCheckedFor(si,it[0]);
+    return '<tr><td class="ut-sub">'+esc(it[1])+'</td><td class="ut-val">'+(r?esc(r.text):'<span class="ut-none">nothing checked off yet</span>')+'</td></tr>';
+  }).join('');
+  var wk=SCHEDULE[smIndexForToday()], mik='';
+  if(wk){
+    var date=wk[0], done=smWeekDone(date), ends=parseLocal(date).toLocaleDateString('en-US',{month:'long',day:'numeric'});
+    var al='';
+    for(var a=1;a<=7;a++){
+      var cells=SM_ITEMS.map(function(it){ return '<td class="ut-box">'+(smGet(date,a,it[0])?'&#9745;':'&#9744;')+'</td>'; }).join('');
+      al+='<tr><td class="ut-al">'+a+'</td><td class="ut-ref">'+esc(wk[2][a-1])+'</td>'+cells+'</tr>';
+    }
+    var hdr=SM_ITEMS.map(function(it){ return '<th>'+it[1]+(it[2]?' '+it[2]:'')+'</th>'; }).join('');
+    mik='<h3 class="ut-h">Shnayim Mikra &middot; '+esc(wk[1])+' <span class="ut-sm">(week ending '+ends+') &middot; '+done+' of '+SM_TOTAL+' done</span></h3>'+
+      '<table class="ut-t ut-mik"><thead><tr><th>#</th><th>Aliyah</th>'+hdr+'</tr></thead><tbody>'+al+'</tbody></table>';
+  }
+  return '<div class="noprint"><div class="largetitle">Where I\'m up to</div>'+
+    '<div class="info">The last item you checked off in each subject, plus this week\'s Shnayim Mikra, on one page you can print for Shabbos.</div>'+
+    '<div class="group"><button class="btnrow" data-printupto="1"><span>🖨️ Print this page</span><span class="ic">›</span></button>'+
+    '<button class="btnrow" data-goto="settings"><span>‹ Back to Settings</span><span class="ic"></span></button></div>'+
+    '<div class="sectlabel">Preview</div></div>'+
+    '<div id="uptosheet"><h2 class="ut-title">Where I\'m up to</h2><div class="ut-date">'+(now.getDay()===5?'Erev Shabbos &middot; ':'')+esc(head)+'</div>'+
+    '<h3 class="ut-h">Last item checked off</h3><table class="ut-t">'+rows+'</table>'+mik+
+    '<h3 class="ut-h">Notes</h3><div class="ut-notes"></div><div class="ut-notes"></div><div class="ut-notes"></div></div>';
+}
 
 /* ===================== boot ===================== */
 load(); syncBoot(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false);
