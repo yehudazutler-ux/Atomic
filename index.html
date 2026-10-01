@@ -1291,7 +1291,8 @@ function viewSettings(){
     '<div class="group"><button class="btnrow" data-refresh="1"><span>Check for updates now</span><span class="ic">›</span></button></div>'+
     (refreshMsg?'<div style="text-align:center;color:var(--text2);font-size:13px;margin:8px 0 0">'+esc(refreshMsg)+'</div>':'')+
     '<div class="sectlabel">Data</div><div class="group">'+
-      '<button class="btnrow" data-export="json"><span>Export as JSON</span><span class="ic">›</span></button>'+
+      '<button class="btnrow" data-export="json"><span>Export as JSON (backup)</span><span class="ic">›</span></button>'+
+      '<button class="btnrow" data-import="1"><span>Import from a backup file</span><span class="ic">›</span></button>'+
       '<button class="btnrow" data-export="csv"><span>Export habits as CSV (Excel)</span><span class="ic">›</span></button>'+
       '<button class="btnrow" data-export="smcsv"><span>Export Shnayim Mikra as CSV</span><span class="ic">›</span></button>'+
       '<button class="btnrow" data-export="dlcsv"><span>Export Daily Learning as CSV</span><span class="ic">›</span></button>'+
@@ -1520,6 +1521,7 @@ content.addEventListener('click',function(e){
   if(mode){ progMode=mode.getAttribute('data-mode'); render(); return; }
   var open=e.target.closest('[data-open]');
   if(open){ var h=state.habits.find(function(x){return x.id===open.getAttribute('data-open');}); if(h) openSheet(h); return; }
+  if(e.target.closest('[data-import]')){ var impf=document.getElementById('impfile'); if(impf){ impf.value=''; impf.click(); } return; }
   var ex=e.target.closest('[data-export]');
   if(ex){ var w=ex.getAttribute('data-export');
     if(w==='json') exportJSON(); else if(w==='csv') exportCSV(); else if(w==='smcsv') exportSMCSV(); else exportDLCSV(); return; }
@@ -1556,6 +1558,25 @@ sheet.addEventListener('input',function(e){
 sheet.addEventListener('keydown',function(e){
   if(e.target.id==='hname'&&e.key==='Enter'){ addOrSave(); }
 });
+
+/* ===================== import a backup ===================== */
+(function(){
+  var f=document.createElement('input'); f.type='file'; f.id='impfile'; f.accept='.json,application/json'; f.style.display='none';
+  document.body.appendChild(f);
+  f.addEventListener('change',function(){
+    var file=f.files&&f.files[0]; if(!file) return;
+    var r=new FileReader();
+    r.onload=function(){
+      var d; try{ d=JSON.parse(r.result); }catch(err){ alert('That file could not be read. Please choose a backup file exported from this app.'); return; }
+      if(!d||!Array.isArray(d.habits)||typeof d.log!=='object'){ alert('That does not look like a backup from this app.'); return; }
+      if(!confirm('Replace the progress on this device with the backup ('+d.habits.length+' habits)? This cannot be undone.')) return;
+      state={habits:d.habits||[],log:d.log||{},sm:d.sm||{},dl:d.dl||{},seedv:d.seedv||0,dlbm:d.dlbm||{},skipd:d.skipd||{}};
+      save(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday();
+      refreshMsg='Backup restored.'; render();
+    };
+    r.readAsText(file);
+  });
+})();
 
 /* ===================== boot ===================== */
 load(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false);
