@@ -507,6 +507,8 @@ body{font-family:"Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Helv
 .skiprow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:var(--card);font-size:15px}
 .skiprow + .skiprow{border-top:1px solid var(--sep)}
 .skiprow .emotype{max-width:190px}
+.syncin{display:block;width:100%;box-sizing:border-box;border:none;border-bottom:1px solid var(--sep);background:var(--card);color:var(--text);padding:14px 16px;font-size:17px;outline:none}
+.syncstat{margin-top:8px;font-size:13px;color:var(--gold2)}
 </style>
 </head>
 <body>
@@ -1273,6 +1275,7 @@ function viewSettings(){
     : '';
   if(paused.length) manage+='<div class="sectlabel">Paused (set to Active = No in your spreadsheet)</div><div class="group">'+paused.map(mrow).join('')+'</div>';
   return '<div class="largetitle">Settings</div>'+
+    syncSection()+
     '<div class="sectlabel">Your goal</div>'+
     '<div class="info"><b>Hit 80% or higher</b> completion on every habit, and <b>never miss two periods in a row</b>. '+
     'Tamid tracks both: the ring turns gold at 80%+, and any habit missed twice in a row raises a red streak alert.</div>'+
@@ -1525,8 +1528,11 @@ content.addEventListener('click',function(e){
   var ex=e.target.closest('[data-export]');
   if(ex){ var w=ex.getAttribute('data-export');
     if(w==='json') exportJSON(); else if(w==='csv') exportCSV(); else if(w==='smcsv') exportSMCSV(); else exportDLCSV(); return; }
-  if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION,dlbm:{}}; save(); render(); } return; }
+  if(e.target.closest('[data-reset]')){ if(confirm('Erase ALL habits and history? If you are signed in to sync, this also erases it on your other devices. This cannot be undone.')){ state={habits:[],log:{},sm:{},dl:{},seedv:SEED_VERSION,dlbm:{}}; save(); render(); } return; }
   if(e.target.closest('[data-restartdl]')){ restartAllLearning(); return; }
+  var syb=e.target.closest('[data-sync]'); if(syb){ var sk=syb.getAttribute('data-sync');
+    if(sk==='now'){ syncNow(); } else if(sk==='out'){ if(confirm('Sign out on this device? Your progress stays on this device and in your login.')){ SY.fb.signOut(SY.auth); } } else { syncAuthAction(sk); }
+    return; }
   if(e.target.closest('[data-skiptoday]')){ addSkip(dKey(new Date())); return; }
   if(e.target.closest('[data-skipadd]')){ var sdv=document.getElementById('skipdate'); if(sdv&&sdv.value) addSkip(sdv.value); return; }
   var sdel=e.target.closest('[data-skipdel]'); if(sdel){ delSkip(sdel.getAttribute('data-skipdel')); return; }
@@ -1578,8 +1584,220 @@ sheet.addEventListener('keydown',function(e){
   });
 })();
 
+/*SYNC-CORE*/
+/* Pure merge logic: no browser or network use. Cells = the smallest unit of progress
+   (one check-off, one habit, one bookmark ...). Each cell remembers when it last changed (meta, seconds).
+   Two copies merge cell by cell: newest change wins; a check-off made on either device is never lost
+   unless the other device deliberately un-checked it LATER. */
+function sStable(v){
+  if(v===null||typeof v!=='object') return JSON.stringify(v);
+  if(Array.isArray(v)) return '['+v.map(sStable).join(',')+']';
+  return '{'+Object.keys(v).sort().filter(function(k){return v[k]!==undefined;}).map(function(k){return JSON.stringify(k)+':'+sStable(v[k]);}).join(',')+'}';
+}
+function sSplit(p){ var i=p.indexOf('|'), j=p.indexOf('|',i+1); return [p.slice(0,i), j<0?p.slice(i+1):p.slice(i+1,j), j<0?'':p.slice(j+1)]; }
+function sFlatten(st){
+  var f={}; st=st||{};
+  Object.keys(st.log||{}).forEach(function(h){ var o=st.log[h]||{}; Object.keys(o).forEach(function(k){ if(o[k]) f['l|'+h+'|'+k]='1'; }); });
+  ['sm','dl'].forEach(function(n){ Object.keys(st[n]||{}).forEach(function(d){ var o=st[n][d]||{}; Object.keys(o).forEach(function(k){ if(o[k]) f[n+'|'+d+'|'+k]='1'; }); }); });
+  Object.keys(st.dlbm||{}).forEach(function(k){ if(st.dlbm[k]) f['b|'+k]=sStable(st.dlbm[k]); });
+  Object.keys(st.skipd||{}).forEach(function(d){ if(st.skipd[d]) f['k|'+d]='1'; });
+  var hs=(st.habits||[]);
+  hs.forEach(function(h){ f['h|'+h.id]=sStable(h); });
+  f['o|']=sStable(hs.map(function(h){return h.id;}));
+  return f;
+}
+function sAlias(flats){
+  var by={}, a={};
+  flats.forEach(function(F){ Object.keys(F).forEach(function(p){ if(p.indexOf('h|')===0){ var h; try{ h=JSON.parse(F[p]); }catch(e){ return; } if(h&&h.sid){ (by[h.sid]=by[h.sid]||{})[h.id]=1; } } }); });
+  Object.keys(by).forEach(function(s){ var ids=Object.keys(by[s]).sort(); ids.forEach(function(i){ a[i]=ids[0]; }); });
+  return a;
+}
+function sRemap(p,al){
+  var s=sSplit(p), t=s[0];
+  if(t==='l'||t==='h'){ var id=s[1]; if(al[id]&&al[id]!==id){ return t==='l'?('l|'+al[id]+'|'+s[2]):('h|'+al[id]); } }
+  return p;
+}
+function sNorm(F,M,al){
+  var F2={}, T2={}, M2={};
+  Object.keys(F).forEach(function(p){
+    var q=sRemap(p,al), v=F[p], t=M[p]!==undefined?M[p]:1;
+    if(q.indexOf('h|')===0){ try{ var h=JSON.parse(v); h.id=q.slice(2); v=sStable(h); }catch(e){} }
+    if(p==='o|'){ try{ var seen={}, l=[]; JSON.parse(v).forEach(function(x){ x=al[x]||x; if(!seen[x]){ seen[x]=1; l.push(x); } }); v=sStable(l); }catch(e){} }
+    if(q in F2){ if(t>T2[q]||(t===T2[q]&&q===p)){ F2[q]=v; T2[q]=t; } }
+    else { F2[q]=v; T2[q]=t; }
+  });
+  Object.keys(M).forEach(function(p){ var q=sRemap(p,al); if(M2[q]===undefined||M[p]>M2[q]) M2[q]=M[p]; });
+  return {F:F2,M:M2};
+}
+function sBuild(cells,seedv){
+  var st={habits:[],log:{},sm:{},dl:{},seedv:seedv||0,dlbm:{},skipd:{}}, hs={}, order=[];
+  Object.keys(cells).sort().forEach(function(p){
+    var s=sSplit(p), t=s[0], a=s[1], b=s[2], v=cells[p];
+    if(t==='l'){ (st.log[a]=st.log[a]||{})[b]=true; }
+    else if(t==='sm'||t==='dl'){ (st[t][a]=st[t][a]||{})[b]=true; }
+    else if(t==='b'){ try{ st.dlbm[a]=JSON.parse(v); }catch(e){} }
+    else if(t==='k'){ st.skipd[a]=true; }
+    else if(t==='h'){ try{ hs[a]=JSON.parse(v); }catch(e){} }
+    else if(t==='o'){ try{ order=JSON.parse(v); }catch(e){} }
+  });
+  var used={};
+  order.forEach(function(id){ if(hs[id]&&!used[id]){ used[id]=1; st.habits.push(hs[id]); } });
+  Object.keys(hs).sort().forEach(function(id){ if(!used[id]){ used[id]=1; st.habits.push(hs[id]); } });
+  return st;
+}
+/* local/remote: {state, meta}. Returns {state, meta}. now = seconds. */
+function sMerge(L,R,now){
+  var FL=sFlatten(L.state), FR=sFlatten(R.state);
+  var al=sAlias([FL,FR]);
+  var a=sNorm(FL,L.meta||{},al), b=sNorm(FR,R.meta||{},al);
+  var cells={}, meta={}, keys={};
+  [a.F,b.F,a.M,b.M].forEach(function(o){ Object.keys(o).forEach(function(k){ keys[k]=1; }); });
+  Object.keys(keys).forEach(function(p){
+    var pl=(p in a.F), pr=(p in b.F), ml=a.M[p], mr=b.M[p];
+    var tl=ml!==undefined?ml:1, tr=mr!==undefined?mr:1, keep=false, val=null;
+    if(pl&&pr){ keep=true; val=(a.F[p]===b.F[p])?a.F[p]:(tl>tr?a.F[p]:tr>tl?b.F[p]:(a.F[p]>b.F[p]?a.F[p]:b.F[p])); }
+    else if(pl){ keep=!(mr!==undefined&&mr>tl); val=a.F[p]; }
+    else if(pr){ keep=!(ml!==undefined&&ml>tr); val=b.F[p]; }
+    if(keep) cells[p]=val;
+    var m=Math.max(ml||0,mr||0);
+    if(m>0&&(now-m)<=90*86400) meta[p]=m;
+  });
+  var st=sBuild(cells,Math.max((L.state&&L.state.seedv)||0,(R.state&&R.state.seedv)||0));
+  return {state:st, meta:meta};
+}
+/* local edits: mark every cell that differs from the previous snapshot as changed at time `now` */
+function sDiff(prev,next,meta,now){
+  Object.keys(next).forEach(function(p){ if(prev[p]!==next[p]) meta[p]=now; });
+  Object.keys(prev).forEach(function(p){ if(!(p in next)) meta[p]=now; });
+  return meta;
+}
+/*END-SYNC-CORE*/
+
+/* ===================== sync across devices (Firebase) ===================== */
+var FB_CONFIG={"apiKey":"AIzaSyBKK30pkCWevq2ElzrdrAZ2yOV7aOr4dPo","authDomain":"tamid-habits.firebaseapp.com","projectId":"tamid-habits","storageBucket":"tamid-habits.firebasestorage.app","messagingSenderId":"277452221499","appId":"1:277452221499:web:3b8d47685cdcbda1dac01e"};
+var FB_BASE='https://www.gstatic.com/firebasejs/10.12.2/';
+var MKEY='cadence.meta.v1', PKEY='cadence.prebackup.v1';
+var syncMeta={}, syncPrev=null;
+var SY={fb:null,auth:null,db:null,user:null,busy:false,again:false,timer:null,seen:'',msg:'',last:'',unsub:null,loading:false};
+try{ syncMeta=JSON.parse(localStorage.getItem(MKEY)||'{}')||{}; }catch(e){ syncMeta={}; }
+function syncNowSec(){ return Math.floor(Date.now()/1000); }
+function syncSaveMeta(){ try{ localStorage.setItem(MKEY,JSON.stringify(syncMeta)); }catch(e){} }
+function syncNote(){
+  try{ var nx=sFlatten(state); if(syncPrev===null) syncPrev=nx; else { sDiff(syncPrev,nx,syncMeta,syncNowSec()); syncPrev=nx; syncSaveMeta(); } }catch(e){}
+}
+function syncBoot(){
+  try{ syncPrev=sFlatten(state); }catch(e){ syncPrev=null; }
+  syncLoad();
+}
+var _save0=save;
+save=function(){ _save0(); syncNote(); syncSchedule(); };
+function syncSchedule(){ if(!SY.user) return; clearTimeout(SY.timer); SY.timer=setTimeout(syncNow,1500); }
+function syncStatus(t){ SY.msg=t; var el=document.getElementById('syncstat'); if(el) el.textContent=t; }
+function syncApplyLocal(m){
+  var before=sStable(state);
+  var ns=m.state; ns.seedv=Math.max(ns.seedv||0,state.seedv||0);
+  syncPrev=sFlatten(ns); syncMeta=m.meta; syncSaveMeta();
+  var changed=(sStable(ns)!==before);
+  if(changed){ state=ns; _save0(); applyContent(CONTENT_META||pickLocalContent()); if(smIdx>=SCHEDULE.length) smIdx=smIndexForToday(); if(learnIdx>=DAILY.length) learnIdx=learnIndexForToday(); render(); }
+}
+function syncPackState(){ return {habits:state.habits,log:state.log,sm:state.sm,dl:state.dl,seedv:state.seedv,dlbm:state.dlbm,skipd:state.skipd}; }
+function syncNow(){
+  if(!SY.user||!SY.fb) return Promise.resolve();
+  if(SY.busy){ SY.again=true; return Promise.resolve(); }
+  if(navigator.onLine===false){ syncStatus('Offline. Your changes are saved here and will sync when you are back online.'); return Promise.resolve(); }
+  SY.busy=true; syncStatus('Syncing…');
+  var F=SY.fb, ref=F.doc(SY.db,'users',SY.user.uid), fin=null, outS='', outM='';
+  return F.runTransaction(SY.db,function(tx){
+    return tx.get(ref).then(function(snap){
+      var rd=snap.exists()?snap.data():null, rs=null, rm={};
+      try{ if(rd&&rd.s) rs=JSON.parse(rd.s); if(rd&&rd.m) rm=JSON.parse(rd.m)||{}; }catch(e){ rs=null; rm={}; }
+      var m=sMerge({state:syncPackState(),meta:syncMeta},{state:rs||{habits:[],log:{},sm:{},dl:{},seedv:0,dlbm:{},skipd:{}},meta:rm},syncNowSec());
+      outS=sStable(m.state); outM=sStable(m.meta); fin=m;
+      if(!rd||rd.s!==outS||rd.m!==outM) tx.set(ref,{s:outS,m:outM,u:Date.now()});
+    });
+  }).then(function(){
+    SY.seen=outS+'|'+outM;
+    try{ if(!localStorage.getItem(PKEY)) localStorage.setItem(PKEY,JSON.stringify(state)); }catch(e){}
+    var m2=sMerge({state:syncPackState(),meta:syncMeta},fin,syncNowSec());
+    syncApplyLocal(m2);
+    SY.last=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+    syncStatus('Synced '+SY.last+'.');
+  }).catch(function(e){
+    syncStatus(syncErr(e,'Could not sync right now. Your progress is safe on this device; it will retry.'));
+  }).then(function(){ SY.busy=false; if(SY.again){ SY.again=false; setTimeout(syncNow,400); } });
+}
+function syncErr(e,dflt){
+  var c=(e&&e.code)||'';
+  if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found'||c==='auth/invalid-login-credentials') return 'That email or password is not right. If you have not made a login yet, tap Create login.';
+  if(c==='auth/email-already-in-use') return 'That email already has a login. Tap Sign in instead.';
+  if(c==='auth/weak-password') return 'Please use a password with at least 6 characters.';
+  if(c==='auth/invalid-email') return 'That email address does not look right.';
+  if(c==='auth/missing-password') return 'Please type your password.';
+  if(c==='auth/too-many-requests') return 'Too many tries. Wait a few minutes and try again.';
+  if(c==='auth/network-request-failed') return 'No internet connection right now.';
+  if(c==='permission-denied'||c==='firestore/permission-denied') return 'The server refused the sync (permissions). Please tell Claude.';
+  return dflt||('Something went wrong ('+(c||'unknown')+').');
+}
+function syncLoad(){
+  if(SY.fb||SY.loading||location.protocol==='file:') return;
+  SY.loading=true;
+  Promise.all([import(FB_BASE+'firebase-app.js'),import(FB_BASE+'firebase-auth.js'),import(FB_BASE+'firebase-firestore.js')]).then(function(mods){
+    var A=mods[0], Au=mods[1], Fs=mods[2];
+    var app=A.initializeApp(FB_CONFIG);
+    SY.fb={signIn:Au.signInWithEmailAndPassword,signUp:Au.createUserWithEmailAndPassword,signOut:Au.signOut,reset:Au.sendPasswordResetEmail,
+      doc:Fs.doc,runTransaction:Fs.runTransaction,onSnapshot:Fs.onSnapshot};
+    SY.auth=Au.getAuth(app); SY.db=Fs.getFirestore(app);
+    Au.onAuthStateChanged(SY.auth,function(u){
+      SY.user=u||null;
+      if(SY.unsub){ try{ SY.unsub(); }catch(e){} SY.unsub=null; }
+      if(u){
+        syncStatus('Signing in…');
+        syncNow().then(function(){
+          SY.unsub=SY.fb.onSnapshot(SY.fb.doc(SY.db,'users',u.uid),function(snap){
+            var rd=snap.exists()?snap.data():null; if(!rd) return;
+            if((rd.s+'|'+rd.m)===SY.seen) return;
+            syncNow();
+          },function(){});
+        });
+      } else { syncStatus('Not signed in.'); }
+      if(screen==='settings') render();
+    });
+    if(screen==='settings') render();
+  }).catch(function(){ SY.loading=false; SY.fb=null; syncStatus('Sync needs an internet connection to start.'); });
+}
+function syncAuthAction(kind){
+  var em=(document.getElementById('syncemail')||{}).value||'', pw=(document.getElementById('syncpw')||{}).value||'';
+  em=em.trim();
+  if(!SY.fb){ syncStatus('Sync is not ready yet. Check your internet connection and try again.'); syncLoad(); return; }
+  if(!em){ syncStatus('Please type your email address.'); return; }
+  if(kind==='reset'){ SY.fb.reset(SY.auth,em).then(function(){ syncStatus('Password reset email sent to '+em+'.'); }).catch(function(e){ syncStatus(syncErr(e)); }); return; }
+  if(!pw){ syncStatus('Please type your password.'); return; }
+  syncStatus(kind==='up'?'Creating login…':'Signing in…');
+  var p=kind==='up'?SY.fb.signUp(SY.auth,em,pw):SY.fb.signIn(SY.auth,em,pw);
+  p.catch(function(e){ syncStatus(syncErr(e)); });
+}
+function syncSection(){
+  var h='<div class="sectlabel">Sync across devices</div>';
+  if(!SY.fb){
+    return h+'<div class="info">'+(location.protocol==='file:'?'Sync works on the live site only.':'Sync is starting… it needs an internet connection.')+'<div class="syncstat" id="syncstat">'+esc(SY.msg||'')+'</div></div>';
+  }
+  if(SY.user){
+    return h+'<div class="info">Signed in as <b>'+esc(SY.user.email||'')+'</b>. Your progress is saved to your private login and stays in step on every device where you sign in. You stay signed in on this device.<div class="syncstat" id="syncstat">'+esc(SY.msg||'')+'</div></div>'+
+      '<div class="group"><button class="btnrow" data-sync="now"><span>🔄 Sync now</span><span class="ic">›</span></button>'+
+      '<button class="btnrow" data-sync="out"><span>Sign out of this device</span><span class="ic">›</span></button></div>';
+  }
+  return h+'<div class="info">Sign in on each device with the same email and password and your progress stays in step. First time? Tap Create login. You only have to sign in once per device.<div class="syncstat" id="syncstat">'+esc(SY.msg||'')+'</div></div>'+
+    '<div class="group syncform"><input type="email" id="syncemail" class="syncin" placeholder="Email" autocomplete="username" autocapitalize="off" autocorrect="off" />'+
+    '<input type="password" id="syncpw" class="syncin" placeholder="Password (6+ characters)" autocomplete="current-password" />'+
+    '<button class="btnrow" data-sync="in"><span>Sign in</span><span class="ic">›</span></button>'+
+    '<button class="btnrow" data-sync="up"><span>Create login (first time only)</span><span class="ic">›</span></button>'+
+    '<button class="btnrow" data-sync="reset"><span>Forgot password</span><span class="ic">›</span></button></div>';
+}
+window.addEventListener('online',function(){ if(SY.user) syncNow(); });
+document.addEventListener('visibilitychange',function(){ if(!document.hidden&&SY.user) syncNow(); });
+
 /* ===================== boot ===================== */
-load(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false);
+load(); syncBoot(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false);
 })();
 </script>
 </body>
