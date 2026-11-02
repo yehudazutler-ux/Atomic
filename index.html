@@ -2164,11 +2164,18 @@ function viewUpTo(){
 /* ===================== learning checklists (master tracker) ===================== */
 var LC={key:null,filter:'all',earlier:false};
 function lcSI(key){ var si=-1; LEARN_ITEMS.forEach(function(it,i){ if(it[0]===key) si=i; }); return si; }
-function lcRows(si){ var out=[]; DAILY.forEach(function(r){ if(r[si+1]) out.push([r[0],r[si+1]]); }); return out; }
+/* one entry per calendar day: [calendar day, what you are on that day (per your pace), date the check-off is stored under] */
+function lcRows(si){ var out=[], key=LEARN_ITEMS[si][0];
+  DAILY.forEach(function(r){
+    if(state.skipd&&state.skipd[r[0]]) return;
+    var ri=effectiveIdxOn(key,r[0],true); if(ri===null||ri===undefined) return;
+    var tr=DAILY[ri]; if(tr&&tr[si+1]) out.push([r[0],tr[si+1],tr[0]]); });
+  return out; }
 function lcStart(key,rows){
   if(LC.earlier) return rows.length?rows[0][0]:'';
   var first=null;
-  Object.keys(state.dl||{}).forEach(function(d){ if(state.dl[d]&&state.dl[d][key]&&(first===null||d<first)) first=d; });
+  var ch=bmChain(key), floor=''; ch.forEach(function(b){ if(b.set&&(!floor||b.set<floor)) floor=b.set; });
+  rows.forEach(function(r){ if(r[0]>=floor&&dlGet(r[2],key)&&(first===null||r[0]<first)) first=r[0]; });
   var cutoff=dKey(addDays(new Date(),-14));
   if(first===null||first>cutoff) first=cutoff;
   return first;
@@ -2177,7 +2184,7 @@ function lcStats(key){
   var si=lcSI(key), rows=lcRows(si), today=dKey(new Date()), saveE=LC.earlier; LC.earlier=false;
   var start=lcStart(key,rows); LC.earlier=saveE;
   var due=0,done=0;
-  rows.forEach(function(r){ if(r[0]>=start&&r[0]<=today){ due++; if(dlGet(r[0],key)) done++; } });
+  rows.forEach(function(r){ if(r[0]>=start&&r[0]<=today){ due++; if(dlGet(r[2],key)) done++; } });
   return {due:due,done:done};
 }
 function lcMikStats(){
@@ -2209,22 +2216,22 @@ function viewLchk(){
   var label=LEARN_ITEMS[si][1], key=LC.key, rows=lcRows(si), today=dKey(new Date());
   var start=lcStart(key,rows), horizon=dKey(addDays(new Date(),7)), shown=rows.filter(function(r){return r[0]>=start&&r[0]<=horizon;});
   var hidden=rows.filter(function(r){return r[0]<start;}).length;
-  var due=0,done=0; shown.forEach(function(r){ if(r[0]<=today){ due++; if(dlGet(r[0],key)) done++; } });
+  var due=0,done=0; shown.forEach(function(r){ if(r[0]<=today){ due++; if(dlGet(r[2],key)) done++; } });
   var missed=due-done, pct=due?Math.round(done/due*100):0;
   var hero='<div class="hero" style="margin-bottom:6px"><div class="ring">'+ringSVG(84,9,pct,pct>=GOAL?'var(--accent)':'var(--blue)')+
     '<div class="v'+(done===0?' muted':'')+'">'+pct+'%</div></div><div class="meta"><div class="big">'+done+' of '+due+' done so far</div>'+
     '<div class="chips"><span class="chip'+(missed===0?' ok':' bad')+'">'+(missed===0?'Nothing missed 🎉':missed+' not done')+'</span></div></div></div>';
   var seg='<div class="segmented"><button class="seg'+(LC.filter==='all'?' on':'')+'" data-lcf="all">Everything</button>'+
     '<button class="seg'+(LC.filter==='todo'?' on':'')+'" data-lcf="todo">Not done</button></div>';
-  var list=shown; if(LC.filter==='todo') list=shown.filter(function(r){ return r[0]<=today&&!dlGet(r[0],key); });
+  var list=shown; if(LC.filter==='todo') list=shown.filter(function(r){ return r[0]<=today&&!dlGet(r[2],key); });
   var html='', lastM='', markedToday=false;
   list.forEach(function(r){
-    var d=r[0], on=dlGet(d,key), isPast=d<=today, m=lcMonthName(d);
+    var d=r[0], on=dlGet(r[2],key), isPast=d<=today, m=lcMonthName(d);
     if(m!==lastM){ if(lastM) html+='</div>'; html+='<div class="sectlabel">'+esc(m)+'</div><div class="group">'; lastM=m; }
     var id=''; if(!markedToday&&d>=today){ id=' id="lc-today"'; markedToday=true; }
     var dl=parseLocal(d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
     var cls='learnrow'+(on?' on':'')+(!on&&isPast&&d<today?' lcmiss':'')+(d>today?' lcfut':'')+(/chazara/i.test(r[1])?' lcchaz':'');
-    html+='<div class="'+cls+'"'+id+' data-dlt="'+d+'" data-dk="'+key+'"><span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
+    html+='<div class="'+cls+'"'+id+' data-dlt="'+r[2]+'" data-dk="'+key+'"><span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
       '<span class="body"><div class="lnm">'+esc(dl)+(d===today?' · today':'')+(!on&&isPast&&d<today?' · not done':'')+'</div><div class="ltxt">'+esc(r[1])+'</div></span></div>';
   });
   if(lastM) html+='</div>';
