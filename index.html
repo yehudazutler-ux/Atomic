@@ -413,6 +413,25 @@
   .cell .clab{font-size:11px;font-weight:600;color:var(--text2);line-height:1.04;text-align:center;}
   .cell.cur .clab{color:var(--accent);}
 
+/* ===== Habit history page + missed-yesterday warnings ===== */
+.banner.warn{background:var(--warn-bg);color:var(--warn);border:1px solid rgba(232,163,61,.35);}
+.banner .bl{margin-top:5px;font-weight:600;}
+.banner .bl span{font-weight:500;opacity:.8;}
+.hgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:6px 0 18px;}
+.hgrid.wide{grid-template-columns:repeat(4,1fr);}
+.hgrid .dn{font-size:11px;font-weight:600;color:var(--text2);text-align:center;padding-bottom:2px;}
+.hc{aspect-ratio:1;border:none;border-radius:9px;background:var(--neutral-bg);color:var(--text2);font-size:13px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;line-height:1.1;font-family:inherit;cursor:pointer;}
+.hgrid.wide .hc{aspect-ratio:2.2;}
+.hc .hk{font-size:11px;line-height:1;height:11px;}
+.hc.done{background:var(--accent);color:#0b1020;}
+.hc.miss{background:var(--bad-bg);color:var(--bad);}
+.hc.pre{opacity:.5;}
+.hc.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent);}
+.hc.fut{opacity:.25;pointer-events:none;cursor:default;}
+.hc:active{transform:scale(.92);}
+.prowwrap[data-hist]{cursor:pointer;}
+
 /* ===== Redesign: navy / black / gold / silver ===== */
 :root{
   --bg:#070b16; --card:#0f1626; --card-press:#17203a;
@@ -884,12 +903,13 @@ function stats(h){
   }
   var cur=ps[ps.length-1], curDone=isDone(h.id,cur.key);
   var status,label;
-  if(miss===2){status='bad';label='Missed 2 in a row';}
+  var alert=(miss>=2&&!curDone);
+  if(alert){status='bad';label='Missed '+miss+' in a row';}
   else if(miss===1&&!curDone){status='warn';label='At risk';}
   else if(ratePct!==null&&ratePct<GOAL){status='warn';label='Below 80%';}
   else if(ratePct!==null&&ratePct>=GOAL){status='ok';label='On track';}
   else {status='new';label='New';}
-  return {ratePct:ratePct,miss:miss,status:status,label:label,curKey:cur.key,curDone:curDone,denom:denom};
+  return {ratePct:ratePct,miss:miss,alert:alert,status:status,label:label,curKey:cur.key,curDone:curDone,denom:denom};
 }
 
 /* window completion for Progress (week | month | all | custom) */
@@ -1023,9 +1043,9 @@ var justTog=null;
 
 function go(s){
   screen=s;
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===(s==='upto'?'settings':s==='lchk'?'progress':s));});
-  navTitle.textContent=s==='today'?'Today':s==='progress'?'Progress':s==='mikra'?'Shnayim Mikra':s==='learn'?'Daily Learning':s==='upto'?'Where I\'m up to':s==='lchk'?'Learning checklist':'Settings';
-  navAdd.style.visibility=(s==='settings'||s==='mikra'||s==='learn'||s==='upto'||s==='lchk')?'hidden':'visible';
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-tab')===(s==='upto'?'settings':(s==='lchk'||s==='hist')?'progress':s));});
+  navTitle.textContent=s==='today'?'Today':s==='progress'?'Progress':s==='mikra'?'Shnayim Mikra':s==='learn'?'Daily Learning':s==='upto'?'Where I\'m up to':s==='lchk'?'Learning checklist':s==='hist'?'Habit history':'Settings';
+  navAdd.style.visibility=(s==='settings'||s==='mikra'||s==='learn'||s==='upto'||s==='lchk'||s==='hist')?'hidden':'visible';
   render();
   document.getElementById('scroll').scrollTop=0;
 }
@@ -1036,6 +1056,7 @@ function render(){
   else if(screen==='learn') content.innerHTML=viewLearn();
   else if(screen==='upto') content.innerHTML=viewUpTo();
   else if(screen==='lchk') content.innerHTML=viewLchk();
+  else if(screen==='hist') content.innerHTML=viewHist();
   else content.innerHTML=viewSettings();
   content.classList.remove('anim'); void content.offsetWidth; content.classList.add('anim');
   document.querySelectorAll('.bar > i').forEach(function(el){var w=el.getAttribute('data-w');el.style.width='0%';requestAnimationFrame(function(){el.style.width=w;});});
@@ -1052,8 +1073,8 @@ function rowItem(h){
   var done=isDone(h.id,st.curKey);
   var pop=(justTog&&justTog===h.id&&done)?' pop':'';
   var hint='';
-  if(st.miss===2) hint='<div class="hint bad">⚠️ Missed 2 '+(CATS[h.cat].units)+' in a row</div>';
-  else if(st.status==='warn'&&st.label==='At risk') hint='<div class="hint warn">🛡️ Complete to protect your streak</div>';
+  if(st.alert) hint='<div class="hint bad">⚠️ Missed '+st.miss+' '+(CATS[h.cat].units)+' in a row</div>';
+  else if(st.status==='warn'&&st.label==='At risk') hint='<div class="hint warn">⚠️ Missed '+PREVWORD[h.cat]+' — don\'t miss two in a row</div>';
   else if(st.ratePct!==null) hint='<div class="hint">'+(st.ratePct>=GOAL?'🏆 ':'🎯 ')+st.ratePct+'% · last '+CATS[h.cat].window+' '+CATS[h.cat].units+'</div>';
   else hint='<div class="hint">✨ New habit</div>';
   return '<div class="item" data-open="'+h.id+'">'+
@@ -1086,7 +1107,7 @@ function viewToday(){
       '<div><div class="tt">'+(doneCt===daily.length?'🎉 ':'🎯 ')+doneCt+' of '+daily.length+' done today</div>'+
       '<div class="ts">'+(doneCt===daily.length?'All daily habits complete 🎉':'Keep going — tap a circle to check it off')+'</div></div></div>' : '';
   return '<div class="largetitle">Today</div><div class="subtitle">'+dateLine()+'</div>'+
-    summary + groupFor('daily')+groupFor('weekly')+groupFor('monthly');
+    riskBanners()+summary + groupFor('daily')+groupFor('weekly')+groupFor('monthly');
 }
 
 /* ===================== Progress ===================== */
@@ -1130,13 +1151,13 @@ function dailyHeat(mode){
 }
 function progRow(h,mode){
   var w=windowStats(h,mode), st=stats(h);
-  var color=statusColor(w.pct===null?'new':(w.pct>=GOAL?'ok':(st.miss===2?'bad':'warn')));
+  var color=statusColor(w.pct===null?'new':(w.pct>=GOAL?'ok':(st.alert?'bad':'warn')));
   var pctTxt=w.pct===null?'—':w.pct+'%';
-  return '<div class="prowwrap"><div class="prow">'+
+  return '<div class="prowwrap" data-hist="'+h.id+'"><div class="prow">'+
     '<div class="hemo" style="width:32px;height:32px;font-size:17px">'+habitEmoji(h)+'</div>'+
     '<div class="pn">'+esc(h.name)+streakBadge(h)+'</div>'+
-    '<div class="pp'+(w.pct===null?' muted':'')+'">'+pctTxt+'</div></div>'+
-    '<div class="cnt">'+w.done+' of '+w.due+' '+(CATS[h.cat].units)+(st.miss===2?' · ⚠️ 2 missed in a row':'')+'</div>'+
+    '<div class="pp'+(w.pct===null?' muted':'')+'">'+pctTxt+'</div><span class="ic" style="color:var(--text3)">›</span></div>'+
+    '<div class="cnt">'+w.done+' of '+w.due+' '+(CATS[h.cat].units)+' · since '+fmtDay(startPS(h))+(st.alert?' · ⚠️ '+st.miss+' missed in a row':'')+'</div>'+
     '<div style="padding:0 16px"><div class="bar"><i data-w="'+(w.pct||0)+'%" style="background:'+color+'"></i></div></div>'+
     miniSpark(h)+'</div>';
 }
@@ -1154,7 +1175,7 @@ function viewProgress(){
   AH().forEach(function(h){var w=windowStats(h,progMode);totDue+=w.due;totDone+=w.done;});
   var pct=totDue?Math.round(totDone/totDue*100):null;
   var atGoal=AH().filter(function(h){var w=windowStats(h,progMode);return w.pct!==null&&w.pct>=GOAL;}).length;
-  var alertList=AH().filter(function(h){return stats(h).miss===2;});
+  var alertList=AH().filter(function(h){return stats(h).alert;});
   var color=pct===null?'var(--text3)':(pct>=GOAL?'var(--accent)':'var(--warn)');
   var label, ctrl='', pr=progRange(progMode,null);
   if(progMode==='week') label='this week';
@@ -1193,6 +1214,129 @@ function viewProgress(){
 
   return '<div class="largetitle">Progress</div>'+seg+ctrl+hero+banner+heatBlock+heatNote+(progMode==='all'?monthList():'')+
     progSection('daily',progMode)+progSection('weekly',progMode)+progSection('monthly',progMode)+lcButtons();
+}
+
+
+/* ===================== Habit history (full, editable) + missed-yesterday warnings ===================== */
+var HIST={id:null,extra:0};
+var PREVWORD={daily:'yesterday',weekly:'last week',monthly:'last month'};
+function riskLists(){
+  var warn=[],bad=[];
+  AH().forEach(function(h){ var st=stats(h);
+    if(st.alert) bad.push({h:h,st:st});
+    else if(st.miss===1&&!st.curDone) warn.push({h:h,st:st}); });
+  return {warn:warn,bad:bad};
+}
+function riskLines(list,badMode){
+  return list.map(function(x){
+    var tail=badMode?('missed '+x.st.miss+' '+CATS[x.h.cat].units+' in a row'):('missed '+PREVWORD[x.h.cat]);
+    return '<div class="bl">'+esc(habitEmoji(x.h)+' '+x.h.name)+' <span>· '+tail+'</span></div>';
+  }).join('');
+}
+function riskBanners(){
+  var r=riskLists(), out='';
+  if(r.bad.length) out+='<div class="banner bad"><span>🚨</span><span><b>Missed more than one in a row.</b> Get back on track today:'+riskLines(r.bad,true)+'</span></div>';
+  if(r.warn.length) out+='<div class="banner warn"><span>⚠️</span><span><b>Don\'t miss two in a row.</b> You missed these — do them today:'+riskLines(r.warn,false)+'</span></div>';
+  return out;
+}
+/* once per day, on opening the app, if anything is at risk */
+function showRiskPopup(){
+  if(screen!=='today'||sheet.classList.contains('show')) return;
+  var r=riskLists(); if(!r.warn.length&&!r.bad.length) return;
+  var tk=dKey(new Date()), k='tamid_riskpop';
+  try{ if(localStorage.getItem(k)===tk) return; localStorage.setItem(k,tk); }catch(e){}
+  sheetEditId=null;
+  sheet.innerHTML='<div class="grabber"></div><h3>⚠️ Don\'t miss two in a row</h3>'+
+    '<div class="info" style="margin:0 0 14px;padding:12px 16px">'+
+    (r.bad.length?'<div style="color:var(--bad);font-weight:700">Already missed more than one:</div>'+riskLines(r.bad,true).replace(/class="bl"/g,'class="bl" style="margin:3px 0"'):'')+
+    (r.warn.length?'<div style="color:var(--warn);font-weight:700;margin-top:'+(r.bad.length?'10':'0')+'px">You missed these — do them today:</div>'+riskLines(r.warn,false).replace(/class="bl"/g,'class="bl" style="margin:3px 0"'):'')+
+    '</div><button class="save" id="cancelBtn">Got it</button>';
+  backdrop.classList.add('show'); sheet.classList.add('show');
+}
+
+function histRunning(h){
+  var now=sod(new Date()), s=startPS(h);
+  if(h.cat==='daily') return Math.round((now-s)/86400000)+1;
+  if(h.cat==='weekly') return Math.round((weekStart(now)-s)/604800000)+1;
+  return (now.getFullYear()-s.getFullYear())*12+(now.getMonth()-s.getMonth())+1;
+}
+function histPeriods(h,from){
+  var cat=h.cat, now=new Date(), out=[], d=from, end=sod(now), nk=periodKey(cat,now);
+  while(d<=end){ var k=periodKey(cat,d);
+    out.push({key:k,start:periodStart(cat,d),isCurrent:k===nk});
+    d=cat==='daily'?addDays(d,1):cat==='weekly'?addWeeks(d,1):addMonths(d,1); }
+  return out;
+}
+function histBest(h){
+  var run=0,best=0;
+  histPeriods(h,startPS(h)).forEach(function(p){
+    if(isDone(h.id,p.key)){ run++; if(run>best) best=run; }
+    else if(!p.isCurrent) run=0; });
+  return best;
+}
+function histFrom(h){
+  var s=startPS(h), x=HIST.extra;
+  if(h.cat==='daily') return addMonths(s,-x);
+  if(h.cat==='weekly') return weekStart(addWeeks(s,-8*x));
+  return addMonths(s,-12*x);
+}
+function histCellCls(h,p,eff){
+  var done=isDone(h.id,p.key);
+  return 'hc'+(done?' done':(p.isCurrent?'':(p.start>=eff?' miss':' pre')))+(p.isCurrent?' cur':'');
+}
+function histDaily(h,eff){
+  var now=sod(new Date()), first=histFrom(h), m=monthStart(now), html='';
+  var dow='<div class="dn">M</div><div class="dn">T</div><div class="dn">W</div><div class="dn">T</div><div class="dn">F</div><div class="dn">S</div><div class="dn">S</div>';
+  while(m>=first){
+    var me=new Date(m.getFullYear(),m.getMonth()+1,0), re=me>now?now:me, rs=rangeStats(h,m,re);
+    var cells='', lead=(m.getDay()+6)%7, k, d;
+    for(k=0;k<lead;k++) cells+='<div></div>';
+    for(d=new Date(m);d<=me;d=addDays(d,1)){
+      var key=dKey(d), dn=d.getDate();
+      if(d>now){ cells+='<div class="hc fut"><span>'+dn+'</span></div>'; continue; }
+      var p={key:key,start:sod(d),isCurrent:key===dKey(now)}, done=isDone(h.id,key);
+      cells+='<button class="'+histCellCls(h,p,eff)+'" data-hcell="'+h.id+'" data-hk="'+key+'" aria-label="'+esc(fmtDay(d))+(done?' done':' not done')+'"><span>'+dn+'</span><span class="hk">'+(done?'✓':'')+'</span></button>';
+    }
+    html+='<div class="sectlabel">'+esc(fmtMonth(m))+(rs.due?' · '+rs.pct+'% ('+rs.done+' of '+rs.due+')':'')+'</div><div class="hgrid">'+dow+cells+'</div>';
+    m=addMonths(m,-1);
+  }
+  return html;
+}
+function histBlocks(h,eff){
+  var ps=histPeriods(h,histFrom(h)), byYear={}, years=[];
+  ps.forEach(function(p){ var y=p.start.getFullYear(); if(!byYear[y]){ byYear[y]=[]; years.push(y); } byYear[y].push(p); });
+  years.sort(function(a,b){return b-a;});
+  return years.map(function(y){
+    var cells=byYear[y].map(function(p){
+      var done=isDone(h.id,p.key);
+      var lab=h.cat==='weekly'?((p.start.getMonth()+1)+'/'+p.start.getDate()):p.start.toLocaleString('en-US',{month:'short'});
+      return '<button class="'+histCellCls(h,p,eff)+'" data-hcell="'+h.id+'" data-hk="'+p.key+'" aria-label="'+esc(fmtDay(p.start))+(done?' done':' not done')+'"><span>'+lab+'</span><span class="hk">'+(done?'✓':'')+'</span></button>';
+    }).join('');
+    return '<div class="sectlabel">'+y+(h.cat==='weekly'?' · week starting Monday':'')+'</div><div class="hgrid'+(h.cat==='monthly'?' wide':'')+'">'+cells+'</div>';
+  }).join('');
+}
+function viewHist(){
+  var back='<div style="margin:-4px 0 10px"><button class="ghost" data-histback="1" style="margin:0;padding:6px 0">‹ Back to Progress</button></div>';
+  var h=state.habits.find(function(x){return x.id===HIST.id;});
+  if(!h) return '<div class="largetitle">Habit history</div>'+back+'<div class="empty"><div class="et">Habit not found</div></div>';
+  var cat=CATS[h.cat], s=startPS(h), w=windowStats(h,'all'), st=stats(h), best=histBest(h), cur=posStreak(h), n=histRunning(h);
+  var color=w.pct===null?'var(--text3)':(w.pct>=GOAL?'var(--accent)':'var(--warn)');
+  var unitCap=cat.unit.charAt(0).toUpperCase()+cat.unit.slice(1);
+  var hero='<div class="hero" style="margin-bottom:6px"><div class="ring">'+ringSVG(84,9,w.pct,color)+'<div class="v'+(w.pct===null?' muted':'')+'">'+(w.pct===null?'—':w.pct+'%')+'</div></div>'+
+    '<div class="meta"><div class="big">'+w.done+' of '+w.due+' '+cat.units+' · all time</div>'+
+    '<div class="chips"><span class="chip">📅 Started '+esc(fmtDay(s))+'</span><span class="chip">'+unitCap+' '+n+'</span>'+
+    (cur>=1?'<span class="chip ok">🔥 Streak '+cur+'</span>':'')+
+    '<span class="chip">🏆 Best '+best+'</span>'+
+    '<span class="chip'+(w.due-w.done>0?' bad':' ok')+'">'+(w.due-w.done)+' missed</span>'+
+    (w.pct!==null&&w.pct>=GOAL?'<span class="chip ok">At goal · '+GOAL+'%+</span>':'')+'</div></div></div>';
+  var warnB='';
+  if(st.alert) warnB='<div class="banner bad"><span>🚨</span><span><b>Missed '+st.miss+' '+cat.units+' in a row.</b> Do it today to get back on track.</span></div>';
+  else if(st.miss===1&&!st.curDone) warnB='<div class="banner warn"><span>⚠️</span><span><b>You missed '+PREVWORD[h.cat]+'.</b> Don\'t miss two in a row — do it today.</span></div>';
+  var tip='<div class="info" style="margin:12px 0 4px">Tap any '+cat.unit+' to mark it done or undo it. Red means missed. Checking a '+cat.unit+' before the start moves the start back and counts in your all-time %.</div>';
+  var eff=s, body=h.cat==='daily'?histDaily(h,eff):histBlocks(h,eff);
+  var earlier='<button class="ghost" data-histearlier="1" style="margin:0 0 8px">＋ Show earlier '+(h.cat==='daily'?'month':h.cat==='weekly'?'weeks':'months')+'</button>';
+  return '<div class="largetitle" style="font-size:24px">'+esc(habitEmoji(h)+' '+h.name)+'</div>'+back+hero+warnB+tip+
+    '<div style="margin-top:10px">'+body+'</div>'+earlier;
 }
 
 /* ===================== Shnayim Mikra ===================== */
@@ -1573,8 +1717,9 @@ function openSheet(habit){
     '<input class="field" id="hname" placeholder="Habit name" value="'+esc(name)+'" maxlength="60" autocomplete="off"'+(sheetLinked?' readonly':'')+' />'+
     (sheetLinked?'<div class="info" style="margin:0 0 12px">Name and cadence for this habit are set in your spreadsheet. Your history is edited below.</div>':'')+
     emoBlock()+'<div class="seglabel">Cadence</div><div class="segmented" id="catSeg">'+segs+'</div>'+
-    (habit?('<div class="seglabel">History · tap any '+CATS[habit.cat].unit+' to mark it done or undo</div>'+
+    (habit?('<div class="seglabel">Recent history · tap any '+CATS[habit.cat].unit+' to mark it done or undo</div>'+
             '<div class="histstrip" id="histStrip">'+historyCells(habit)+'</div>'):'')+
+    (habit?'<button class="ghost" id="histBtn" style="margin:0 0 8px">📅 Full history &amp; all-time % ›</button>':'')+
     (sheetLinked?'<button class="save" id="cancelBtn">Done</button>':'<button class="save" id="saveBtn">'+(habit?'Save changes':'Add habit')+'</button>')+
     (habit?'<button class="restartbtn" id="restartBtn">↻ Restart from today</button>':'')+
     (habit?(sheetLinked?'':'<button class="delbtn" id="delBtn">Delete habit</button>'):'<button class="ghost" id="cancelBtn">Cancel</button>');
@@ -1686,6 +1831,10 @@ content.addEventListener('click',function(e){
     progMonthOff=Math.max(minO,Math.min(0,progMonthOff+parseInt(pm.getAttribute('data-pm'),10))); render(); return; }
   var gm=e.target.closest('[data-gomonth]');
   if(gm){ progMode='month'; progMonthOff=Math.min(0,parseInt(gm.getAttribute('data-gomonth'),10)||0); render(); document.getElementById('scroll').scrollTop=0; return; }
+  var hh=e.target.closest('[data-hist]'); if(hh){ HIST.id=hh.getAttribute('data-hist'); HIST.extra=0; go('hist'); return; }
+  if(e.target.closest('[data-histback]')){ go('progress'); return; }
+  var hcl=e.target.closest('[data-hcell]'); if(hcl){ toggleCell(hcl.getAttribute('data-hcell'),hcl.getAttribute('data-hk')); return; }
+  if(e.target.closest('[data-histearlier]')){ HIST.extra++; render(); return; }
   var open=e.target.closest('[data-open]');
   if(open){ var h=state.habits.find(function(x){return x.id===open.getAttribute('data-open');}); if(h) openSheet(h); return; }
   if(e.target.closest('[data-import]')){ var impf=document.getElementById('impfile'); if(impf){ impf.value=''; impf.click(); } return; }
@@ -1723,6 +1872,7 @@ sheet.addEventListener('click',function(e){
   if(sc){ sheetCat=sc.getAttribute('data-scat'); document.querySelectorAll('#catSeg .seg').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-scat')===sheetCat);}); emoRefresh(); return; }
   if(e.target.closest('#saveBtn')){ addOrSave(); return; }
   if(e.target.closest('#cancelBtn')){ closeSheet(); return; }
+  if(e.target.closest('#histBtn')){ var hid=sheetEditId; closeSheet(); HIST.id=hid; HIST.extra=0; go('hist'); return; }
   if(e.target.closest('#restartBtn')){ restartHabit(sheetEditId); return; }
   if(e.target.closest('#delBtn')){ delHabit(sheetEditId); return; }
 });
@@ -2103,7 +2253,7 @@ function viewLchkMik(){
 }
 
 /* ===================== boot ===================== */
-load(); syncBoot(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false);
+load(); syncBoot(); applyContent(pickLocalContent()); smIdx=smIndexForToday(); learnIdx=learnIndexForToday(); go('today'); fetchFreshContent(false); setTimeout(showRiskPopup,1500);
 })();
 </script>
 </body>
