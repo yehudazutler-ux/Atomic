@@ -1015,7 +1015,7 @@ function refreshHist(){
 }
 
 /* ===================== router ===================== */
-var screen='today', progMode='month', progMonthOff=0, progFrom='', progTo='', smIdx=0, learnIdx=0, learnMode='today';
+var screen='today', progMode='month', progMonthOff=0, progFrom='', progTo='', smIdx=0, learnIdx=0, learnMode='today', learnView='pace';
 var content=document.getElementById('content');
 var navTitle=document.getElementById('navTitle');
 var navAdd=document.getElementById('navAdd');
@@ -1286,27 +1286,56 @@ function skipList(){
     return '<div class="skiprow"><span>⏸️ '+esc(lab)+'</span><button class="unbm" data-skipdel="'+d+'">Remove</button></div>';
   }).join('')+'</div>';
 }
-function effectiveIdx(key){
-  var bm=state.dlbm&&state.dlbm[key];
-  var hasSk=!!(state.skipd&&Object.keys(state.skipd).length);
-  if(!bm&&!hasSk) return learnIndexForToday();
-  var today=new Date(), tk=dKey(today);
-  if(isReviewDate(tk)) return learnIndexForToday(); // real Fri/Sat: always review, regardless of pace
+/* ---- dated bookmarks: every "I'm here" is remembered with the day it was set, so any day can be worked out from the right one ---- */
+function activeBm(key){ var b=state.dlbm&&state.dlbm[key]; return (b&&!b.cal)?b:null; }
+function bmChain(key){ var b=state.dlbm&&state.dlbm[key]; return b?(b.prev||[]).concat([b]):[]; }
+function anchorFor(key,dk){ /* newest bookmark (or reset-to-calendar) set on or before day dk; null = original calendar */
+  var ch=bmChain(key), best=null;
+  for(var i=0;i<ch.length;i++){ if(ch[i].set&&ch[i].set<=dk&&(!best||ch[i].set>=best.set)) best=ch[i]; }
+  return (best&&!best.cal)?best:null;
+}
+function setBookmark(key,idx){
+  if(!state.dlbm) state.dlbm={};
+  var old=state.dlbm[key], today=dKey(new Date()), prev=old?(old.prev||[]).slice():[];
+  if(old&&old.set!==today) prev.push({idx:old.idx,date:old.date,set:old.set,cal:old.cal||undefined});
+  var nb={idx:idx,date:DAILY[idx][0],set:today}; if(prev.length) nb.prev=prev.slice(-200);
+  state.dlbm[key]=nb;
+}
+function resetBookmark(key){
+  var old=state.dlbm&&state.dlbm[key]; if(!old) return;
+  var today=dKey(new Date()), prev=(old.prev||[]).slice();
+  if(old.set!==today) prev.push({idx:old.idx,date:old.date,set:old.set,cal:old.cal||undefined});
+  if(!prev.length){ delete state.dlbm[key]; return; }
+  state.dlbm[key]={cal:true,set:today,prev:prev.slice(-200)};
+}
+function learnIndexForDate(dk){
+  if(DATE_IDX.hasOwnProperty(dk)) return DATE_IDX[dk];
+  for(var j=DAILY.length-1;j>=0;j--){ if(DAILY[j][0]<=dk) return j; }
+  return 0;
+}
+/* which spreadsheet row's content you are on for subject `key` on calendar day dk */
+function effectiveIdxOn(key,dk,strict){
+  var calIdx=learnIndexForDate(dk);
+  if(isReviewDate(dk)) return calIdx; // real Fri/Sat: always review
   var si=-1; LEARN_ITEMS.forEach(function(it,i){ if(it[0]===key) si=i; });
-  var ti=DATE_IDX[tk];
-  if(ti!==undefined&&!DAILY[ti][si+1]) return ti;   // calendar skip day for this subject: nothing today
-  if(!bm){ /* no personal pace, but you marked skip days: calendar position minus the skipped learning days so far */
-    var c0=CONTENT[key]; if(!c0||!c0.idx.length) return learnIndexForToday();
-    var p0=nearestPos(c0,learnIndexForToday())-skipCount(key,tk);
-    if(p0<0) p0=0; if(p0>c0.idx.length-1) p0=c0.idx.length-1;
-    return c0.idx[p0];
+  var ti=DATE_IDX[dk];
+  if(ti!==undefined&&!DAILY[ti][si+1]) return ti; // calendar skip day for this subject: nothing that day
+  var c=CONTENT[key], an=anchorFor(key,dk);
+  if(!an){
+    var hasSk=!!(state.skipd&&Object.keys(state.skipd).length);
+    if(!hasSk||!c||!c.idx.length) return calIdx;
+    var p0=nearestPos(c,calIdx)-skipCount(key,dk);
+    if(p0<0) p0=0; if(p0>c.idx.length-1) p0=c.idx.length-1;
+    return c.idx[p0];
   }
-  var c=CONTENT[key], start=bmIdx(bm);
-  if(!c||!c.idx.length||start===null) return learnIndexForToday();
-  var pos=nearestPos(c,start)+contentDaysElapsed(key,bm.set,today);
-  if(pos<0) pos=0; if(pos>c.idx.length-1) pos=c.idx.length-1;
+  var start=bmIdx(an);
+  if(!c||!c.idx.length||start===null) return calIdx;
+  var pos=nearestPos(c,start)+contentDaysElapsed(key,an.set,parseLocal(dk));
+  if(pos<0) pos=0;
+  if(pos>c.idx.length-1){ if(strict) return null; pos=c.idx.length-1; }
   return c.idx[pos];
 }
+function effectiveIdx(key){ return effectiveIdxOn(key,dKey(new Date())); }
 function beyondSchedule(){ return !DAILY.length||dKey(new Date())>DAILY[DAILY.length-1][0]; }
 function myLearningItems(){
   var out=[];
@@ -1315,7 +1344,7 @@ function myLearningItems(){
     var idx=effectiveIdx(it[0]), row=DAILY[idx];
     if(!row) return;
     var val=row[i+1]; if(!val) return;
-    out.push({key:it[0],label:it[1],text:val,date:row[0],bookmarked:!!(state.dlbm&&state.dlbm[it[0]])});
+    out.push({key:it[0],label:it[1],text:val,date:row[0],bookmarked:!!activeBm(it[0])});
   });
   return out;
 }
@@ -1352,7 +1381,13 @@ function viewLearnBrowse(){
   var row=DAILY[learnIdx];
   if(!row) return '<div class="largetitle">Daily Learning</div><div class="empty"><div class="ico">📚</div><div class="et">Schedule ended</div><div>Your learning schedule runs out here. Ask Claude to update your habit tracker.</div></div>';
   var date=row[0];
-  var items=dlItemsFor(row);
+  var hasHist=!!(state.dlbm&&Object.keys(state.dlbm).length), useMine=hasHist&&learnView!=='cal';
+  var items=[], iy;
+  if(useMine){
+    if(!(state.skipd&&state.skipd[date])) LEARN_ITEMS.forEach(function(li,i){
+      var ri=effectiveIdxOn(li[0],date,true); if(ri===null) return;
+      var r2=DAILY[ri], v=r2&&r2[i+1]; if(v) items.push([li[0],li[1],v,r2[0],ri]); });
+  } else { dlItemsFor(row).forEach(function(x){ items.push([x[0],x[1],x[2],date,learnIdx]); }); }
   var todayIdx=learnIndexForToday();
   var dstr=parseLocal(date).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
@@ -1367,17 +1402,19 @@ function viewLearnBrowse(){
   var jump=learnIdx!==todayIdx?'<div style="text-align:center;margin:2px 0 14px"><button class="ghost" data-dl="'+todayIdx+'" style="margin:0;padding:6px">Jump to today</button></div>':'';
 
   var rows=items.length?'<div class="group">'+items.map(function(it){
-    var on=dlGet(date,it[0]);
-    var bm=state.dlbm&&state.dlbm[it[0]];
-    var here=bm&&bmIdx(bm)===learnIdx;
-    var pin='<button class="pinbtn'+(here?' on':'')+'" data-pin="'+it[0]+'">'+(here?'📍 bookmarked here':(bm?'Update to here':'📍 I\'m here'))+'</button>';
-    return '<div class="learnrow'+(on?' on':'')+'" data-dlt="'+date+'" data-dk="'+it[0]+'">'+
+    var on=dlGet(it[3],it[0]);
+    var bm=activeBm(it[0]);
+    var here=bm&&(useMine?(it[4]===effectiveIdx(it[0])):(bmIdx(bm)===learnIdx));
+    var pin='<button class="pinbtn'+(here?' on':'')+'" data-pin="'+it[0]+'" data-pidx="'+it[4]+'">'+(here?'📍 bookmarked here':(bm?'Update to here':'📍 I\'m here'))+'</button>';
+    return '<div class="learnrow'+(on?' on':'')+'" data-dlt="'+it[3]+'" data-dk="'+it[0]+'">'+
       '<span class="check'+(on?' done':'')+'">'+(on?CHECK:'')+'</span>'+
       '<span class="body"><div class="lnm">'+esc(it[1])+'</div><div class="ltxt">'+esc(it[2])+'</div><div class="pacecap">'+pin+'</div></span></div>';
   }).join('')+'</div>':'<div class="empty"><div class="ico">📖</div><div class="et">Nothing scheduled</div><div>No learning listed for this day.</div></div>';
 
-  return '<div class="largetitle">Daily Learning</div>'+seg+nav+jump+
-    (items.length?'<div class="sectlabel">Browsing this day · tap "I\'m here" on any subject to bookmark your real pace</div>':'')+rows+
+  var vseg=hasHist?'<div class="segmented" style="margin-bottom:12px"><button class="seg'+(useMine?' on':'')+'" data-lview="pace">My pace</button>'+
+    '<button class="seg'+(useMine?'':' on')+'" data-lview="cal">Original calendar</button></div>':'';
+  return '<div class="largetitle">Daily Learning</div>'+seg+vseg+nav+jump+
+    (items.length?'<div class="sectlabel">'+(useMine?'This day as it falls on your pace · to move your place, switch to Original calendar, find your spot and tap "I\'m here"':'Browsing this day · tap "I\'m here" on any subject to bookmark your real pace')+'</div>':'')+rows+
     '<div class="credit">From your Torah Calendar spreadsheet · updated '+contentDate()+'</div>';
 }
 
@@ -1591,7 +1628,7 @@ function restartAllLearning(){
   if(!confirm('Restart all Daily Learning subjects from today? Each subject (Gemara, Halacha, Mussar, Mishnayos, Nach, Machshava) will be bookmarked to start fresh from today\'s pace.')) return;
   var idx=learnIndexForToday(), today=dKey(new Date());
   if(!state.dlbm) state.dlbm={};
-  LEARN_ITEMS.forEach(function(it){ state.dlbm[it[0]]={idx:idx,date:DAILY[idx][0],set:today}; });
+  LEARN_ITEMS.forEach(function(it){ setBookmark(it[0],idx); });
   save(); render();
 }
 function delHabit(id){
@@ -1617,16 +1654,18 @@ content.addEventListener('click',function(e){
   var sm=e.target.closest('[data-sm]');
   if(sm){ smToggle(sm.getAttribute('data-sm'),sm.getAttribute('data-al'),sm.getAttribute('data-k'));
     render(); if(navigator.vibrate) try{navigator.vibrate(6);}catch(err){} return; }
+  var lview=e.target.closest('[data-lview]');
+  if(lview){ learnView=lview.getAttribute('data-lview'); render(); return; }
   var lmode=e.target.closest('[data-lmode]');
   if(lmode){ learnMode=lmode.getAttribute('data-lmode'); render(); return; }
   var pin=e.target.closest('[data-pin]');
   if(pin){ var pk=pin.getAttribute('data-pin');
-    if(!state.dlbm) state.dlbm={};
-    state.dlbm[pk]={idx:learnIdx,date:DAILY[learnIdx][0],set:dKey(new Date())};
+    var pi=parseInt(pin.getAttribute('data-pidx'),10); if(isNaN(pi)) pi=learnIdx;
+    setBookmark(pk,pi);
     save(); render(); if(navigator.vibrate) try{navigator.vibrate(10);}catch(err){} return; }
   var unbm=e.target.closest('[data-unbm]');
   if(unbm){ var uk=unbm.getAttribute('data-unbm');
-    if(state.dlbm) delete state.dlbm[uk];
+    resetBookmark(uk);
     save(); render(); return; }
   var dlt=e.target.closest('[data-dlt]');
   if(dlt){ dlToggle(dlt.getAttribute('data-dlt'),dlt.getAttribute('data-dk'));
